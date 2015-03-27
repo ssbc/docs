@@ -131,6 +131,21 @@ I am not currently aware of any online poker site that uses their system however
 
 Sometimes you would want to make sure that other users are aware of a given change. (this is very similar to a turn based game) this could be implemented by having "empty edits" that acknowledge a given change (one example might be making a todo task as "started" so that two people do not try to do the same thing at the same time)
 
+## Is SSB highly available (AP) or highly consistent (CP)?
+
+SSB is highly-available (AP). Devices can create messages while offline, then synchronize later. This means all data is _generally_ eventually-consistent. It is possible to build a CP system on top of an AP system (but not the other way around). see [consistent data](#consistent_data)
+
+## Can I know if I have the latest messages from somebody?
+
+No, because it's possible for devices to drop and continue operating (a network "partition.") There's a proposal to used signed pings to measure the "freshness" of a feed, however this could only be used in small groups of interested peers.
+
+### Is there a global total order in SSB?
+
+No. Although there is a global [partial order](http://en.wikipedia.org/wiki/Partially_ordered_set#Formal_definition). An individual Feed has a internal [total order](http://en.wikipedia.org/wiki/Total_order). Every message contains a pointer to the previous message in that feed, so this allows a feed to be totally ordered. If feed A posts a message that links to a message in feed B, then we know that A's message is *after* B's. (because to know the hash of an object, that object must already exist)
+
+Messages also contain [monotonically increasing](http://en.wikipedia.org/wiki/Monotonic_function) UTC timestamps and sequence numbers, this means you can assign an order to any two messages,
+however, there is no way to know that a timestamp really is correct.
+
 ## deploy applications
 
 It would be possible to deploy applications over ssb by sending the javascript/etc for that application as an attachment. Then other users could run that app, which could provide an interface into a subset of ssb messages.
@@ -163,4 +178,3 @@ or the core ssb code may need to be updated, and should be independently audited
 Since performing a security audit is a highly skilled task, most users will not be able to perform their own security audit. In this case, the user could "delegate" the auditing task to another user (or users) who perform the audit, posting a message declaring a given version safe to run. Since the user can choose their auditors independently, it would mean an attacker would have to compromise the developers and many auditors in order to get people to install malicious code.
 
 Auditing could also be applied to application permissons - of course, the decision about what permissions is reasonable for a given application is much simpler than looking at code and checking there is nothing unsafe.
-
