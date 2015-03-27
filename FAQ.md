@@ -58,7 +58,7 @@ Attachments are immutable blobs of binary data, similar to email attachments. Wh
 ## can we have user names?
 
 Yes, although it's not possible to have globally unique user names, because that would require a central registry of names, and then the system would not be decentralized.
-Instead ssb uses "pet names". Pet names are different to how user names normally work on the internet, but similar to how nick names actually work in real life -- your friends choose your name, instead of you choosing your own name. You may request others call you something (choose your own name), but friends ultimately decide. If your friends all agree to call you _Bob_, that _is your name_.
+Instead ssb uses a [pet name](http://www.skyhunter.com/marcs/petnames/IntroPetNames.html) system. Pet names are different to how user names normally work on the internet, but similar to how nick names actually work in real life -- your friends choose your name, instead of you choosing your own name. You may request others call you something (choose your own name), but friends ultimately decide. If your friends all agree to call you _Bob_, that _is your name_.
 
 If an attacker tries to pretend to be you, it's up to your friends to notice and flag them.
 
