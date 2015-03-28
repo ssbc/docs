@@ -44,6 +44,11 @@ All links are a json property of the form
 A feed link is the same as a user identity (the hash of a public key) and refers to a feed.
 A message link is the hash of a particular message. An external link is the hash of file (also known as an attachment)
 
+### backlinks
+
+Since you replicate all your friends data locally, if someone replies or links to your message
+then you will have that data, and to it's easy to show related messages. Messages can refer to each other, and you can see what messages link back to a given message. Post a photo and then someone can create a thread about it -> instant comment feature. Post a module, and then the comment system becomes an issue system, etc, etc
+
 ## why is there a size limit on messages?
 
 Messages are limited it 1kb in size so that the time required to replicate is predictable.
@@ -55,9 +60,21 @@ If you need a larger object, use "attachments"
 
 Attachments are immutable blobs of binary data, similar to email attachments. When clients see a message that refers to a given attachment, it will request it if the peer does not already have that attachment. Attachments are limited to 10mb. Replication of larger files could be implemented by integrating bittorrent (or even better, [webtorrent](https://github.com/feross/webtorrent)
 
-## can we have user names?
+## how do new users join the system
 
-Yes, although it's not possible to have globally unique user names, because that would require a central registry of names, and then the system would not be decentralized.
+To join the network, a user needs to know a server in the system, to have their data replicated,
+they need someone to follow them. The simplest way to join the network is to use an invite code.
+The invite code contains the address of a pub server, and a secret that lets the server know it's
+okay to replicate them. If you run your own pub server you can create invite codes and give them to your friends. 
+
+## pub servers
+
+wifi routers (Network Address Translation "NAT") and the shortage of ip addresses make p2p difficult. The simplest way around this problem was to create "pub servers". A pub server is exactly like a normal client, except you run it on a server with a static ip address. "pub" as in a bar where your friends meet to exchange gossip. Anyone can run a pub server.
+
+## how do I reserve my user name?
+
+SecureScuttlebutt does not have traditional user names, because that would require a central registry of names, and then the system would not be decentralized.
+
 Instead ssb uses a [pet name](http://www.skyhunter.com/marcs/petnames/IntroPetNames.html) system. Pet names are different to how user names normally work on the internet, but similar to how nick names actually work in real life -- your friends choose your name, instead of you choosing your own name. You may request others call you something (choose your own name), but friends ultimately decide. If your friends all agree to call you _Bob_, that _is your name_.
 
 If an attacker tries to pretend to be you, it's up to your friends to notice and flag them.
