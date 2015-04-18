@@ -67,9 +67,11 @@ they need someone to follow them. The simplest way to join the network is to use
 The invite code contains the address of a pub server, and a secret that lets the server know it's
 okay to replicate them. If you run your own pub server you can create invite codes and give them to your friends. 
 
-## pub servers
+## why do you have pub servers? isn't that a point of centralization?
 
-wifi routers (Network Address Translation "NAT") and the shortage of ip addresses make p2p difficult. The simplest way around this problem was to create "pub servers". A pub server is exactly like a normal client, except you run it on a server with a static ip address. "pub" as in a bar where your friends meet to exchange gossip. Anyone can run a pub server.
+wifi routers (Network Address Translation "NAT") and the shortage of ip addresses make p2p difficult. The simplest way around this problem was to create "pub servers". A pub server is exactly like a normal client, except you run it on a server with a static ip address. "pub" as in a bar where your friends meet to exchange gossip. Anyone can run a pub server. It's not centralization because pub servers are totally generic (same code as "clients") and because if we did have ipv6 and full p2p ssb would still work without any changes.
+
+Also note that ssb also detects other peers running on your local network (wifi) and connects to them directly (without pub servers)
 
 ## how do I reserve my user name?
 
