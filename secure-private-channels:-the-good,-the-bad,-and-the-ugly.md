@@ -12,7 +12,7 @@ I was considering putting authentication inside of this protocol but I am now re
 
 ### dramatization of private stream
 
-alice and bob meet in a dark alleyway
+Alice and Bob meet in a dark alleyway
 
 Alice & Bob (simultaniously) passes each other a secret note, also with random number written on outside.
 
@@ -118,14 +118,17 @@ CurveCP uses Boxing as the only primitive. A box is encrypted to a recipient key
 
 ### Dramatization of CurvesCP handshake
 
-Alice generates a temporary identity Andy
+Alice generates a temporary identity Andy.
+
 Alice says: "Hi call me Andy" and Boxes a message from Andy (that is all zeros)
 > Alice sends her temporary identity (Andy) to Bob.
 > And a message of zeros boxed by Andy.
 > this is so that her message is not longer than bobs (we'll ignore this for now)
 
-Bob generates a temporary identity Betty
-Bob boxes a message to Andy: hi call me Betty, also please remember this code word: c00k13z
+Bob generates a temporary identity Betty.
+
+Bob boxes a message to Andy: "hi call me Betty, also please remember this code word: c00k13z"
+
 > Bob sends his temporary identity to Alices temporary identity.
 > Bob does not know who Alice is yet, but he knows that Alice knows who he is,
 > (otherwise he would not have been able to decrypt her message!)
@@ -136,10 +139,11 @@ Bob boxes a message to Andy: hi call me Betty, also please remember this code wo
 
 Alice now knows that she is talking to bob, and that bob knows she knows this.
 
-Alice boxes Andy's id to Bob, and then Andy boxes _that box_ to Betty.
+Alice boxes Andy's id to Bob, and then Andy boxes _that box_ to Betty, then sends it back, along with the cookie.
 > Bob can now unpack Andy's box (as Betty), and then finds a box from Alice inside that is addressed to Bob, containing Andy's key. Now Bob knows he is talking to Alice.
 
-Bob and Alice now know who they are talking to, (although they will continue to converse as Andy and Betty instead, sneaky!)
+Bob and Alice now know who they are talking to,
+(although they will continue to converse as Andy and Betty instead, sneaky!)
 
 From now on, they just box messages as Andy and Betty,
 except that Andy includes Andy's pubkey along with the box.
