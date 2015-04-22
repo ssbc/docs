@@ -112,7 +112,49 @@ Bob: Alice it is you!!!
 
 ## CurveCP
 
-djb's new Mutual Authenticated UDP based protocol. It uses a UDP to get around some weaknesses in TCP (such as the ability to forge a reset packet and force a tcp connection to close) and also to use a different congestion than tcp does.
+djb's new Mutual Authenticated UDP based protocol. DJB seems to like to solve all the problems at once, so CurveCP fixes tcp as well as tls. CurveCP is unconfigurable, so there are no edge cases around cipher suite negotiation (yay!). Interesting features of the design include making intro packets sent by the client and server the same size, so that attackers cannot goad the server into wasting more resources than they do (neat!). Also, it has forward secrecy. But all these concerns do make it a little complicated.
+
+CurveCP uses Boxing as the only primitive. A box is encrypted to a recipient key, and signed by the sender. I think the signature is inside the box, so that only the recipient can open and verify.
+
+### Dramatization of CurvesCP handshake
+
+Alice generates a temporary identity Andy
+Alice says: "Hi call me Andy" and Boxes a message from Andy (that is all zeros)
+> Alice sends her temporary identity (Andy) to Bob.
+> And a message of zeros boxed by Andy.
+> this is so that her message is not longer than bobs (we'll ignore this for now)
+
+Bob generates a temporary identity Betty
+Bob boxes a message to Andy: hi call me Betty, also please remember this code word: c00k13z
+> Bob sends his temporary identity to Alices temporary identity.
+> Bob does not know who Alice is yet, but he knows that Alice knows who he is,
+> (otherwise he would not have been able to decrypt her message!)
+> so he boxes it as Bob.
+> the cookie is actually some secret information that bob wants to use again
+> but he sends it to alice because he is busy and doesn't want to remember it (allocate memory)
+> because he is worried about people wasting his time (Denial of Service attacks)
+
+Alice now knows that she is talking to bob, and that bob knows she knows this.
+
+Alice boxes Andy's id to Bob, and then Andy boxes _that box_ to Betty.
+> Bob can now unpack Andy's box (as Betty), and then finds a box from Alice inside that is addressed to Bob, containing Andy's key. Now Bob knows he is talking to Alice.
+
+Bob and Alice now know who they are talking to, (although they will continue to converse as Andy and Betty instead, sneaky!)
+
+From now on, they just box messages as Andy and Betty,
+except that Andy includes Andy's pubkey along with the box.
+
+Later they will make up new secret identities and discard Andy and Betty.
+Alice and Bob always create new temporary identities whenever they talk to _anybody_.
+
+### Questions
+
+* why does Alice include Andy's pub key is every message?
+  it seems like it is so that Bob doesn't have to remember Andy,
+  but he does still need to remember that is who he is talking to...)
+
+* what are the properties of a "box" exactly?
+  (from what I gather `Box[message](A->B)` encrypts `message` so that only A and B can read it, and A reader may verify it if they have B's pubkey?)
 
 ### Further Reading
 
