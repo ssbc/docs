@@ -137,7 +137,7 @@ Bob boxes a message to Andy: "hi call me Betty, also please remember this code w
 > but he sends it to alice because he is busy and doesn't want to remember it (allocate memory)
 > because he is worried about people wasting his time (Denial of Service attacks)
 
-Alice now knows that she is talking to bob, and that bob knows she knows this.
+Alice now knows that she is talking to Bob, and that Bob knows she knows this.
 
 Alice boxes Andy's id to Bob, and then Andy boxes _that box_ to Betty, then sends it back, along with the cookie.
 > Bob can now unpack Andy's box (as Betty), and then finds a box from Alice inside that is addressed to Bob, containing Andy's key. Now Bob knows he is talking to Alice.
