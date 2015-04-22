@@ -75,10 +75,13 @@ SSH differs from our model p2p protocol because there is no key/address lookup s
 
 Alice: "hi I want to talk to you, in english, spanish or mandarin (prefer english)"
 > Alice opens a connection, and lists the ciphers she supports, with preference.
+
 Bob: "hi I speak in english, spanish or mandarin (prefer english), okay lets whisper now"
+
 Alice: passes a secret note to Bob
 > generates DiffieHelman key, sends public DH key to bob.
 > begins DH exchange
+
 Bob: passes a note back, with I AM BOB signed on the outside.
 > bob replies with bob's public DH key, bob's public RSA key, and a signature to prove they are bob.
 > Alice now knows she is talking to Bob, Bob does not know who Alice is yet,
@@ -92,9 +95,13 @@ I think the reason that SSH is designed this way is to support a variety of clie
 We are only interested in pubkey based authentications.
 
 The following is all private so Alice and Bob can speak normally.
-Alice: hey I'm alice and I want to use pubkey auth with <algorithm> and <key>
+
+Alice: hey I'm alice and I want to use pubkey auth with `algorithm` and `key`
+
 Bob: okay go ahead "Alice"
-Alice: see it's me <signed>
+
+Alice: see it's me: _signed, Alice!_
+
 Bob: Alice it is you!!!
 
 ### Further Reading
