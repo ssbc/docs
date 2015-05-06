@@ -162,16 +162,16 @@ Alice and Bob always create new temporary identities whenever they talk to _anyb
 
 ### ipfs's secure channel
 
-[ipfs](http://ipfs.io) contains a simple secure channel protocol. It encrypts the content of the session with forward secrecy, prevents replay and man-in-the-middle attacks. It does leak some metadata: the keys that are communicating are shared in plaintext, and thus a passive evesdropper can see who is talking to who. The protocol is symmetrical, so there is no difference between the client and server messages.
+[ipfs](http://ipfs.io) contains a simple secure channel protocol. It encrypts the content of the session with forward secrecy, prevents replay and man-in-the-middle attacks. It does leak some metadata: the keys that are communicating are shared in plaintext, and thus a passive eavesdropper can see who is talking to who. The protocol is symmetrical, so there is no difference between the client and server messages.
 
 ### dramatization of ipfs-secure-channel connection
 
-Alice and Bob (simultaniously): Hi, I am <Alice,Bob>. I speak <ciphers,key-exchange,hashes>. <random number>
+Alice and Bob (simultaniously): Hi, I am {Alice,Bob}. I speak {ciphers,key-exchange,hashes}. {random number}
 > Alice and Bob both open with a packet containing their public key, a nonce, and the cipher suite they support.
 > Alice and Bob both select the cryptographic functions to use (key-exchange, hash, cipher) by hash(Alice's nonce + Bob's key) and comparing that to hash(Bob's nonce + Alice's key). Although the hash function used by the protocol is negotiated, at this point it uses a hard coded hash (sha256). Also, ipfs encodes hashes as [multihash](https://github.com/jbenet/multihash), which start with an identifier and then a length. These are bytewise compared, and that determines who's cipher suite has preference. (It seems the intention here is to ensure that cipher suite selection is fair. Forcing the ciphersuite could lead to some attacks, such as a downgrade attack. However, it is fairly easy, if Alice knows she is contacting Bob, to mine for a nonce such that hash(Bob's key, nonce) is very high, and thus likely to win the cipher selection)
 > (Personally, I feel having a ciphersuit selection process at all is troublesome, and express my thoughts about it in the [original pull request](https://github.com/ipfs/go-ipfs/pull/34))
 
-Alice and Bob (simultaniously): you said X, and I said Y, and here is my key exchange <signed, Alice/Bob>
+Alice and Bob (simultaniously): you said X, and I said Y, and here is my key exchangep. signed, Alice/Bob :lock_with_ink_pen:
 
 > Alice and Bob now send a DiffieHelman key, and a signature. Alice's signature is: `sign(Alice's hello + Bob's hello + Alice's DH key)`. Bob's is `sign(Bob's hello + Alice's hello + Bob's DH key)`.
 
