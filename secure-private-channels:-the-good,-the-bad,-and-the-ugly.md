@@ -160,6 +160,10 @@ Alice and Bob always create new temporary identities whenever they talk to _anyb
 * what are the properties of a "box" exactly?
   (from what I gather `Box[message](A->B)` encrypts `message` so that only A and B can read it, and A reader may verify it if they have B's pubkey?)
 
+### Further Reading
+
+* [curvecp website](http://curvecp.org)
+
 ### ipfs's secure channel
 
 [ipfs](http://ipfs.io) contains a simple secure channel protocol. It encrypts the content of the session with forward secrecy, prevents replay and man-in-the-middle attacks. It does leak some metadata: the keys that are communicating are shared in plaintext, and thus a passive eavesdropper can see who is talking to who. The protocol is symmetrical, so there is no difference between the client and server messages.
@@ -170,6 +174,7 @@ Alice and Bob (simultaniously): Hi, I am {Alice,Bob}. I speak {ciphers,key-excha
 > Alice and Bob both open with a packet containing their public key, a nonce, and the cipher suite they support.
 > Alice and Bob both select the cryptographic functions to use (key-exchange, hash, cipher) by hash(Alice's nonce + Bob's key) and comparing that to hash(Bob's nonce + Alice's key). Although the hash function used by the protocol is negotiated, at this point it uses a hard coded hash (sha256). Also, ipfs encodes hashes as [multihash](https://github.com/jbenet/multihash), which start with an identifier and then a length. These are bytewise compared, and that determines who's cipher suite has preference. (It seems the intention here is to ensure that cipher suite selection is fair. Forcing the ciphersuite could lead to some attacks, such as a downgrade attack. However, it is fairly easy, if Alice knows she is contacting Bob, to mine for a nonce such that hash(Bob's key, nonce) is very high, and thus likely to win the cipher selection)
 > (Personally, I feel having a ciphersuit selection process at all is troublesome, and express my thoughts about it in the [original pull request](https://github.com/ipfs/go-ipfs/pull/34))
+> Once the order is decided, each peer selects each {KeyExchange, Cipher, Hash} by taking the order winner's first choice which is also supported by the other peer.
 
 Alice and Bob (simultaniously): you said X, and I said Y, and here is my key exchangep. signed, Alice/Bob :lock_with_ink_pen:
 
@@ -184,6 +189,3 @@ Alice and Bob (simultaniously): here is the random number you gave me.
 
 > Alice and Bob both send back the the nonce the other sent to them. This confirms they are authorized with the other peer, and can now begin secure communication. (NOTE: this means that the first nonce.length bytes of the ciphertext are a [high entropy] plaintext known to an eavesdropper) I don't think there is any special reason to send the nonce back, it might as well be the string "ACCESS GRANTED" (unless I am mistaken?)
 
-### Further Reading
-
-* [curvecp website](http://curvecp.org)
