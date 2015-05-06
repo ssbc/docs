@@ -189,3 +189,4 @@ Alice and Bob (simultaniously): here is the random number you gave me.
 
 > Alice and Bob both send back the the nonce the other sent to them. This confirms they are authorized with the other peer, and can now begin secure communication. (NOTE: this means that the first nonce.length bytes of the ciphertext are a [high entropy] plaintext known to an eavesdropper) I don't think there is any special reason to send the nonce back, it might as well be the string "ACCESS GRANTED" (unless I am mistaken?)
 
+ipfs-secure-channel is quite simple, although it could be a little simpler I think. It's basic properties are reasonable, although I think it would be better to remove cipher suite selection because that creates a better primitive.
