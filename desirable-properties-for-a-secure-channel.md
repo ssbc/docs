@@ -35,12 +35,12 @@ acknowledge their signed challenge by signing it.
 
 force peer to respond (sign) something you know is unique (nonce) (see 2,3)
 
-# 7. resist man in the middle attack
+## 7. resist man in the middle attack
 
 verify identities & client must abort connection if response was from unexpected server.
 Use diffie-helman to exchange keys (or box every message)
 
-# 8. prevent cold-calling/war-dialing
+## 8. prevent cold-calling/war-dialing
 
 client must prove it knows the server's pubkey.
 This treats the pubkey as a write capability.
@@ -48,12 +48,12 @@ This treats the pubkey as a write capability.
 one method would be to box the hello to the server's pubkey.
 Another option, would be to hmac with the server's pubkey.
 
-# 9, 10. protect client/server keys from eavesdropper
+## 9, 10. protect client/server keys from eavesdropper
 
 do not send long term keys as plaintext.
 It shouldn't be necessary to send the server key at all, given that the client has know business connecting to a server they don't know (see 8, prevent war dialing)
 
-# 11, 12. eavesdropper cannot confirm client/server
+## 11, 12. eavesdropper cannot confirm client/server
 
 If an eavesdropper happens to know the client or server's key, are they able to know it is those peers talking? This property protects the client's privacy in particular. The server is likely to be a staticly addressed server, so their key is likely to eventually become public knowledge. Although, in a p2p protocol it's likely that the server may also move.
 
@@ -61,11 +61,11 @@ The client on the other hand, is likely to be a mobile device that changes ip ad
 
 This property is stronger than 9,10 even if the eavesdropper knows the keys, they are unable to confirm the identity of the peer.
 
-# 13. a replay attack cannot learn whether a given client is authorized on this server.
+## 13. a replay attack cannot learn whether a given client is authorized on this server.
 
 It would be easy for a eavesdropper to record client hellos, and then send them to random servers to see whether that client is authorized on that server. If the server rejects that connection before the client has proven their identity then this leaks information from the server's access list. The server should wait until the client has proved their identity before rejecting a connection.
 
-# 14. unauthorized client cannot learn identity of server.
+## 14. unauthorized client cannot learn identity of server.
 
 To realize this property it would be necessary for the client to auth to the server first.
 This property seems reasonable - "hi this is Alice, is Bob there?" if Bob isn't talking to Alice, or if it's a wrong number the server responds "sorry wrong number" and hangs up. This will require an extra round trip, because a challenge must be issued to the client.
