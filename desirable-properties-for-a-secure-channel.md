@@ -13,7 +13,8 @@ here is a list of properties that I think are desirable in a p2p secure channel.
 11. eavesdropper cannot confirm client key
 12. eavesdropper cannot confirm server key
 13. replay attack cannot learn who is authorized
-14. unauthorized client cannot learn identity of server.
+14. unauthorized client cannot learn server key.
+15. unauthorized client cannot confirm server key
 
 ## requirements
 
@@ -65,9 +66,15 @@ This property is stronger than 9,10 even if the eavesdropper knows the keys, the
 
 It would be easy for a eavesdropper to record client hellos, and then send them to random servers to see whether that client is authorized on that server. If the server rejects that connection before the client has proven their identity then this leaks information from the server's access list. The server should wait until the client has proved their identity before rejecting a connection.
 
-## 14. unauthorized client cannot learn identity of server.
+## 14. unauthorized client cannot learn server key.
 
 To realize this property it would be necessary for the client to auth to the server first.
 This property seems reasonable - "hi this is Alice, is Bob there?" if Bob isn't talking to Alice, or if it's a wrong number the server responds "sorry wrong number" and hangs up. This will require an extra round trip, because a challenge must be issued to the client.
 
-This property would prevent an active attacker from verifying who a given server is.
+This property would prevent an active attacker from learning who a given server is.
+
+## 15. unauthorized client cannot confirm server key.
+
+This property is stronger than 14, because 14 means the server shouldn't reveal their key to an unauthorized client, but this property means the server should not give the client evidence incase the client already knows happens to know that key. This means a malicious client cannot get a list of keys (by some other mechanism) and check that those servers really are those keys.
+
+to realize this property it is necessary for the client to authorize to the server first, and for the server to be able to reject the client without revealing any more information. 
