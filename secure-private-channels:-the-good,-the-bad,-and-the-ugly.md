@@ -132,9 +132,9 @@ Bob boxes a message to Andy: "hi call me Betty, also please remember this code w
 > Bob sends his temporary identity to Alices temporary identity.
 > Bob does not know who Alice is yet, but he knows that Alice knows who he is,
 > (otherwise he would not have been able to decrypt her message!)
-> so he boxes it as Bob.
+> so he boxes it as Bob (note: this means an eavesdropper who knows bob's long term key can confirm this server is bob... but this is likely to be public information anyway?)
 > the cookie is actually some secret information that bob wants to use again
-> but he sends it to alice because he is busy and doesn't want to remember it (allocate memory)
+> but he sends it to Alice because he is busy and doesn't want to remember it (allocate memory)
 > because he is worried about people wasting his time (Denial of Service attacks)
 
 Alice now knows that she is talking to Bob, and that Bob knows she knows this.
