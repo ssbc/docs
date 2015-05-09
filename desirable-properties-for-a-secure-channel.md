@@ -15,9 +15,6 @@ here is a list of properties that I think are desirable in a p2p secure channel.
 13. replay attack cannot learn who is authorized
 14. unauthorized client cannot learn server key.
 15. unauthorized client cannot confirm server key
-
---- 
-
 16. man in the middle cannot learn or confirm client or server keys
 
 ## requirements
