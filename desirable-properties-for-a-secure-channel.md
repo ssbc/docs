@@ -16,6 +16,10 @@ here is a list of properties that I think are desirable in a p2p secure channel.
 14. unauthorized client cannot learn server key.
 15. unauthorized client cannot confirm server key
 
+--- 
+
+16. man in the middle cannot learn or confirm client or server keys
+
 ## requirements
 
 how to achieve the above properties
@@ -78,3 +82,8 @@ This property would prevent an active attacker from learning who a given server 
 This property is stronger than 14, because 14 means the server shouldn't reveal their key to an unauthorized client, but this property means the server should not give the client evidence incase the client already knows happens to know that key. This means a malicious client cannot get a list of keys (by some other mechanism) and check that those servers really are those keys.
 
 to realize this property it is necessary for the client to authorize to the server first, and for the server to be able to reject the client without revealing any more information. 
+
+## 16. MITM/wrong number cannot learn or confirm keys.
+
+The client needs asymmetrically encrypt their authorization to the server, such that the server will act the same way whether the client is unauthorized, or just dialed a wrong number (unauthorized server)
+
