@@ -1,5 +1,9 @@
 Alice wants to connect to Bob and communicate privately. Also, we want to realize _all_ the [desireable properties for a secure channel](https://github.com/ssbc/scuttlebot/wiki/desirable-properties-for-a-secure-channel)
 
+## version 1
+
+this version actually fails to provide all the properties desired (or rather, while writing this I realized there was another weakness that could be supported [#16](https://github.com/ssbc/scuttlebot/wiki/desirable-properties-for-a-secure-channel#16-mitmwrong-number-cannot-learn-or-confirm-keys))
+ 
 > Alice generates DH key, initiates duplex connection (i.e. tcp) to Bob. 
 
 Alice: here is my dh key. (this message is not signed, Bob doesn't yet know it's Alice, and Alice isn't sure it's Bob yet either)
@@ -23,6 +27,27 @@ Bob (encrypted): hi Alice, you said hash(Alice's greeting), yes it's me, here is
 
 The inner layer of encryption is now tightly tied to their identities (via signatures) and forward secure because the dh keys are ephemeral and not tied to their private keys. (1)
 
-## improvements
+### improvements
 
 I think this design is _nearly there_. A mitm attack can learn who Alice is (her key) and confirm who she is trying to contact before the connection fails. This could be addressed if Alice boxed her greeting to bob with a temp identity, or used encrypted it to bob without signing it (which would allow mitm to confirm her identity). I havn't yet convinced my self about man in the middle attacks... need to understand key exchange better. It would not be necessary to encrypt bob's response, because by that stage the mitm attack would have failed.
+
+## Version 2
+
+version 2 also supports property [#16](https://github.com/ssbc/scuttlebot/wiki/desirable-properties-for-a-secure-channel#16-mitmwrong-number-cannot-learn-or-confirm-keys)
+
+### Crypto_box
+
+This depends on the crypto_box primitive as implemented in [nacl](http://nacl.cr.yp.to/box.html)
+unfortunately, that primitive is not very well documented, so I will attempt to explain those properties here.
+
+crypto box takes a message, a nonce, a public key and a private key.
+`crypto_box(message, nonce, alice.public_key, bob.private_key)` which is decrypted by
+`crypto_box_open(boxed, nonce, alice.private_key, bob.public_key)`. note that this derives a symmetric key that is the same for `{alice.private_key, bob.public_key}` AND for `{bob.private_key, alice.public_key}`. So either bob or alice may open the box.
+
+#### security hole if one party looses their private key
+
+If crypto_box is used without signatures inside it, and one party looses their private key...
+
+If an attacker gets hold of bob's private key, and knows alice's public key, then he can construct messages that appear to be from alice by boxing `crypto_box(message, nonce, alice.public_key, bob.private_key)` unless bob expects the message to contain a signature from alice, then bob may be fooled that it's a message from alice, when actually it's a message from himself (or from his private key)
+
+### todo, describe protocol...
