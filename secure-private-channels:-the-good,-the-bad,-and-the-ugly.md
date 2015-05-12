@@ -151,6 +151,15 @@ except that Andy includes Andy's pubkey along with the box.
 Later they will make up new secret identities and discard Andy and Betty.
 Alice and Bob always create new temporary identities whenever they talk to _anybody_.
 
+### Conclusion.
+
+curvecp is good but has a few minor problems.
+
+* A replay attacker may confirm that a server is actually bob (since the first message is boxed, if a server does respond to that packet, then that indicates it managed to decrypt the first packet... a server *could* respond with a correctly sized nonsence packet, but a protocol design that avoids this would be better.
+* If Bob's keys are compromised, an attacker can connect to Bob and pretend to be _anyone_ (who's public key you know!). This could again be solved by signature authentication at the application layer, but any cryptomodule should be designed to _avoid all surprising edgecases_. Expecting users to make up for design flaws via interactions between layers in their cryptosystem is inviting disaster!
+
+A protocol that took the best ideas from curvecp but also solved these two problems would be very robust.
+
 ### Questions
 
 * why does Alice include Andy's pub key is every message?
@@ -158,7 +167,7 @@ Alice and Bob always create new temporary identities whenever they talk to _anyb
   but he does still need to remember that is who he is talking to...)
 
 * what are the properties of a "box" exactly?
-  (from what I gather `Box[message](A->B)` encrypts `message` so that only A and B can read it, and A reader may verify it if they have B's pubkey?)
+  [answer](https://github.com/ssbc/scuttlebot/wiki/a-secure-secure-channel-(WIP)#crypto_box)
 
 ### Further Reading
 
