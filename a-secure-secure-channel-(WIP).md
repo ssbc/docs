@@ -35,19 +35,20 @@ I think this design is _nearly there_. A mitm attack can learn who Alice is (her
 
 version 2 also supports property [#16](https://github.com/ssbc/scuttlebot/wiki/desirable-properties-for-a-secure-channel#16-mitmwrong-number-cannot-learn-or-confirm-keys)
 
-### Crypto_box
+### crypto_box
 
-This depends on the crypto_box primitive as implemented in [nacl](http://nacl.cr.yp.to/box.html)
-unfortunately, that primitive is not very well documented, so I will attempt to explain those properties here.
+This depends on the `crypto_box` primitive as implemented in [nacl](http://nacl.cr.yp.to/box.html)
+unfortunately, that primitive is not very well documented, so I will attempt to explain those properties here. The security model of this primitive is only briefly covered on the documentation site so this is based mainly on my reading of the code. Please do check my reasoning here, and make an issue if you think I missed something.
 
-crypto box takes a message, a nonce, a public key and a private key.
+`crypto_box` takes a message, a nonce, a public key and a private key.
 `crypto_box(message, nonce, alice.public_key, bob.private_key)` which is decrypted by
-`crypto_box_open(boxed, nonce, alice.private_key, bob.public_key)`. note that this derives a symmetric key that is the same for `{alice.private_key, bob.public_key}` AND for `{bob.private_key, alice.public_key}`. So either bob or alice may open the box.
+`crypto_box_open(boxed, nonce, bob.public_key, alice.private_key)`.
+The message is encrypted with [chacha20 cipher, and authenticated with poly1305. There is no length delimitation so if you wish to transmit this message it must be framed, or have a fixed size, the other party requires the same nonce in order to perform the decryption so that must be provided some way (i.e. either by sending it along with the message, or by having a protocol for determining the next nonce)
 
-#### security hole if one party looses their private key
+Although it's described as Bob _encrypting to_ Alice ("Bob boxes the message to Alice") the encryption is not directional, and either Bob _or_ Alice can decrypt the message. This is because it derives a shared key in the manner of a diffie-helman key exchange, _not_ by encrypting a key to Alice's pub key (which would be an operation that Bob could not reverse). This has a surprising property if this is used as an authentication primitive: If an attacker gains Bob's private key, and knows Alice's key then they can not only impersonate bob to Alice (or anyone), but surprisingly they can impersonate _anyone_ to Bob (provided they know that public key)! 
 
-If crypto_box is used without signatures inside it, and one party looses their private key...
+This would make loosing control of his private key a decidedly schizophrenic experience for Bob. Although to other parties, Bob suddenly acting weird would be simple enough to diagnose - Bob has been hacked - but Bob may instead experience _everyone he knows_ suddenly going schizophrenic. This could potentially be more destructive than merely impersonating bob. Hopefully loosing control of one's private keys is a unlikely event, but the antics of the bitcoin network has certainly shown this is possible via a variety of avenues if attackers are sufficiently motivated. If it's reasonable to design a protocol to be forward secure (not leak information dangerously if keys are compromised) then it's reasonable to make other aspects of the protocol fail safely in the case of key compromise.
 
-If an attacker gets hold of bob's private key, and knows alice's public key, then he can construct messages that appear to be from alice by boxing `crypto_box(message, nonce, alice.public_key, bob.private_key)` unless bob expects the message to contain a signature from alice, then bob may be fooled that it's a message from alice, when actually it's a message from himself (or from his private key)
+Therefore, my conclusion is that `crypto_box` is not suitable as a _user authentication primitive_, and signatures should be used instead (though, the signatures may be inside a `crypto_box` for privacy). 
 
 ### todo, describe protocol...
