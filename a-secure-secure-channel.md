@@ -1,6 +1,6 @@
 Alice wants to connect to Bob and communicate privately. Also, we want to realize _all_ the [desireable properties for a secure channel](https://github.com/ssbc/scuttlebot/wiki/desirable-properties-for-a-secure-channel)
 
-## version 1
+## version 1 (flawed)
 
 this version actually fails to provide all the properties desired (or rather, while writing this I realized there was another weakness that could be supported [#16](https://github.com/ssbc/scuttlebot/wiki/desirable-properties-for-a-secure-channel#16-mitmwrong-number-cannot-learn-or-confirm-keys))
  
@@ -51,7 +51,7 @@ This would make a compromise of his private key a decidedly schizophrenic experi
 
 Therefore, my conclusion is that `crypto_box` is not suitable as a _user authentication primitive_, and signatures should be used instead (though, the signatures may be inside a `crypto_box` for privacy). 
 
-### protocol
+### protocol description
 
 Alice: Hi call me Andy
 > Alice generates a temporary key, Andy, and sends it to (the server she thinks is) Bob
@@ -109,5 +109,7 @@ box[Betty->Andy](
 ```
 
 Now Alice and Bob are mutually authenticated! Bob knows he's talking to Alice, and Alice knows she is talking to Bob. _as far as I have determined, no weird edge cases_. Of course, if your key is compromised, then someone can impersonate you, this is to be expected, and key revocation should be solved in another part of the cryptosystem.
+
+the rest of the session is encrypted with Aaron/Barbara. Even the existence of these keys is a secret from both an eavesdropper or a man in the middle!
 
 This design realizes _all_ the [desirable secure channel properties](https://github.com/ssbc/scuttlebot/wiki/desirable-properties-for-a-secure-channel)
