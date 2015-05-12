@@ -1,8 +1,10 @@
-Alice wants to connect to Bob and communicate privately. Also, we want to realize _all_ the [desireable properties for a secure channel](https://github.com/ssbc/scuttlebot/wiki/desirable-properties-for-a-secure-channel)
+Alice wants to connect to Bob and communicate privately. Also, we want to realize _all_ the [desireable properties for a secure channel](https://github.com/ssbc/scuttlebot/wiki/desirable-properties-for-a-secure-channel). This protocol is inspired by [curvecp](https://github.com/ssbc/scuttlebot/wiki/secure-private-channels:-the-good,-the-bad,-and-the-ugly#curvecp) but avoid the [problems with curvecp](https://github.com/ssbc/scuttlebot/wiki/secure-private-channels:-the-good,-the-bad,-and-the-ugly#conclusion)
+
+This also differs from curvecp in that it is intended to function as a layer on top of a reliable tcp-like connection, instead of a UDP protocol. Although curvecp does solve some tcp problems by using udp, for my usecase I require the ability to encrypt connections over an arbitrary reliable duplex stream (in particular over tcp, but potentially over other protocols too)
 
 ## version 1 (flawed)
 
-this version actually fails to provide all the properties desired (or rather, while writing this I realized there was another weakness that could be supported [#16](https://github.com/ssbc/scuttlebot/wiki/desirable-properties-for-a-secure-channel#16-mitmwrong-number-cannot-learn-or-confirm-keys))
+This version actually fails to provide all the properties desired (or rather, while writing this I realized there was another weakness that could be supported [#16](https://github.com/ssbc/scuttlebot/wiki/desirable-properties-for-a-secure-channel#16-mitmwrong-number-cannot-learn-or-confirm-keys))
  
 > Alice generates DH key, initiates duplex connection (i.e. tcp) to Bob. 
 
