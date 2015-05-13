@@ -105,7 +105,8 @@ box[Betty->Andy](
     //containing a new key
     Barbara.public_key
     //with proof this message was just created by Bob!
-    sign(hash(hello + Barbara.public_key), Bob.private_key)
+    //note: also signing Aaron.public_key proves to alice that bob did actually decrypt the hello packet.
+    sign(hash(hello + Barbara.public_key + Aaron.public_key), Bob.private_key)
   ])
 )
 ```
