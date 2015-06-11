@@ -1,31 +1,20 @@
 # Secure Scuttlebutt
 
-This repo is a collection of documents for the secure-scuttlebutt project.
-
 Secure-scuttlebutt is pre-beta.
-You can download and test the software, but please be prepared for issues.
+You can download and test the software, but please be prepared to deal with issues.
+We're working hard to package the beta!
 
-Repos:
+**Repos:**
 
- - [scuttlebot](https://github.com/ssbc/scuttlebot) - The main application. Includes the database, networking, command-line tools, and web ui.
- - [secure-scuttlebutt](https://github.com/ssbc/secure-scuttlebutt) - The core database library. Wraps leveldb with tools for reading, writing to, and replicating feeds.
- - [phoenix](https://github.com/ssbc/phoenix) - The web ui for scuttlebot.
+ - [Scuttlebot](https://github.com/ssbc/scuttlebot) - The main application. Includes the database, networking, command-line tools, and web ui.
+ - [Secure-Scuttlebutt](https://github.com/ssbc/secure-scuttlebutt) - The core database library. Wraps leveldb with tools for reading, writing to, and replicating feeds.
+ - [Phoenix](https://github.com/ssbc/phoenix) - The web ui for scuttlebot.
 
 
 ## About
 
 Secure Scuttlebutt is a decentralized network which gossips blockchains in a peer-to-peer mesh.
-It is an alternative to hosted Web applications, with greater protections for user data, and greater freedom to choose your software.
-
-### The blockchains
-
-Each blockchain message is signed by the user's private key.
-Unlike Bitcoin, these blockchains require no proof-of-work or global sync, because each user runs their own independent chain.
-
-The signed blockchain structure is used to ensure consistency across the network.
-The signature proves authorship, making it possible for messages to be gossipped among peers.
-The prev-hashes reveal changes to history, stopping users from attempting to change their old messages after publishing.
-With these protections, the network can converge on one universal state.
+It is an alternative to hosted Web applications, with greater protections for user data and greater freedom to choose your software.
 
 ### Gossip replication
 
@@ -37,11 +26,24 @@ If the receiving peer has messages for a feed with a `seq` number greater than g
 
 To give a broader connection to the social network, ssb also replicates friends-of-friends by default.
 
-### The web-of-trust
+### The Blockchains
+
+User data is published on signed blockchains.
+Unlike Bitcoin, these blockchains require no proof-of-work or global sync, because each user runs their own independent chain.
+
+The signed blockchain structure is used to ensure consistency across the network.
+The signature proves authorship, making it possible for messages to be gossipped among peers.
+The prev-hashes reveal changes to history, stopping users from altering their old messages after publishing.
+With these protections, the network can converge on one universal state.
+
+### The Web-of-Trust
 
 "Follows" are published on the chains, creating a searchable social graph.
 As each follow includes the pubkey of its target, the follow-graph acts as a Web-of-Trust PKI.
 Once you've connected to a friend, you can follow their friends to build your contact list.
+
+The network also publishes other trust signals between users, including nicknames, profile pics, bios, and warning flags.
+Using signed, append-only logs to publish identity information is similar to [Google's Certificate Transparency project](http://www.certificate-transparency.org/) for auditing CA issuances.
 
 SSB uses [libsodium](http://doc.libsodium.org/) for signatures and encryption, and [blake2s](https://blake2.net/) for hashing.
 
@@ -55,7 +57,7 @@ They are essentially mail-bots which improve uptime and availability.
 Users generate invite-codes to command Pubs to follow their friends.
 The SSB team runs some Pubs, but anybody can create and introduce their own.
 
-### API
+### SSB API
 
 Secure Scuttlebutt is a [Kappa Architecture](http://www.kappa-architecture.com/) API.
 Applications pull the blockchains' messages in a stream, and use them to compute "views" of the current state.
