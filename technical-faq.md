@@ -116,7 +116,7 @@ If two of your friends pick the same name, then you can rename one to disambigua
 
 The web interface alerts the user to name conflicts, so that this can be resolved quickly.
 
-## Preventing harassment and spam
+## How do we prevent harassment and spam?
 
 Harassment is a problem on most online services.
 The normal approach is to give users block or mute buttons or to have moderators.
@@ -178,13 +178,13 @@ This can be implemented by posting acknowledgement messages.
 
 There is also active discussion about using signed pings to send ephemeral acknowledgements (off of the feeds).
 
-## Is SSB highly available (AP) or highly consistent (CP)?
+### Is SSB highly available (AP) or highly consistent (CP)?
 
 SSB is highly-available (AP).
 Devices can create messages while offline, then synchronize later.
 This means all data is eventually-consistent.
 
-## Can I know if I have the latest messages from somebody?
+### Can I know if I have the latest messages from somebody?
 
 No, because it's possible for devices to drop and continue operating (a network "partition").
 There's a proposal to used signed pings to measure the "freshness" of a feed, but this could only be used in small groups of interested peers.
@@ -212,7 +212,7 @@ Then other users could run that app on their local machine.
 
 We have plans to build on this in the future.
 
-## How will you know it is safe to run an application?
+### How will you know it is safe to run an application?
 
 Applications would be run in a sandbox, and, since new versions of the application would be immutably published, it would always be possible to see the history of that application.
 This would actually be much more secure that a normal web application.
