@@ -6,65 +6,132 @@ We're working hard to package the beta!
 
 **Repos:**
 
- - [Scuttlebot](https://github.com/ssbc/scuttlebot) - The main application. Includes the database, networking, command-line tools, and web ui.
  - [Secure-Scuttlebutt](https://github.com/ssbc/secure-scuttlebutt) - The core database library. Wraps leveldb with tools for reading, writing to, and replicating feeds.
- - [Phoenix](https://github.com/ssbc/phoenix) - The web ui for scuttlebot.
+ - [Scuttlebot](https://github.com/ssbc/scuttlebot) - A secure-scuttlebutt implementation. Includes the database, networking, blob exchange protocol, and command-line tools.
+ - [Patchwork](https://github.com/ssbc/patchwork) - A user-friendly application for sharing content over SSB. Embeds scuttlebot.
 
 
-## About
+## Overview
 
-Secure Scuttlebutt is a decentralized network which gossips blockchains in a peer-to-peer mesh.
-It is an alternative to hosted Web applications, with greater protections for user data and greater freedom to choose your software.
+Secure Scuttlebutt is a global mesh database.
+It uses a trustless protocol, meaning any device can participate in the mesh.
+It is eventually-consistent, meaning devices can freely enter and exit the network without stopping progress.
 
-### Gossip replication
+The primary data-structure is the "feed."
+Feeds identify by public keys, and all messages are signed.
+The feeds are distributed by gossip, and log-immutability is enforced by blockchains.
+No Proof-of-Work is required.
 
-Users follow each other to choose which blockchains they want.
-When a connection is opened between nodes, they ask each other for any updates in their follow-lists.
+SSB uses [libsodium](http://doc.libsodium.org/) for signatures and encryption, and sha256 for hashing.
 
-Because the blockchains are sequential, append-only logs, the gossip handshake is a simple list of `(feed-id, seq)` tuples.
-If the receiving peer has messages for a feed with a `seq` number greater than given in the handshake, it streams them to the other peer.
 
-To give a broader connection to the social network, ssb also replicates friends-of-friends by default.
+### Feeds and Users
+
+SSB's primary data-structure is the append-only log, known also as the "feed."
+Feeds are used by applications to build more sophisticated data-structures.
+
+The database contains many feeds.
+Each feed has one owner user, and each user can only write to one feed.
+Therefore, you can think of feeds and users as interchangeble concepts.
+
+Each feed is managed by an elliptic-curve keypair.
+The public key acts as the ID of the feed.
+The private key is used to sign each message on the feed.
+Keypairs can not be reused for multiple feeds.
+
 
 ### The Blockchains
 
-User data is published on signed blockchains.
-Unlike Bitcoin, these blockchains require no proof-of-work or global sync, because each user runs their own independent chain.
-
-The signed blockchain structure is used to ensure consistency across the network.
-The signature proves authorship, making it possible for messages to be gossipped among peers.
+A signed blockchain structure is used to ensure feed-consistency across the network.
+The signature proves authorship, making it possible for messages to be gossipped over untrusted peers.
 The prev-hashes reveal changes to history, stopping users from altering their old messages after publishing.
 With these protections, the network can converge on one universal state.
 
-### The Web-of-Trust
+Some blockchain protocols, such as Bitcoin and Ethereum, create one global blockchain.
+This requires coming to consensus about the order of messages in the blockchain.
+Proof-of-Work computation is used to create this consensus.
+Because SSB contains many feeds, and each feed is maintained by a single user, there is no need to come to consensus about order.
+This is because the owning user asserts the feed's order, and thus could only conflict with itself.
+Therefore, no proof-of-work is required.
 
-"Follows" are published on the chains, creating a searchable social graph.
-As each follow includes the pubkey of its target, the follow-graph acts as a Web-of-Trust PKI.
-Once you've connected to a friend, you can follow their friends to build your contact list.
 
-The network also publishes other trust signals between users, including nicknames, profile pics, bios, and warning flags.
-Using signed, append-only logs to publish identity information is similar to [Google's Certificate Transparency project](http://www.certificate-transparency.org/) for auditing CA issuances.
+### Trust Graphs
 
-SSB uses [libsodium](http://doc.libsodium.org/) for signatures and encryption, and [blake2s](https://blake2.net/) for hashing.
+SSB uses trust-graphs between feeds to solve discovery, and to protect against spam and sybil attacks.
+This is presented to users as a social network.
+Users choose which feeds to follow, and each follow is published on their feed, creating a public follow-graph.
+
+The follow-graph is used to reduce spam, by only allowing followeds to reach the inbox with mail.
+It is also used as a signal to identify mutual friends, similar to how PGP's Web-of-Trust works.
+
+Users can flag feeds for bad behavior, and these flags are also published, creating a flag-graph.
+Flagged users may be blocked from syncing with regions of the network.
+
+
+### Gossip Replication
+
+When a connection is opened between nodes, they ask each other for any updates in their follow-lists.
+Because feeds are sequential append-only logs, the gossip handshake is a simple list of `(feed-id, seq)` tuples.
+If the receiving peer has messages for a feed with a `seq` number greater than given in the handshake, it streams them to the other peer.
+
+Gossip provides transitive connectivity through-out the network.
+This is enables sync between nodes which can't connect directly via intermediary nodes.
+
 
 ### LAN and Internet connectivity
 
-Secure Scuttlebutt is hostless: each computer installs the same copy of software and has equal rights in the network.
-Devices discover each other over the LAN and sync automatically.
+SSB is hostless: each computer installs the same copy of software and has equal rights in the network.
+Devices discover each other over the LAN with multicast UDP and sync automatically.
 
 To sync across the Internet, "Pub" nodes run at public IPs and follow users.
 They are essentially mail-bots which improve uptime and availability.
 Users generate invite-codes to command Pubs to follow their friends.
 The SSB team runs some Pubs, but anybody can create and introduce their own.
 
+
 ### SSB API
 
 Secure Scuttlebutt is a [Kappa Architecture](http://www.kappa-architecture.com/) API.
-Applications pull the blockchains' messages in a stream, and use them to compute "views" of the current state.
+Applications pull the feeds' messages in a stream, and use them to compute "views" of the current state.
 The views can be computed by application code, or by a database engine like SQLite or PostgreSQL after converting the messages to `INSERT` statements.
 
 SSB stores received messages in a LevelDB instance on the local disk.
 By default, it creates indexes for quickly reading streams of messages by type, by author, and by links.
+
+
+### Links
+
+Messages, feeds, and blobs are addressable by specially-formatted identifiers.
+Message and blob IDs are content-hashes, while feed IDs are public keys.
+
+To indicate the type of ID, a "sigil" is prepended to the string. They are:
+
+ - `@` for feeds
+ - `%` for messages
+ - `&` for blobs
+
+Additionally, each ID has a "tag" appended to indicate the hash or key algorithm.
+Some example IDs:
+
+ - A feed: `@LA9HYf5rnUJFHHTklKXLLRyrEytayjbFZRo76Aj/qKs=.ed25519`
+ - A message: `%MPB9vxHO0pvi2ve2wh6Do05ZrV7P6ZjUQ+IEYnzLfTs=.sha256`
+ - A blob: `&Pe5kTo/V/w4MToasp1IuyMrMcCkQwDOdyzbyD5fy4ac=.sha256`
+
+When IDs are found in the messages, they may be treated as links, with the keyname acting as a "relation" type.
+An example of this:
+
+```js
+{ type: "post", repliesTo: "%MPB9vxHO0pvi2ve2wh6Do05ZrV7P6ZjUQ+IEYnzLfTs=.sha256", text: "this is a reply!" }
+```
+
+In this example, the `repliesTo` key is the relation.
+SSB automatically builds an index based on these links, to allow queries such as "all messages with a `repliesTo` link to this message."
+
+
+### Blobs
+
+The Scuttlebot server watches the incoming messages of followed users for blob links.
+When a blob link is detected, it queries its peers for the blob, and downloads the blob to a local cache if found.
 
 
 ## FAQ
