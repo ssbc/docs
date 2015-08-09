@@ -1,82 +1,18 @@
 # Patchwork: User profiles
 
 This document breaks down who Patchwork is for and how it will help them.
+A [Guide](#guide) to this document is at the bottom.
 
+Overview:
 
-## Guide
-
-### Jobs
-
-Describes the things people are trying to get done in their work or in their life.
-A job could be the tasks they are trying to perform and compelte, the problems they are trying to solve, or the needs they are trying to satisfy.
-
-**Functional jobs**
-
-When people try to perform or complete a specific task or solve a specific problem, for example, mow the lawn, eat healthy, write a report, or help clients as a professional.
-
-**Social jobs**
-
-When people want to look good or gain power or status.
-These jobs describe how people want to be perceived by others, for example, look trendy as a consumer or be perceived as competant as a professional.
-
-**Personal/emotional jobs**
-
-When people seek a specific emotional state, such as feeling good or secure, for example, seeking peace of mind regarding one's investments as a consumer or achieving the feeling of job security at one's workplace.
-
-**Supporting jobs**
-
-People also perform supporting jobs in the context of purchasing and consuming vlaue either as consumers or as professionals.
-These include jobs related to making purchasing decisions, jobs related to posting product reviews and feedback, and jobs related to stopping the use of a product.
-
-### Pains
-
-Pains describe anything that annoys people before, during, and after trying to get a job done or simply prevents them from getting a job done.
-Pains also describe risks, that is, potentially bad outcomes, related to get a job done badly or not at all.
-
-**Undesired outcomes, problems, and characteristics**
-
-Pains are functional (eg a solution doesnt work), social ("I look bad doing this"), or ancillary ("it's annoying to go to the store for this").
-This may also involve undesired characterstics people don't like ("running at the gym is boring" or "this design is ugly").
-
-**Obstacles**
-
-These are things that prevent people from even getting started with a job or that slow them down ("I lack the time to get this job done accurately" or "I cant afford any of the existing solutions").
-
-**Risks**
-
-What could go wrong and have important negative consequences ("I might lost credibility when using this" or "a security breach would be disasterous for us").
-
-### Gains
-
-Gains describe the outcomes and benefit people want.
-Some gains are required, expected, or desired by people, and some would surprise them.
-
-**Required gains**
-
-These are gains without which a solution wouldn't work.
-For example, the most basic expectation that we have from a smartphone is that we can make a call from it.
-
-**Expected gains**
-
-These are relatively basic gains that we expect, even if it could work without them.
-For example, since the iPhone launched, we expect phones to be well-designed and look good.
-
-**Desired gains**
-
-These are gains that go beyond what we expect, but would love to have if we could.
-These are usually gains that people would come up with if you asked them.
-For example, we desire smartphones to be seamlessly integrated with our other devices.
-
-**Unexpected gains**
-
-These are gains that go beyond people expectations and desires.
-They wouldn't even come up with them if you asked them.
-Before the iPhone brought touch screens and the App Store to the mainstream, nobody really thought of them as part of a phone.
+ - We have two user profiles, the [#the-netizen](Netizen) and the [#the-hacker](Hacker).
+ - The needs of these profiles are listed under Jobs and Pains.
+ - The value we can provide these users is listed under Gains.
 
 
 ## Collected Feedback
 
-### Key quotes
+### Quotes
 
 From discussions with potential users.
 
@@ -282,3 +218,74 @@ Then let's combine the 323 who said, "Yes, I'd leave Facebook," with the 97 who 
  - Zero-cost software publishing (no hosting or admin ops)
  - All software on the platform is open to hacking and re-sharing
  - Access to large-scale application networks without depending on a controlling upstream business
+
+
+## Guide
+
+### Jobs
+
+Describes the things people are trying to get done in their work or in their life.
+A job could be the tasks they are trying to perform and compelte, the problems they are trying to solve, or the needs they are trying to satisfy.
+
+**Functional jobs**
+
+When people try to perform or complete a specific task or solve a specific problem, for example, mow the lawn, eat healthy, write a report, or help clients as a professional.
+
+**Social jobs**
+
+When people want to look good or gain power or status.
+These jobs describe how people want to be perceived by others, for example, look trendy as a consumer or be perceived as competant as a professional.
+
+**Personal/emotional jobs**
+
+When people seek a specific emotional state, such as feeling good or secure, for example, seeking peace of mind regarding one's investments as a consumer or achieving the feeling of job security at one's workplace.
+
+**Supporting jobs**
+
+People also perform supporting jobs in the context of purchasing and consuming vlaue either as consumers or as professionals.
+These include jobs related to making purchasing decisions, jobs related to posting product reviews and feedback, and jobs related to stopping the use of a product.
+
+### Pains
+
+Pains describe anything that annoys people before, during, and after trying to get a job done or simply prevents them from getting a job done.
+Pains also describe risks, that is, potentially bad outcomes, related to get a job done badly or not at all.
+
+**Undesired outcomes, problems, and characteristics**
+
+Pains are functional (eg a solution doesnt work), social ("I look bad doing this"), or ancillary ("it's annoying to go to the store for this").
+This may also involve undesired characterstics people don't like ("running at the gym is boring" or "this design is ugly").
+
+**Obstacles**
+
+These are things that prevent people from even getting started with a job or that slow them down ("I lack the time to get this job done accurately" or "I cant afford any of the existing solutions").
+
+**Risks**
+
+What could go wrong and have important negative consequences ("I might lost credibility when using this" or "a security breach would be disasterous for us").
+
+### Gains
+
+Gains describe the outcomes and benefit people want.
+Some gains are required, expected, or desired by people, and some would surprise them.
+
+**Required gains**
+
+These are gains without which a solution wouldn't work.
+For example, the most basic expectation that we have from a smartphone is that we can make a call from it.
+
+**Expected gains**
+
+These are relatively basic gains that we expect, even if it could work without them.
+For example, since the iPhone launched, we expect phones to be well-designed and look good.
+
+**Desired gains**
+
+These are gains that go beyond what we expect, but would love to have if we could.
+These are usually gains that people would come up with if you asked them.
+For example, we desire smartphones to be seamlessly integrated with our other devices.
+
+**Unexpected gains**
+
+These are gains that go beyond people expectations and desires.
+They wouldn't even come up with them if you asked them.
+Before the iPhone brought touch screens and the App Store to the mainstream, nobody really thought of them as part of a phone.
