@@ -5,7 +5,7 @@ A [Guide](#guide) to this document is at the bottom.
 
 Overview:
 
- - We have two user profiles, the [#the-netizen](Netizen) and the [#the-hacker](Hacker).
+ - We have two user profiles, the [Netizen](#the-netizen) and the [Hacker](#the-hacker).
  - The needs of these profiles are listed under Jobs and Pains.
  - The value we can provide these users is listed under Gains.
 
@@ -18,13 +18,18 @@ From discussions with potential users.
 
 > The idea of a completely decentralized web is very appealing to me. It's what open source and unix/linux was to the operating system - liberation.
 
-> [I want] the freedom to do things without a corporate walled garden. Be it adult or arty. Both those use cases are so easily destroyed by corporate ecosystems.
+
+> I want the freedom to do things without a corporate walled garden. Be it adult or arty. Both those use cases are so easily destroyed by corporate ecosystems.
+
 
 > A lot of women are pretty horrifically abused on twitter - fixing that problem while also removing twitter as the ultimate authority on the rules of a twitter-like platform to me is a killer app if you add on all the other things like hackability and being totally open source.
 
+
 > Browsing-privacy and data-privacy are important to me on the Web.
 
+
 > I like novel APIs, making money on the side to fund my research, and exploring new paths.
+
 
 ## User survey: Facebook privacy
 
