@@ -85,6 +85,8 @@ Then let's combine the 323 who said, "Yes, I'd leave Facebook," with the 97 who 
 **Undesired outcomes, problems, and characteristics**
 
  - Online participation requires savvy, and can make me look/feel foolish on a global stage
+ - It's hard to have positive interactions on Facebook
+ - The content curated by personal relations (friends, family) is self-involved (selfies), polarizing, or uninteresting, and I tend to avoid interactions (eg by muting)
  - Everything I do feels permanent and public, and this makes me self-conscious
  - Advertisers and big-data companies collect my private information
  - Websites are one-size-fits-all, and can be slow to address feedback
@@ -134,12 +136,13 @@ Then let's combine the 323 who said, "Yes, I'd leave Facebook," with the 97 who 
 
 **Unexpected gains**
 
+ - Easily have positive interactions without expending lots of effort to create content
+ - No longer feel left out (no longer need savvy to participate positively in social experiences)
  - Communicate over WiFi and use offline
  - Stop having to manage passwords
  - No longer have to signup for new services to join a community or use a tool
  - Retain local control of data in its original form
  - Change tools without changing community or losing data
- - New ways to express emotion and creativity
 
 
 ## The Hacker
