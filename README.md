@@ -24,6 +24,61 @@ No Proof-of-Work is required.
 
 SSB uses [libsodium](http://doc.libsodium.org/) for signatures and encryption, and sha256 for hashing.
 
+### install prerequisites
+
+current install steps are:
+```
+# ubuntu
+apt-get install automake
+# osx
+brew install automake
+```
+also, you'll need to use iojs@2. the easiest way to get this is nvm.
+
+```
+nvm install iojs-v2.5.0
+```
+
+### Install patchwork
+
+patchwork provides a slick user interface around scuttlebot and a social networking application.
+now you can get patchwork
+
+
+now clone patchwork.
+```
+git clone https://github.com/ssbc/patchwork.git
+cd patchwork
+npm install
+npm start
+```
+
+now follow the on screen prompts to set up your identity.
+You'll need an invite code to join the network.
+currently you must get this from someone who is running a pub server.
+if you don't already know someone with a pub server, come ask us on `#scuttlebutt` on freenode.
+
+### install scuttlebot
+
+running a pub server supports your network, but not everybody needs to run a server.
+to begin, install the prerequisites as above.
+
+```
+npm install -g scuttlebot
+```
+
+start scuttlebot as server.
+```
+sbot server
+```
+then in another session, use the cli tool to create an invite.
+
+```
+# create an invite code that may be used 1 time.
+sbot invite.create 1
+```
+
+this may now be given out to friends!
 
 ### Feeds and Users
 
