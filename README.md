@@ -20,7 +20,7 @@
      - [Replicate](https://github.com/ssbc/scuttlebot/blob/master/plugins/replicate.md)
  - Pull-streams
    - [Repo & Overview](https://github.com/dominictarr/pull-stream)
-   - [A Primer for Pull-streams](todo)
+   - A Primer for Pull-streams: [The Basics (part 1)](https://github.com/dominictarr/pull-stream-examples/blob/master/pull.js) and [Duplex Streams (part 2)](https://github.com/dominictarr/pull-stream-examples/blob/master/duplex.js)
    - [Pull Sources](https://github.com/dominictarr/pull-stream/blob/master/docs/sources.md)
    - [Pull Throughs](https://github.com/dominictarr/pull-stream/blob/master/docs/throughs.md)
    - [Pull Sinks](https://github.com/dominictarr/pull-stream/blob/master/docs/sinks.md)
