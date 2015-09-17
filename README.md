@@ -6,9 +6,8 @@
    - [Design Challenge: Sybil Attacks](./articles/design-challenge-sybil-attack.md)
    - [Desirable Properties for a Secure Channel](./articles/desirable-properties-for-a-secure-channel.md)
    - [Secure, Private Channels: the Good, the Bad, and the Ugly](./articles/secure-private-channels.md)
- - Scuttlebot
-   - [Repo & Overview](https://github.com/ssbc/scuttlebot)
-   - [An Introduction to Developing with Scuttlebot](todo)
+ - [Scuttlebot](https://github.com/ssbc/scuttlebot) - A secure-scuttlebutt server.
+   - [Introduction to Using Scuttlebot](todo)
    - [API Docs](https://github.com/ssbc/scuttlebot/blob/master/api.md)
    - Plugins
      - [Blobs](https://github.com/ssbc/scuttlebot/blob/master/plugins/blobs.md)
@@ -19,6 +18,7 @@
      - [Private](https://github.com/ssbc/scuttlebot/blob/master/plugins/private.md)
      - [Replicate](https://github.com/ssbc/scuttlebot/blob/master/plugins/replicate.md)
  - Libraries
+   - [secure-scuttlebutt](https://github.com/ssbc/secure-scuttlebutt) - Wraps leveldb with tools for reading, writing to, and replicating feeds. Used internally by Scuttlebot.
    - [ssb-msg-schemas](https://github.com/ssbc/ssb-msg-schemas) - A collection of common message schemas.
    - [ssb-msgs](https://github.com/ssbc/ssb-msgs) - Message-processing tools.
    - [ssb-ref](https://github.com/ssbc/ssb-ref) - Check if a string is an SSB reference (used in linking).
@@ -32,11 +32,10 @@
 
 ## Glossary
 
- - [Secure-Scuttlebutt](https://github.com/ssbc/secure-scuttlebutt) (SSB) - A protocol for replicating logs in a decentralized mesh. The SSB library wraps leveldb with tools for reading, writing to, and replicating feeds.
- - [Scuttlebot](https://github.com/ssbc/scuttlebot) - A secure-scuttlebutt server and client. Includes the database, networking, blob exchange protocol, and command-line tools.
+ - Secure-Scuttlebutt (SSB) - A protocol for replicating logs in a gossip network.
  - Pub Servers - SSB peers which run on publicly IPs, and provide connectivity and hosting for users on private IPs. Pubs are not privileged, and do not hold special authority in the network. They are not hosts.
  - Invite codes - Tokens which may be used to command specific Pub servers to follow a user. These are used to join Pubs.
- - Feeds - a user's stream of signed messages. Also called logs, or append-only logs.
+ - Feeds - a user's stream of signed messages. Also called logs.
  - Gossip - a networking technique where peers connect randomly to each other and ask for new updates. Gossip is unique for not relying on any central server to push information. Instead, the information travels peer-to-peer.
 
 
