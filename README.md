@@ -22,12 +22,12 @@
    - [ssb-msg-schemas](https://github.com/ssbc/ssb-msg-schemas) - A collection of common message schemas.
    - [ssb-msgs](https://github.com/ssbc/ssb-msgs) - Message-processing tools.
    - [ssb-ref](https://github.com/ssbc/ssb-ref) - Check if a string is an SSB reference (used in linking).
- - Pull-streams
-   - [Repo & Overview](https://github.com/dominictarr/pull-stream)
-   - A Primer for Pull-streams: [The Basics (part 1)](https://github.com/dominictarr/pull-stream-examples/blob/master/pull.js) and [Duplex Streams (part 2)](https://github.com/dominictarr/pull-stream-examples/blob/master/duplex.js)
-   - [Pull Sources](https://github.com/dominictarr/pull-stream/blob/master/docs/sources.md)
-   - [Pull Throughs](https://github.com/dominictarr/pull-stream/blob/master/docs/throughs.md)
-   - [Pull Sinks](https://github.com/dominictarr/pull-stream/blob/master/docs/sinks.md)
+   - [muxrpc](https://github.com/ssbc/muxrpc) - Lightweight multiplexed rpc.
+   - [pull-stream](https://github.com/dominictarr/pull-stream) - Minimal, pipable, streams.
+     - A Primer for Pull-streams: [The Basics (part 1)](https://github.com/dominictarr/pull-stream-examples/blob/master/pull.js) and [Duplex Streams (part 2)](https://github.com/dominictarr/pull-stream-examples/blob/master/duplex.js)
+     - [Pull Sources](https://github.com/dominictarr/pull-stream/blob/master/docs/sources.md)
+     - [Pull Throughs](https://github.com/dominictarr/pull-stream/blob/master/docs/throughs.md)
+     - [Pull Sinks](https://github.com/dominictarr/pull-stream/blob/master/docs/sinks.md)
 
 
 ## Glossary
