@@ -32,7 +32,7 @@
  - [Scuttlebot](https://github.com/ssbc/scuttlebot) - A secure-scuttlebutt server and client. Includes the database, networking, blob exchange protocol, and command-line tools.
  - Pub Servers - SSB peers which run on publicly IPs, and provide connectivity and hosting for users on private IPs. Pubs are not privileged, and do not hold special authority in the network. They are not hosts.
  - Invite codes - Tokens which may be used to command specific Pub servers to follow a user. These are used to join Pubs.
- - Feeds - a user's stream of JSON data. Also called logs.
+ - Feeds - a user's stream of signed messages. Also called logs, or append-only logs.
  - Gossip - a networking technique where peers connect randomly to each other and ask for new updates. Gossip is unique for not relying on any central server to push information. Instead, the information travels peer-to-peer.
 
 
@@ -55,7 +55,7 @@ brew install automake
 ```
 
 Also, you'll need to use iojs@2.
-The easiest way to get this is nvm.
+The easiest way to get this is [nvm](https://github.com/creationix/nvm).
 
 ```
 nvm install iojs-v2.5.0
