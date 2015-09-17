@@ -18,6 +18,10 @@
      - [Invite](https://github.com/ssbc/scuttlebot/blob/master/plugins/invite.md)
      - [Private](https://github.com/ssbc/scuttlebot/blob/master/plugins/private.md)
      - [Replicate](https://github.com/ssbc/scuttlebot/blob/master/plugins/replicate.md)
+ - Libraries
+   - [ssb-msg-schemas](https://github.com/ssbc/ssb-msg-schemas) - A collection of common message schemas.
+   - [ssb-msgs](https://github.com/ssbc/ssb-msgs) - Message-processing tools.
+   - [ssb-ref](https://github.com/ssbc/ssb-ref) - Check if a string is an SSB reference (used in linking).
  - Pull-streams
    - [Repo & Overview](https://github.com/dominictarr/pull-stream)
    - A Primer for Pull-streams: [The Basics (part 1)](https://github.com/dominictarr/pull-stream-examples/blob/master/pull.js) and [Duplex Streams (part 2)](https://github.com/dominictarr/pull-stream-examples/blob/master/duplex.js)
