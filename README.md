@@ -8,6 +8,7 @@
    - [Secure, Private Channels: the Good, the Bad, and the Ugly](./articles/secure-private-channels.md)
  - Scuttlebot
    - [Repo & Overview](https://github.com/ssbc/scuttlebot)
+   - [An Introduction to Developing with Scuttlebot](todo)
    - [API Docs](https://github.com/ssbc/scuttlebot/blob/master/api.md)
    - Plugins
      - [Blobs](https://github.com/ssbc/scuttlebot/blob/master/plugins/blobs.md)
@@ -19,6 +20,7 @@
      - [Replicate](https://github.com/ssbc/scuttlebot/blob/master/plugins/replicate.md)
  - Pull-streams
    - [Repo & Overview](https://github.com/dominictarr/pull-stream)
+   - [A Primer for Pull-streams](todo)
    - [Pull Sources](https://github.com/dominictarr/pull-stream/blob/master/docs/sources.md)
    - [Pull Throughs](https://github.com/dominictarr/pull-stream/blob/master/docs/throughs.md)
    - [Pull Sinks](https://github.com/dominictarr/pull-stream/blob/master/docs/sinks.md)
