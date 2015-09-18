@@ -107,6 +107,8 @@ To go deeper, read the [Introduction to Using Scuttlebot](./intro-to-using-sbot.
 
 ### Join a Pub
 
+If you want to connect to your friends across the net, you need to be followed by a Pub server.
+
 First get an invite-code from a pub owner you know.
 You can find a pub in the [Informal Pub Servers Registry](https://github.com/ssbc/scuttlebot/wiki/Pub-servers).
 
@@ -117,11 +119,12 @@ Then:
 ```
 
 Your scuttlebot will now connect to, and sync with, the pub.
+Other users can sync with the pub to receive your log.
 
 
 ## Setup up a Pub
 
-If you want to host your friends' logs publicly (allowing you to connect across the net) you need to create a Pub server.
+If you want to setup your own Pub server, follow these instructions.
 Starting from a fresh linux image, eg on Digital Ocean:
 
 ```
