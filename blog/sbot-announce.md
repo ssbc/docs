@@ -81,4 +81,10 @@ For structures that multiple users can update, we recommend using [CRDTs](https:
 We've published [a documentation repo](https://github.com/ssbc/docs) to help you get started.
 Follow the install instructions in the overview, then see the guides and API references.
 
-[Lots more to read here.](../learn.md)
+**Further Reading:**
+
+ - [Learn about Secure Scuttlebutt](../learn.md)
+ - [Scuttlebot Setup Instructions](./README.md#setup-scuttlebot)
+ - [Introduction to Using Scuttlebot](../intro-to-using-sbot.md)
+
+Join us in #scuttlebutt on freenode.

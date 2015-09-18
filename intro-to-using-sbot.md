@@ -5,8 +5,6 @@ This guide will help you familiarize with Scuttlebot's API, both from the comman
 If you're not yet familiar with Scuttlebot's database protocol, Secure Scuttlebutt, I recommend you read ["Learn about SSB"](./learn.md) first, as it will explain a lot of the basic technical concepts more fully.
 If you haven't installed Scuttlebot yet, follow the [setup instructions](./README.md#setup-scuttlebot).
 
-Table of Contents:
-
  - Basic concepts
   - [Connecting via RPC](#connecting-via-rpc)
   - [The CLI / RPC relationship](#the-cli--rpc-relationship)
