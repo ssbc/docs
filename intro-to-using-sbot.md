@@ -5,15 +5,9 @@ This guide will help you familiarize with Scuttlebot's API, both from the comman
 If you're not yet familiar with Scuttlebot's database protocol, Secure Scuttlebutt, I recommend you read ["Learn about SSB"](./learn.md) first, as it will explain a lot of the basic technical concepts more fully.
 If you haven't installed Scuttlebot yet, follow the [setup instructions](./README.md#setup-scuttlebot).
 
- - Basic concepts
-  - [Connecting via RPC](#connecting-via-rpc)
-  - [The CLI / RPC relationship](#the-cli--rpc-relationship)
  - Learn the API
-  - [Basic Queries](#basic-queries)
-  - [Live Streaming](#live-streaming)
-  - [Publishing Messages](#publishing-messages)
+  - [Basics](#basics)
   - [Links](#links)
-  - [Link Queries](#link-queries)
   - [Confidential Messages](#confidential-messages)
  - Plugin APIs
   - [Blobs](#blobs)
@@ -26,13 +20,7 @@ If you haven't installed Scuttlebot yet, follow the [setup instructions](./READM
 ---
 
 
-## Basic concepts
-
-### Connecting via RPC
-
 <todo how to setup the rpc client>
-
-### The CLI / RPC relationship
 
 Scuttlebot's CLI translates directly from the shell to RPC calls.
 That means any call you can make programmatically can be made from the shell as well.
@@ -41,9 +29,7 @@ That means any call you can make programmatically can be made from the shell as 
 ---
 
 
-## Learn the API
-
-### Basic Queries
+## Basics
 
 The simplest query you can run is against the feed index, [createFeedStream](https://github.com/ssbc/scuttlebot/blob/master/api.md#createfeedstream-source).
 
@@ -117,7 +103,7 @@ Also, remember you can fetch any message by ID using [get](https://github.com/ss
 sbot.get(id, cb)
 ```
 
-### Live Streaming
+---
 
 In most of the query methods, you can specify `live: true` to keep the stream open.
 The stream will emit new messages as they're added to the indexes by gossip.
@@ -129,7 +115,7 @@ The stream will emit new messages as they're added to the indexes by gossip.
 pull(sbot.createLogStream({ live: true }), pull.drain(...))
 ```
 
-### Publishing Messages
+---
 
 Publishing messages in Scuttlebot is very simple:
 
@@ -156,7 +142,9 @@ You are free to put anything you want in the message, with the following rules:
 
 You can find [common message-schemas here](https://github.com/ssbc/ssb-msg-schemas).
 
-### Links
+---
+
+## Links
 
 Messages, feeds, and blobs are addressable by specially-formatted identifiers.
 Message and blob IDs are content-hashes, while feed IDs are public keys.
@@ -173,6 +161,8 @@ Some example IDs:
  - A feed: `@LA9HYf5rnUJFHHTklKXLLRyrEytayjbFZRo76Aj/qKs=.ed25519`
  - A message: `%MPB9vxHO0pvi2ve2wh6Do05ZrV7P6ZjUQ+IEYnzLfTs=.sha256`
  - A blob: `&Pe5kTo/V/w4MToasp1IuyMrMcCkQwDOdyzbyD5fy4ac=.sha256`
+
+---
 
 When IDs are found in the messages, they may be treated as links, with the keyname acting as a "relation" type.
 An example of this:
@@ -192,7 +182,9 @@ sbot.publish({
 In this example, the `repliesTo` key is the relation.
 SSB automatically builds an index based on these links, to allow queries such as "all messages with a `repliesTo` link to this message."
 
-If you want to include data in the link, you can specify an object, and put the id in the `link` subattribute:
+---
+
+If you want to include data in the link object, you can specify an object with the id in the `link` subattribute:
 
 ```bash
 ./sbot.js publish --type post --mentions.link "%MPB9vxHO0pvi2ve2wh6Do05ZrV7P6ZjUQ+IEYnzLfTs=.sha256" \
@@ -209,7 +201,7 @@ sbot.publish({
 })
 ```
 
-### Link Queries
+---
 
 To query the link-graph, use [links](https://github.com/ssbc/scuttlebot/blob/master/api.md#links-source):
 
@@ -237,6 +229,8 @@ pull(sbot.links({ rel: 'about', dest: '@hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730n
 pull(sbot.links({ dest: '&', source: '@hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519' }), pull.drain(...))
 ```
 
+---
+
 A common pattern is to recursively fetch the links that point to a message, creating a tree.
 This is useful for creating comment-threads, for instance.
 
@@ -248,6 +242,8 @@ You can do that easily in scuttlebot with [relatedMessages](https://github.com/s
 ```js
 sbot.relatedMessages({ id: id }, cb)
 ```
+
+---
 
 ### Confidential Messages
 
@@ -261,8 +257,9 @@ sbot.private.publish({ type: type, ... }, recps, cb)
 ```
 
 This works exactly like `sbot.publish`, but `recps` includes a list of feed-ids to encrypted the message for.
-
 (Note, the CLI is currently not able to handle this function's signature.)
+
+---
 
 To decode a message, you use [private.unbox](https://github.com/ssbc/scuttlebot/blob/master/plugins/private.md#unbox-sync)
 
@@ -333,6 +330,8 @@ sbot.blobs.want("&hT/5N2Kgbdv3IsTr6d3WbY9j3a6pf1IcPswg2nyXYCA=.sha256", { nowait
 
 If you omit `nowait`, Scuttlebot will not call the `cb` until the blob is found.
 
+---
+
 You can also listen to the `changes` stream to see hashes of recently download blobs:
 
 ```bash
@@ -345,10 +344,14 @@ pull(sbot.blobs.changes(), pull.drain(...))
 The blobs plugin works alongside the logs.
 Any time Scuttlebot receives a log-entry that links to a blob, if the message's timestamp was in the last month, then Scuttlebot will add that blob to the want-list.
 
+---
+
 ### Friends
 
 The [friends plugin](https://github.com/ssbc/scuttlebot/blob/master/plugins/friends.md) gives you tools to analyze the follow-graph and flag-graph.
 The two main methods: [all()](https://github.com/ssbc/scuttlebot/blob/master/plugins/friends.md#all-async) gives you the full graph, while [hops()](https://github.com/ssbc/scuttlebot/blob/master/plugins/friends.md#hops-async) tells you the connective distance from one user to all others.
+
+---
 
 ### Gossip
 
@@ -356,10 +359,14 @@ The [gossip plugin](https://github.com/ssbc/scuttlebot/blob/master/plugins/gossi
 
 You can list peers with [peers](https://github.com/ssbc/scuttlebot/blob/master/plugins/gossip.md#peers-sync), add peers with [add](https://github.com/ssbc/scuttlebot/blob/master/plugins/gossip.md#add-sync), add-and-connect peers with [connect](https://github.com/ssbc/scuttlebot/blob/master/plugins/gossip.md#connect-async), and listen for connectivity events with [changes](https://github.com/ssbc/scuttlebot/blob/master/plugins/gossip.md#changes-source).
 
+---
+
 ### Invite
 
 The [invites plugin](https://github.com/ssbc/scuttlebot/blob/master/plugins/invite.md) creates and uses invite-codes, which Pub servers use to add new members.
 You can create new codes with [create](https://github.com/ssbc/scuttlebot/blob/master/plugins/invite.md#create-async) and use the codes with [accept](https://github.com/ssbc/scuttlebot/blob/master/plugins/invite.md#accept-async)
+
+---
 
 ### Replicate
 
