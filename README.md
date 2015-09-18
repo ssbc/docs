@@ -2,37 +2,46 @@
 
 Join us in #scuttlebutt on freenode.
 
+**Guides**
+
  - [Learn About SSB](./learn.md)
+ - [Introduction to Using Scuttlebot](./intro-to-using-sbot.md)
  - [Informal Pub Servers Registry](https://github.com/ssbc/scuttlebot/wiki/Pub-servers)
- - Articles
-   - [Design Challenge: Avoiding Centralization and Singletons](./articles/design-challenge-avoid-centralization-and-singletons.md)
-   - [Design Challenge: Sybil Attacks](./articles/design-challenge-sybil-attack.md)
-   - [Desirable Properties for a Secure Channel](./articles/desirable-properties-for-a-secure-channel.md)
-   - [Secure, Private Channels: the Good, the Bad, and the Ugly](./articles/secure-private-channels.md)
- - [Scuttlebot](https://github.com/ssbc/scuttlebot) - A secure-scuttlebutt server.
-   - [Introduction to Using Scuttlebot](./intro-to-using-sbot.md)
-   - [API Docs](https://github.com/ssbc/scuttlebot/blob/master/api.md)
-   - Plugins
-     - [Blobs](https://github.com/ssbc/scuttlebot/blob/master/plugins/blobs.md)
-     - [Block](https://github.com/ssbc/scuttlebot/blob/master/plugins/block.md)
-     - [Friends](https://github.com/ssbc/scuttlebot/blob/master/plugins/friends.md)
-     - [Gossip](https://github.com/ssbc/scuttlebot/blob/master/plugins/gossip.md)
-     - [Invite](https://github.com/ssbc/scuttlebot/blob/master/plugins/invite.md)
-     - [Private](https://github.com/ssbc/scuttlebot/blob/master/plugins/private.md)
-     - [Replicate](https://github.com/ssbc/scuttlebot/blob/master/plugins/replicate.md)
- - Libraries
-   - [secure-scuttlebutt](https://github.com/ssbc/secure-scuttlebutt) - Wraps leveldb with tools for reading, writing to, and replicating feeds. Used internally by Scuttlebot.
-   - [ssb-msg-schemas](https://github.com/ssbc/ssb-msg-schemas) - A collection of common message schemas.
-   - [ssb-msgs](https://github.com/ssbc/ssb-msgs) - Message-processing tools.
-   - [ssb-ref](https://github.com/ssbc/ssb-ref) - Check if a string is an SSB reference (used in linking).
-   - [muxrpc](https://github.com/ssbc/muxrpc) - Lightweight multiplexed rpc.
-   - [pull-stream](https://github.com/dominictarr/pull-stream) - Minimal, pipable, streams.
-     - A Primer for Pull-streams: [The Basics (part 1)](https://github.com/dominictarr/pull-stream-examples/blob/master/pull.js) and [Duplex Streams (part 2)](https://github.com/dominictarr/pull-stream-examples/blob/master/duplex.js)
-     - [Pull Sources](https://github.com/dominictarr/pull-stream/blob/master/docs/sources.md)
-     - [Pull Throughs](https://github.com/dominictarr/pull-stream/blob/master/docs/throughs.md)
-     - [Pull Sinks](https://github.com/dominictarr/pull-stream/blob/master/docs/sinks.md)
- - Blog
-   - [Announcing Scuttlebot](./blog/sbot-announce.md) 2015/09/25
+
+**Articles**
+
+ - [Design Challenge: Avoiding Centralization and Singletons](./articles/design-challenge-avoid-centralization-and-singletons.md)
+ - [Design Challenge: Sybil Attacks](./articles/design-challenge-sybil-attack.md)
+ - [Desirable Properties for a Secure Channel](./articles/desirable-properties-for-a-secure-channel.md)
+ - [Secure, Private Channels: the Good, the Bad, and the Ugly](./articles/secure-private-channels.md)
+
+**[Scuttlebot](https://github.com/ssbc/scuttlebot) - A secure-scuttlebutt server.**
+
+ - [API Docs](https://github.com/ssbc/scuttlebot/blob/master/api.md)
+ - Plugins
+   - [Blobs](https://github.com/ssbc/scuttlebot/blob/master/plugins/blobs.md)
+   - [Block](https://github.com/ssbc/scuttlebot/blob/master/plugins/block.md)
+   - [Friends](https://github.com/ssbc/scuttlebot/blob/master/plugins/friends.md)
+   - [Gossip](https://github.com/ssbc/scuttlebot/blob/master/plugins/gossip.md)
+   - [Invite](https://github.com/ssbc/scuttlebot/blob/master/plugins/invite.md)
+   - [Private](https://github.com/ssbc/scuttlebot/blob/master/plugins/private.md)
+   - [Replicate](https://github.com/ssbc/scuttlebot/blob/master/plugins/replicate.md)
+
+**Libraries**
+ - [secure-scuttlebutt](https://github.com/ssbc/secure-scuttlebutt) - Wraps leveldb with tools for reading, writing to, and replicating feeds. Used internally by Scuttlebot.
+ - [ssb-msg-schemas](https://github.com/ssbc/ssb-msg-schemas) - A collection of common message schemas.
+ - [ssb-msgs](https://github.com/ssbc/ssb-msgs) - Message-processing tools.
+ - [ssb-ref](https://github.com/ssbc/ssb-ref) - Check if a string is an SSB reference (used in linking).
+ - [muxrpc](https://github.com/ssbc/muxrpc) - Lightweight multiplexed rpc.
+ - [pull-stream](https://github.com/dominictarr/pull-stream) - Minimal, pipable, streams.
+   - A Primer for Pull-streams: [The Basics (part 1)](https://github.com/dominictarr/pull-stream-examples/blob/master/pull.js) and [Duplex Streams (part 2)](https://github.com/dominictarr/pull-stream-examples/blob/master/duplex.js)
+   - [Pull Sources](https://github.com/dominictarr/pull-stream/blob/master/docs/sources.md)
+   - [Pull Throughs](https://github.com/dominictarr/pull-stream/blob/master/docs/throughs.md)
+   - [Pull Sinks](https://github.com/dominictarr/pull-stream/blob/master/docs/sinks.md)
+
+**Blog**
+
+ - [Announcing Scuttlebot](./blog/sbot-announce.md) 2015/09/25
 
 
 ## Glossary
