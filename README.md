@@ -1,6 +1,7 @@
 # Secure Scuttlebutt
 
  - [Learn About SSB](./learn.md)
+ - [Informal Pub Servers Registry](https://github.com/ssbc/scuttlebot/wiki/Pub-servers)
  - Articles
    - [Design Challenge: Avoiding Centralization and Singletons](./articles/design-challenge-avoid-centralization-and-singletons.md)
    - [Design Challenge: Sybil Attacks](./articles/design-challenge-sybil-attack.md)
@@ -53,7 +54,6 @@ Think of it like a distributed twitter, with an 8kb limit instead of 140 charact
 
  - [Learn about Secure Scuttlebutt](./learn.md)
  - [Introduction to Using Scuttlebot](./intro-to-using-sbot.md)
- - [Informal Pub Servers Registry](https://github.com/ssbc/scuttlebot/wiki/Pub-servers)
 
 
 ## Setup scuttlebot
