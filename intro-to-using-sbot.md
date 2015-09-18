@@ -62,7 +62,7 @@ This index is safer, but (in some cases) less convenient.
 If you want to filter the messages by their type, use [messagesByType](https://github.com/ssbc/scuttlebot/blob/master/api.md#messagesbytype-source).
 
 ```bash
-./sbot.js logt $type
+./sbot.js logt {type}
 ```
 ```js
 pull(sbot.messagesByType(type), pull.drain(...))
@@ -75,7 +75,7 @@ This will output all of the messages in your scuttlebot of the given type, order
 Finally, if you want to fetch the messages by a single feed, use [createUserStream](https://github.com/ssbc/scuttlebot/blob/master/api.md#createuserstream-source)
 
 ```bash
-./sbot.js createUserStream --id $id
+./sbot.js createUserStream --id {id}
 ```
 ```js
 pull(sbot.createUserStream({ id: id }), pull.drain(...))
@@ -86,7 +86,7 @@ This will output all of the messages in your scuttlebot by that log, ordered by 
 You can also use [createHistoryStream](https://github.com/ssbc/scuttlebot/blob/master/api.md#createhistorystream-source) to do the same, but with a simpler interface:
 
 ```bash
-./sbot.js hist $id
+./sbot.js hist {id}
 ```
 ```js
 pull(sbot.createHistoryStream(id), pull.drain(...))
@@ -97,7 +97,7 @@ pull(sbot.createHistoryStream(id), pull.drain(...))
 Also, remember you can fetch any message by ID using [get](https://github.com/ssbc/scuttlebot/blob/master/api.md#get-async):
 
 ```bash
-./sbot.js get $id
+./sbot.js get {id}
 ```
 ```js
 sbot.get(id, cb)
@@ -120,7 +120,7 @@ pull(sbot.createLogStream({ live: true }), pull.drain(...))
 Publishing messages in Scuttlebot is very simple:
 
 ```bash
-./sbot.js publish --type $type ...attributes
+./sbot.js publish --type {type} [...attributes]
 ```
 ```js
 sbot.publish({ type: type, ... }, cb)
@@ -237,7 +237,7 @@ This is useful for creating comment-threads, for instance.
 You can do that easily in scuttlebot with [relatedMessages](https://github.com/ssbc/scuttlebot/blob/master/api.md#relatedmessages-async).
 
 ```bash
-./sbot.js relatedMessages --id $id
+./sbot.js relatedMessages --id {id}
 ```
 ```js
 sbot.relatedMessages({ id: id }, cb)
