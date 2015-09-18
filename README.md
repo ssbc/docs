@@ -1,5 +1,7 @@
 # Secure Scuttlebutt
 
+Join us in #scuttlebutt on freenode.
+
  - [Learn About SSB](./learn.md)
  - [Informal Pub Servers Registry](https://github.com/ssbc/scuttlebot/wiki/Pub-servers)
  - Articles
