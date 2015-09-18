@@ -41,9 +41,13 @@
 
 ## Overview
 
-Scuttlebot is a mesh database for JSON logs.
-It uses a trustless protocol, so any device can participate in the mesh.
-It's used with desktop applications to publish and syncronize user-data.
+Secure Scuttlebutt (SSB) is a P2P database of
+
+- Per-user append-only logs of messages (i.e. [kappa architecture](http://www.kappa-architecture.com/))
+- Content-addressable storage (i.e. `obj.id == hash(obj)`)
+- Message distribution over a [gossip network](https://en.wikipedia.org/wiki/Gossip_protocol)
+
+Think of it like a distributed twitter, with an 8kb limit instead of 140 characters.
 
 
 ### Install prerequisites
