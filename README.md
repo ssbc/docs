@@ -103,6 +103,8 @@ Then, in another session, use the cli tool to access the API:
 
 You can get help with `-h`.
 
+To go deeper, read the [Introduction to Using Scuttlebot](./intro-to-using-sbot.md).
+
 ### Join a Pub
 
 First get an invite-code from a pub owner you know.
@@ -115,7 +117,6 @@ Then:
 ```
 
 Your scuttlebot will now connect to, and sync with, the pub.
-To go deeper, read the [Introduction to Using Scuttlebot](./intro-to-using-sbot.md).
 
 
 ## Setup up a Pub
