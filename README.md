@@ -180,7 +180,7 @@ If you're running a pub server, you'll want to create invites:
 
 ```
 # create an invite code that may be used 1 time.
-sbot invite.create 1
+./sbot.js invite.create 1
 ```
 
 This may now be given out to friends, to command your pub to follow them.
