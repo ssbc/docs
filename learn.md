@@ -115,9 +115,8 @@ When a blob link is detected, it queries its peers for the blob, and downloads t
 
 ### How does user identity work?
 
-User identity is represented as the hash of the user's public key.
-This means it is not necessary to have a global registry of user names,
-nor to have a central server that tracks the action of users.
+Users are identified by public keys.
+This means it is not necessary to have a global registry of user names, nor to have a central server that tracks the action of users.
 Instead, every user action (post) is signed, and this can be verified by any peer.
 
 To evaluate the trustworthiness of a user, you look at information published by other trusted users about the target.
@@ -132,68 +131,32 @@ The top level properties are all mandatory, but the user may set anything inside
 
 ``` js
 {
-  "previous": "nvuoueskUW1exp9Bh0Wuxx1T135pFRUGRTTUzHb+lP4=.blake2s",
-  "author": "wuDDnMxVtk8U9hrueDj/T0itgp5HJZ4ZDEJodTyoMdg=.blake2s",
-  "sequence": 194,
-  "timestamp": 1427166175860,
-  "hash": "blake2s",
+  "previous": "%26AC+gU0t74jRGVeDY013cVghlZRc0nfUAnMnutGGHM=.sha256",
+  "author": "@hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519",
+  "sequence": 216,
+  "timestamp": 1442590513298,
+  "hash": "sha256",
   "content": {
-    "type": "post",
-    "text": "test publish..."
+    "type": "vote",
+    "vote": {
+      "link": "%WbQ4dq0m/zu5jxll9zUbe0iGmDOajCx1ZkLKjZ80JvI=.sha256",
+      "value": 1
+    }
   },
-  "signature": "7e10kNfM3WODM+LxUELoFErVKrRrIQGZj/cSOddIBbS0K1RTQgVUv911ydFWlJc0ja3aMtu08aRb2vIqXZVpIA==.blake2s.k256"
+  "signature": "Sjq1C3yiKdmi1TWvNqxIk1ZQBf4pPJYl0HHRDVf/xjm5tWJHBaW4kXo6mHPcUMbJYUtc03IvPwVqB+BMnBgmAQ==.sig.ed25519"
 }
 ```
 
 The `previous` is the hash of the message before this in the feed signed by `author`.
-`author` is the hash of the public key which verifies this feed. 
+`author` is the public key which signs this feed. 
 The key pair for this feed *may not* be used for other feeds.
-
-### What are links?
-
-Links are hashes of objects.
-There are three types of links: feed links, message links, and external links.
-All links also have a "relation type" which indicate the meaning of that link.
-A link is represented as a json object.
-
-All links are a json property of the form:
-
-```js
-<rel>: {<type>: <hash>}
-```
-
-`type` may be `feed` `msg` or `ext`.
-`rel` may be any string, and `hash` must be a valid hash.
-
-Here is an example link inside a message:
-
-```js
-"content": {
-  "type": "post",
-  "text": "test reply...",
-  "repliesTo": { "msg": "nvuoueskUW1exp9Bh0Wuxx1T135pFRUGRTTUzHb+lP4=.blake2s" }
-}
-```
-
-A feed link is the same as a user identity (the hash of a public key) and refers to a feed.
-A message link is the hash of a particular message.
-An external link is the hash of file (also known as an attachment).
-
-#### Backlinks
-
-Since you replicate all your friends data locally, if someone replies or links to your message then you will have that data, and to it's easy to show those linking messages.
-Messages can refer to each other, and you can see what messages link back to a given message.
-
-This is useful for creating trees of data.
-Post a `type: photo` and then someone can create a `type: post` referring to it, acting as a comment system.
-Post a code module, and then the comment system becomes an issue system, etc, etc.
 
 ### Why is there a size limit on messages?
 
 Messages are limited at 8kb in size so that the time required to replicate is predictable.
 Also, since peers will replicate all messages for peers they follow, it's important that peers do not create an unreasonable amount of work for each other.
 
-If you need a larger object, use "attachments."
+If you need a larger object, use "blob attachments."
 
 ### What are attachments?
 
@@ -256,7 +219,7 @@ This is somewhat like real life - if you say something embarrassing, the best yo
 #### Edit
 
 Editable objects can be represented by posting a create message, and then posting a message that refers to that message and overrides properties on that message, or applies patches to it.
-By declaring lists of who may or may not edit documents, you could implement access controls.
+By declaring lists of who may or may not edit documents, and using CRDTs to ensure convergence, you could implement access controls.
 
 ### Could games be built on top of ssb?
 
