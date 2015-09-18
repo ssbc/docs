@@ -7,7 +7,7 @@
    - [Desirable Properties for a Secure Channel](./articles/desirable-properties-for-a-secure-channel.md)
    - [Secure, Private Channels: the Good, the Bad, and the Ugly](./articles/secure-private-channels.md)
  - [Scuttlebot](https://github.com/ssbc/scuttlebot) - A secure-scuttlebutt server.
-   - [Introduction to Using Scuttlebot](todo)
+   - [Introduction to Using Scuttlebot](./intro-to-using-sbot.md)
    - [API Docs](https://github.com/ssbc/scuttlebot/blob/master/api.md)
    - Plugins
      - [Blobs](https://github.com/ssbc/scuttlebot/blob/master/plugins/blobs.md)
@@ -52,7 +52,11 @@ Secure Scuttlebutt (SSB) is a P2P database of
 Think of it like a distributed twitter, with an 8kb limit instead of 140 characters.
 
  - [Learn about Secure Scuttlebutt](./learn.md)
+ - [Introduction to Using Scuttlebot](./intro-to-using-sbot.md)
+ - [Informal Pub Servers Registry](https://github.com/ssbc/scuttlebot/wiki/Pub-servers)
 
+
+## Setup scuttlebot
 
 ### Install prerequisites
 
@@ -78,24 +82,95 @@ nvm install iojs-v2.5.0
 To begin, install the prerequisites as above.
 
 ```
-npm install -g scuttlebot
+git clone https://github.com/ssbc/scuttlebot.git
+cd scuttlebot
+npm install
 ```
 
 Start scuttlebot as server.
 
 ```
-sbot server
+./sbot.js server
 ```
 
 Then, in another session, use the cli tool to access the API:
 
 ```
-sbot whoami
-sbot publish --type post --text "Hello, world"
-sbot log
+./sbot.js whoami
+./sbot.js publish --type post --text "Hello, world"
+./sbot.js log
 ```
 
 You can get help with `-h`.
+
+### Join a Pub
+
+First get an invite-code from a pub owner you know.
+You can find a pub in the [Informal Pub Servers Registry](https://github.com/ssbc/scuttlebot/wiki/Pub-servers).
+
+Then:
+
+```
+./sbot.js accept $CODE
+```
+
+Your scuttlebot will now connect to, and sync with, the pub.
+To go deeper, read the [Introduction to Using Scuttlebot](./intro-to-using-sbot.md).
+
+
+## Setup up a Pub
+
+If you want to host your friends' logs publicly (allowing you to connect across the net) you need to create a Pub server.
+Starting from a fresh linux image, eg on Digital Ocean:
+
+```
+ssh root@ip-address
+apt-get update
+apt-get install git curl wget tmux make automake python build-essential libtool
+```
+
+Setup a non-root user:
+
+```
+adduser scuttlebot sudo
+logout
+```
+
+Back on your device:
+
+```
+ssh-copy-id scuttlebot@ip-address
+```
+_(ssh-copy-id is standard on linux, but needs brew-install on mac)_
+
+Log back into the server and install [nvm](https://github.com/creationix/nvm):
+```
+wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.26.1/install.sh | bash
+```
+
+Install node: 
+```
+nvm install 2.3.0
+nvm alias default 2.3.0
+```
+
+Install scuttlebot:
+```
+git clone https://github.com/ssbc/scuttlebot.git
+cd scuttlebot
+npm install
+```
+
+Start the server: 
+```
+tmux
+./sbot.js server
+```
+
+You can close the terminal and tmux will keep the server running. 
+When you next ssh in you can re-attach to your tmux session using `tmux attach`
+
+### Create and share invites
 
 If you're running a pub server, you'll want to create invites:
 
@@ -104,4 +179,7 @@ If you're running a pub server, you'll want to create invites:
 sbot invite.create 1
 ```
 
-This may now be given out to friends!
+This may now be given out to friends, to command your pub to follow them.
+You can give a larger number than 1 if you want to reuse the same code multiple times.
+
+You may want to add your pub to the [Informal Pub Servers Registry](https://github.com/ssbc/scuttlebot/wiki/Pub-servers).
