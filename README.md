@@ -49,6 +49,8 @@ Secure Scuttlebutt (SSB) is a P2P database of
 
 Think of it like a distributed twitter, with an 8kb limit instead of 140 characters.
 
+ - [Learn about Secure Scuttlebutt](./learn.md)
+
 
 ### Install prerequisites
 
