@@ -1,8 +1,6 @@
 # Secure Scuttlebutt
 
  - [Learn About SSB](./learn.md)
- - Blog
-   - [Announcing Scuttlebot](./blog/sbot-announce.md) sept25, 2015.
  - Articles
    - [Design Challenge: Avoiding Centralization and Singletons](./articles/design-challenge-avoid-centralization-and-singletons.md)
    - [Design Challenge: Sybil Attacks](./articles/design-challenge-sybil-attack.md)
@@ -30,6 +28,8 @@
      - [Pull Sources](https://github.com/dominictarr/pull-stream/blob/master/docs/sources.md)
      - [Pull Throughs](https://github.com/dominictarr/pull-stream/blob/master/docs/throughs.md)
      - [Pull Sinks](https://github.com/dominictarr/pull-stream/blob/master/docs/sinks.md)
+ - Blog
+   - [Announcing Scuttlebot](./blog/sbot-announce.md) 2015/09/25
 
 
 ## Glossary
