@@ -8,7 +8,6 @@ If you haven't installed Scuttlebot yet, follow the [setup instructions](./READM
  - Basic concepts
   - [Connecting via RPC](#connecting-via-rpc)
   - [The CLI / RPC relationship](#the-cli--rpc-relationship)
-  - [Pull-streams](#pull-streams)
  - Learn the API
   - [Basic Queries](#basic-queries)
   - [Live Streaming](#live-streaming)
@@ -38,78 +37,11 @@ If you haven't installed Scuttlebot yet, follow the [setup instructions](./READM
 Scuttlebot's CLI translates directly from the shell to RPC calls.
 That means any call you can make programmatically can be made from the shell as well.
 
-Every API document shows the usage for both environments.
-
-### Pull-streams
-
-Pull-streams are the tool that Scuttlebot uses to stream data.
-In most cases, you'll use them like this:
-
-```js
-pull(
-  sbot.someQuery(),
-  pull.drain(
-    function (msg) {
-      // process the message as it arrives
-    },
-    function (err) {
-      // stream is over
-    }
-  )
-)
-```
-
-Or, like this:
-
-```js
-pull(
-  sbot.someQuery(),
-  pull.collect(function (err, msgs) {
-    // process all the messages after the stream ends
-  })
-)
-```
-
-But, the neat thing about pull-streams is how composable they are:
-
-```js
-pull(
-  sbot.someQuery(),
-  pull.filter(function (msg) {
-    // filter out non-post messages
-    return msg.value.content.type == 'post'
-  }),
-  pull.asyncMap(function (msg, cb) {
-    // fetch the author's profile from storage
-    fetchUser(msg.value.author, function (err, profile) {
-      if (err) cb(err)
-      else {
-        msg.authorProfile = profile
-        cb(null, msg)
-      }
-    })
-  })
-  pull.collect(function (err, msgs) {
-    // process all the messages after the stream ends
-  })
-)
-```
-
-Check out these resources to understand them better:
-
- - [Library repository](https://github.com/dominictarr/pull-stream) - Minimal, pipable, streams.
- - A Primer for Pull-streams: [The Basics (part 1)](https://github.com/dominictarr/pull-stream-examples/blob/master/pull.js) and [Duplex Streams (part 2)](https://github.com/dominictarr/pull-stream-examples/blob/master/duplex.js)
- - [Source Functions](https://github.com/dominictarr/pull-stream/blob/master/docs/sources.md)
- - [Through Functions](https://github.com/dominictarr/pull-stream/blob/master/docs/throughs.md)
- - [Sink Functions](https://github.com/dominictarr/pull-stream/blob/master/docs/sinks.md)
-
 
 ---
 
 
 ## Learn the API
-
-In these sections, you may refer to the [API Docs](https://github.com/ssbc/scuttlebot/blob/master/api.md).
 
 ### Basic Queries
 
@@ -125,6 +57,8 @@ pull(sbot.createFeedStream(), pull.drain(...))
 This will output all of the messages in your scuttlebot, ordered by the claimed timestamp of the messages.
 This index is convenient, but not safe, as the timestamps on the messages are not verifiable.
 
+---
+
 A more reliable query is the log index, [createLogStream](https://github.com/ssbc/scuttlebot/blob/master/api.md#createlogstream-source).
 
 ```bash
@@ -137,6 +71,8 @@ pull(sbot.createLogStream(), pull.drain(...))
 This will output all of the messages in your scuttlebot, ordered by when you received the messages.
 This index is safer, but (in some cases) less convenient.
 
+---
+
 If you want to filter the messages by their type, use [messagesByType](https://github.com/ssbc/scuttlebot/blob/master/api.md#messagesbytype-source).
 
 ```bash
@@ -147,6 +83,8 @@ pull(sbot.messagesByType(type), pull.drain(...))
 ```
 
 This will output all of the messages in your scuttlebot of the given type, ordered by when you received the messages.
+
+---
 
 Finally, if you want to fetch the messages by a single feed, use [createUserStream](https://github.com/ssbc/scuttlebot/blob/master/api.md#createuserstream-source)
 
@@ -167,6 +105,8 @@ You can also use [createHistoryStream](https://github.com/ssbc/scuttlebot/blob/m
 ```js
 pull(sbot.createHistoryStream(id), pull.drain(...))
 ```
+
+---
 
 Also, remember you can fetch any message by ID using [get](https://github.com/ssbc/scuttlebot/blob/master/api.md#get-async):
 
@@ -378,6 +318,8 @@ pull(
   })
 )
 ```
+
+---
 
 In addition to getting/putting files, you can register that you `want` a file of a specific hash.
 Scuttlebot will regularly poll peers for the blobs in its wantlist, and download them when found.
