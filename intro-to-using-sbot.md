@@ -23,8 +23,10 @@ Table of Contents:
   - [Friends](#friends)
   - [Gossip](#gossip)
   - [Invite](#invite)
-  - [Private](#private)
   - [Replicate](#replicate)
+
+
+---
 
 
 ## Basic concepts
@@ -104,6 +106,8 @@ Check out these resources to understand them better:
  - [Sink Functions](https://github.com/dominictarr/pull-stream/blob/master/docs/sinks.md)
 
 
+---
+
 
 ## Learn the API
 
@@ -157,7 +161,7 @@ pull(sbot.createUserStream({ id: id }), pull.drain(...))
 
 This will output all of the messages in your scuttlebot by that log, ordered by sequence number.
 
-You can also use [createHistoryStream](https://github.com/ssbc/scuttlebot/blob/cli/api.md#createhistorystream-source) to do the same, but with a simpler interface:
+You can also use [createHistoryStream](https://github.com/ssbc/scuttlebot/blob/master/api.md#createhistorystream-source) to do the same, but with a simpler interface:
 
 ```bash
 ./sbot.js hist $id
@@ -236,7 +240,8 @@ When IDs are found in the messages, they may be treated as links, with the keyna
 An example of this:
 
 ```bash
-./sbot.js publish --type post --repliesTo "%MPB9vxHO0pvi2ve2wh6Do05ZrV7P6ZjUQ+IEYnzLfTs=.sha256" --text "this is a reply!"
+./sbot.js publish --type post --repliesTo "%MPB9vxHO0pvi2ve2wh6Do05ZrV7P6ZjUQ+IEYnzLfTs=.sha256" \
+                  --text "this is a reply!"
 ```
 ```js
 sbot.publish({
@@ -252,7 +257,8 @@ SSB automatically builds an index based on these links, to allow queries such as
 If you want to include data in the link, you can specify an object, and put the id in the `link` subattribute:
 
 ```bash
-./sbot.js publish --type post --mentions.link "%MPB9vxHO0pvi2ve2wh6Do05ZrV7P6ZjUQ+IEYnzLfTs=.sha256" --mentions.name bob --text "hello, @bob"
+./sbot.js publish --type post --mentions.link "%MPB9vxHO0pvi2ve2wh6Do05ZrV7P6ZjUQ+IEYnzLfTs=.sha256" \
+                  --mentions.name bob --text "hello, @bob"
 ```
 ```js
 sbot.publish({
@@ -270,7 +276,7 @@ sbot.publish({
 To query the link-graph, use [links](https://github.com/ssbc/scuttlebot/blob/master/api.md#links-source):
 
 ```bash
-./sbot.js [--source id|filter] [--dest id|filter] [--rel value]
+./sbot.js links [--source id|filter] [--dest id|filter] [--rel value]
 ```
 ```js
 pull(sbot.links({ source:, dest:, rel: }), pull.drain(...))
@@ -308,7 +314,7 @@ sbot.relatedMessages({ id: id }, cb)
 ### Confidential Messages
 
 You can publish messages which are encrypted for up to 7 other recipients.
-This is done with the `private` plugin, but it deserved special mention here.
+This is done with the `private` plugin.
 
 First is [private.publish](https://github.com/ssbc/scuttlebot/blob/master/plugins/private.md#publish-async):
 
@@ -341,6 +347,10 @@ If `unbox()` decrypts successfully, then you'll know the message was for you.
 Note, Scuttlebot will attempt to decrypt all incoming messages, and add them to its indexes.
 
 
+---
+
+
+
 ## Plugin APIs
 
 Scuttlebot includes a set of optional behaviors in the form of plugins.
@@ -349,24 +359,69 @@ That means you can use their APIs.
 
 ### Blobs
 
-<todo>
+The blobs plugin gives you access to a content-addressed files database.
+[Here is the API](https://github.com/ssbc/scuttlebot/blob/master/plugins/blobs.md).
+
+```bash
+$ echo "hello, world" | ./sbot.js blobs.add
+&hT/5N2Kgbdv3IsTr6d3WbY9j3a6pf1IcPswg2nyXYCA=.sha256
+$ ./sbot.js blobs.get "&hT/5N2Kgbdv3IsTr6d3WbY9j3a6pf1IcPswg2nyXYCA=.sha256"
+hello, world
+```
+```js
+pull(
+  pull.values(['hello, world']),
+  sbot.add(function (err, hash) {
+    if (err) throw err
+    pull(pull.get(hash[0]), pull.collect(function (err, values) {
+      if (err) throw err
+      assert(values[0] == 'hello, world')
+    }))
+  })
+)
+```
+
+In addition to getting/putting files, you can register that you `want` a file of a specific hash.
+Scuttlebot will regularly poll peers for the blobs in its wantlist, and download them when found.
+
+```bash
+./sbot.js blobs.want "&hT/5N2Kgbdv3IsTr6d3WbY9j3a6pf1IcPswg2nyXYCA=.sha256" --nowait
+```
+```js
+sbot.blobs.want("&hT/5N2Kgbdv3IsTr6d3WbY9j3a6pf1IcPswg2nyXYCA=.sha256", { nowait: true }, cb)
+```
+
+If you omit `nowait`, Scuttlebot will not call the `cb` until the blob is found.
+
+You can also listen to the `changes` stream to see hashes of recently download blobs:
+
+```bash
+./sbot.js blobs.changes
+```
+```js
+pull(sbot.blobs.changes(), pull.drain(...))
+```
+
+The blobs plugin works alongside the logs.
+Any time Scuttlebot receives a log-entry that links to a blob, if the message's timestamp was in the last month, then Scuttlebot will add that blob to the want-list.
 
 ### Friends
 
-<todo>
+The [friends plugin](https://github.com/ssbc/scuttlebot/blob/master/plugins/friends.md) gives you tools to analyze the follow-graph and flag-graph.
+The two main methods: [all()](https://github.com/ssbc/scuttlebot/blob/master/plugins/friends.md#all-async) gives you the full graph, while [hops()](https://github.com/ssbc/scuttlebot/blob/master/plugins/friends.md#hops-async) tells you the connective distance from one user to all others.
 
 ### Gossip
 
-<todo>
+The [gossip plugin](https://github.com/ssbc/scuttlebot/blob/master/plugins/gossip.md) controls the table of peers, and decides when to initiate route connections in order to syncronize.
+
+You can list peers with [peers](https://github.com/ssbc/scuttlebot/blob/master/plugins/gossip.md#peers-sync), add peers with [add](https://github.com/ssbc/scuttlebot/blob/master/plugins/gossip.md#add-sync), add-and-connect peers with [connect](https://github.com/ssbc/scuttlebot/blob/master/plugins/gossip.md#connect-async), and listen for connectivity events with [changes](https://github.com/ssbc/scuttlebot/blob/master/plugins/gossip.md#changes-source).
 
 ### Invite
 
-<todo>
-
-### Private
-
-<todo>
+The [invites plugin](https://github.com/ssbc/scuttlebot/blob/master/plugins/invite.md) creates and uses invite-codes, which Pub servers use to add new members.
+You can create new codes with [create](https://github.com/ssbc/scuttlebot/blob/master/plugins/invite.md#create-async) and use the codes with [accept](https://github.com/ssbc/scuttlebot/blob/master/plugins/invite.md#accept-async)
 
 ### Replicate
 
-<todo>
+The [replicate plugin](https://github.com/ssbc/scuttlebot/blob/master/plugins/replicate.md) listens for new connections with peers and downloads updates for its followed logins.
+It exposes the [changes](https://github.com/ssbc/scuttlebot/blob/master/plugins/replicate.md#changes-source) method so you can watch download progress.
