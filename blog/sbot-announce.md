@@ -22,27 +22,6 @@ It can publish the data publicly, or with end-to-end encryption.
 The blob-syncronization protocol distributes files as well.
 
 
-### Confidentiality
-
-Web applications are great at connectivity, but bad at confidentiality.
-Desktop applications are the reverse: confidential, but not connective.
-Scuttlebot is for applications that want to have the best of both: confidential operation, and great connectivity.
-
-For private sharing, Scuttlebot uses [libsodium](http://doc.libsodium.org/) to encrypt confidential log-entries.
-Log IDs are public keys, and so once two logs are mutually following each other, they can exchange confidential data freely.
-
-
-### Autonomy
-
-The joy of desktop computing is the creative freedom it gives you.
-When networks stop you from making your own applications, then something's wrong.
-Scuttlebot leaves the business-logic in the client, so that users are free to alter their applications.
-
-The Scuttlebot network is an autonomous mesh.
-Each computer runs independently, and does not have to trust its peers to exchange data.
-If users can't connect directly, they use public nodes to rehost their logs.
-
-
 ## Get Started
 
 Join us in #scuttlebutt on freenode.
