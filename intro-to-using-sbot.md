@@ -204,7 +204,7 @@ sbot.publish({
 ```
 
 In this example, the `root` and `branch` keys are the relations.
-SSB automatically builds an index based on these links, to allow queries such as "all messages with a `repliesTo` link to this message."
+SSB automatically builds an index based on these links, to allow queries such as "all messages with a `root` link to this message."
 
 ---
 
