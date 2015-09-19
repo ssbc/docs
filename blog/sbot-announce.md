@@ -24,7 +24,7 @@ The blob-syncronization protocol distributes files as well.
 
 ### Confidentiality
 
-Web applications are not good at confidentiality, but they're great at connectivity.
+Web applications are great at connectivity, but bad at confidentiality.
 Desktop applications are the reverse: confidential, but not connective.
 Scuttlebot is for applications that want to have the best of both: confidential operation, and great connectivity.
 
@@ -37,14 +37,10 @@ Log IDs are public keys, and so once two logs are mutually following each other,
 The joy of desktop computing is the creative freedom it gives you.
 When networks stop you from making your own applications, then something's wrong.
 Scuttlebot leaves the business-logic in the client, so that users are free to alter their applications.
-Its network replicates data, and that's it.
-All other behaviors are in userland.
 
 The Scuttlebot network is an autonomous mesh.
 Each computer runs independently, and does not have to trust its peers to exchange data.
 If users can't connect directly, they use public nodes to rehost their logs.
-
-See also [Design Challenge: Avoid Centralization and Singletons](../articles/design-challenge-avoid-centralization-and-singletons.md)
 
 
 ## Get Started
