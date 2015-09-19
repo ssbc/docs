@@ -26,7 +26,7 @@ The blob-syncronization protocol distributes files as well.
 
 Join us in #scuttlebutt on freenode.
 
-#### [Install Scuttlebot](./README.md#setup-scuttlebot)
+#### [Install Scuttlebot](../README.md#setup-scuttlebot)
 
 Setup instructions.
 
