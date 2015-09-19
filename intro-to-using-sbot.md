@@ -329,9 +329,9 @@ hello, world
 ```js
 pull(
   pull.values(['hello, world']),
-  sbot.add(function (err, hash) {
+  sbot.blobs.add(function (err, hash) {
     if (err) throw err
-    pull(pull.get(hash[0]), pull.collect(function (err, values) {
+    pull(sbot.blobs.get(hash[0]), pull.collect(function (err, values) {
       if (err) throw err
       assert(values[0] == 'hello, world')
     }))
