@@ -25,7 +25,7 @@ The blob-syncronization protocol distributes files as well.
 ## Confidentiality
 
 Web applications are not good at confidentiality.
-Scuttlebot is for desktop applications, that want to have shared networks.
+Scuttlebot is for desktop applications, that want to have confidential operation along with shared networks.
 User actions stay on the device, and only public data gets published.
 
 Scuttlebot uses [libsodium](http://doc.libsodium.org/) to encrypt confidential log-entries.
@@ -37,8 +37,9 @@ Log IDs are public keys, and so once two logs are mutually following each other,
 The joy of desktop computing is the creative freedom it gives you.
 When networks stop you from making your own applications, then something's wrong.
 
-Scuttlebot puts the business-logic in the client.
-This leaves users free to hack and fork their applications.
+Scuttlebot leaves the business-logic in the client, so that users are free to alter their applications.
+Its network replicates data, and that's it.
+All other behaviors are in "userland."
 
 The Secure Scuttlebutt network is an autonomous mesh.
 Each computer runs independently, and does not have to trust its peers to exchange data.
@@ -56,6 +57,8 @@ To make sure the network converges to the correct state, Scuttlebot uses the app
 The append-only constraint is enforced with a blockchain structure: each entry includes the hash of the previous message.
 If a peer receives a message with a `previous` hash that doesn't match its local cache, it'll reject the offending message.
 
+Note, there is no Proof-of-Work, and each log maintains an independent order.
+Partial orders across logs are possible with content-hash links.
 
 ## Spam-prevention
 
@@ -77,6 +80,8 @@ Applications compute views by streaming the messages into memory, computing a da
 This is called a [Kappa Architecture](http://www.kappa-architecture.com/).
 
 For structures that multiple users can update, we recommend using [CRDTs](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type).
+
+---
 
 We've published [a documentation repo](https://github.com/ssbc/docs) to help you get started.
 Follow the install instructions in the overview, then see the guides and API references.
