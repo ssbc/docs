@@ -8,6 +8,7 @@ If you haven't installed Scuttlebot yet, follow the [setup instructions](./READM
  - Learn the API
   - [Basics](#basics)
   - [Links](#links)
+  - [Builtin Message Types](#builtin-message-types)
   - [Confidential Messages](#confidential-messages)
  - Plugin APIs
   - [Blobs](#blobs)
@@ -265,6 +266,85 @@ You can do that easily in scuttlebot with [relatedMessages](https://github.com/s
 ```
 ```js
 sbot.relatedMessages({ id: id }, cb)
+```
+
+---
+
+## Builtin Message Types
+
+Scuttlebot watches for certain message-types to control it's behaviors.
+
+---
+
+To follow a users feed, publish this `contact` message:
+
+```bash
+./sbot.js publish --type contact --contact {feedId} --following
+```
+```js
+sbot.publish({ type: 'contact', contact: feedId, following: true }, cb)
+```
+
+Scuttlebot will query peers for new messages from this feed.
+
+---
+
+To stop following a user, publish this `contact` message:
+
+```bash
+./sbot.js publish --type contact --contact {feedId} --no-following
+```
+```js
+sbot.publish({ type: 'contact', contact: feedId, following: false }, cb)
+```
+
+---
+
+To block a user, publish this `contact` message:
+
+```bash
+./sbot.js publish --type contact --contact {feedId} --blocking
+```
+```js
+sbot.publish({ type: 'contact', contact: feedId, blocking: true }, cb)
+```
+
+This is a strong negative signal.
+Scuttlebot will not share feeds with a peer if the feed blocks them.
+
+---
+
+To stop blocking a user, publish this `contact` message:
+
+```bash
+./sbot.js publish --type contact --contact {feedId} --no-blocking
+```
+```js
+sbot.publish({ type: 'contact', contact: feedId, blocking: false }, cb)
+```
+
+---
+
+To announce a pub server, publish this `pub` message:
+
+```bash
+./sbot.js publish --type pub --pub.link {feedId} --pub.host {string} --pub.port {number}
+```
+```js
+sbot.publish({ type: 'pub', pub: { link: feedId, host: string, port: number } }, cb)
+```
+
+Scuttlebot will add the pub to your peer list.
+
+---
+
+Finally, Scuttlebot doesn't do anything with `post` messages, but they're the most common way to publish text messages:
+
+```bash
+./sbot.js publish --type post --text {text}
+```
+```js
+sbot.publish({ type: 'post', text: text }, cb)
 ```
 
 ---
