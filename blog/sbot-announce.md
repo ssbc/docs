@@ -74,10 +74,15 @@ See also [Design Challenge: Sybil Attacks](../articles/design-challenge-sybil-at
 
 ## Get Started
 
-To get started, [follow these setup instructions for Scuttlebot](./README.md#setup-scuttlebot), then join us in #scuttlebutt on freenode.
-To connect on the net, you'll need to join [one of the pub servers](https://github.com/ssbc/scuttlebot/wiki/Pub-servers) or [setup your own pub](./README.md#setup-up-a-pub).
+To get started with Scuttlebot, [follow these setup instructions for Scuttlebot](./README.md#setup-scuttlebot), then join us in #scuttlebutt on freenode.
+To connect over the net, you'll need to join [one of the pub servers](https://github.com/ssbc/scuttlebot/wiki/Pub-servers) or [setup your own pub](./README.md#setup-up-a-pub).
 
-Some good articles to read next:
+There are two articles you'll want to read:
 
- - [Learn about Secure Scuttlebutt](../learn.md)
- - [Introduction to Using Scuttlebot](../intro-to-using-sbot.md)
+#### [Learn about Secure Scuttlebutt](../learn.md)
+
+This article explains how the SSB network works.
+
+#### [Introduction to Using Scuttlebot](../intro-to-using-sbot.md)
+
+This guide steps through the CLI and API, so you can begin writing your own scripts and applications.
