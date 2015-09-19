@@ -31,6 +31,27 @@ That means any call you can make programmatically can be made from the shell as 
 
 ## Basics
 
+Scuttlebot uses [pull-streams](https://github.com/dominictarr/pull-stream).
+In most cases, you'll use them like this:   
+
+```js
+pull(sbot.someQuery(), pull.drain(function (msg) 
+  // process the message as it arrive
+}, function (err) {
+  // stream is over
+}))
+```
+
+Or, like this
+
+```js
+pull(sbot.someQuery(), pull.collect(function (err, msgs) {
+  // process all the messages after the stream ends
+}))
+```
+
+---
+
 The simplest query you can run is against the feed index, [createFeedStream](https://github.com/ssbc/scuttlebot/blob/master/api.md#createfeedstream-source).
 
 ```bash
@@ -278,7 +299,6 @@ function isEncrypted (msg) {
 
 There is no way to see who an encrypted message is for.
 If `unbox()` decrypts successfully, then you'll know the message was for you.
-
 Note, Scuttlebot will attempt to decrypt all incoming messages, and add them to its indexes.
 
 
