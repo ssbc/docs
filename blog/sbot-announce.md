@@ -9,7 +9,7 @@ We also have [pub servers](https://github.com/ssbc/scuttlebot/wiki/Pub-servers) 
 
 ## Summary
 
-Secure Scuttlebutt (SSB) is a P2P database of
+Secure Scuttlebutt (SSB) is a P2P database protocol of
 
 - Per-user append-only logs of messages (i.e. [kappa architecture](http://www.kappa-architecture.com/))
 - Content-addressable storage (i.e. `obj.id == hash(obj)`)
@@ -24,11 +24,12 @@ The blob-syncronization protocol distributes files as well.
 
 ## Confidentiality
 
-Web applications are not good at confidentiality.
-Scuttlebot is for desktop applications, that want to have confidential operation along with shared networks.
-User actions stay on the device, and only public data gets published.
+Web applications are not good at confidentiality, but they're great at connectivity.
+Desktop applications are the reverse: confidential, but not connective.
+Scuttlebot is for applications that want to have the best of both: confidential operation, and great connectivity.
+Using Scuttlebot, your user interactions can stay on the device, while only the public data gets published.
 
-Scuttlebot uses [libsodium](http://doc.libsodium.org/) to encrypt confidential log-entries.
+For private sharing, Scuttlebot uses [libsodium](http://doc.libsodium.org/) to encrypt confidential log-entries.
 Log IDs are public keys, and so once two logs are mutually following each other, they can exchange confidential data freely.
 
 
@@ -41,7 +42,8 @@ Scuttlebot leaves the business-logic in the client, so that users are free to al
 Its network replicates data, and that's it.
 All other behaviors are in "userland."
 
-The Secure Scuttlebutt network is an autonomous mesh.
+Tying users to a host is uncool too.
+The Scuttlebot network is an autonomous mesh.
 Each computer runs independently, and does not have to trust its peers to exchange data.
 If users can't connect directly, they use public nodes to rehost their logs.
 
@@ -79,17 +81,11 @@ Logs are a simple core abstraction for data structures of all kinds.
 Applications compute views by streaming the messages into memory, computing a data-structure, and (optionally) writing the structure to a mutable cache.
 This is called a [Kappa Architecture](http://www.kappa-architecture.com/).
 
-For structures that multiple users can update, we recommend using [CRDTs](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type).
 
----
+## Further Reading
 
-We've published [a documentation repo](https://github.com/ssbc/docs) to help you get started.
-Follow the install instructions in the overview, then see the guides and API references.
-
-**Further Reading:**
+[Setup Scuttlebot](./README.md#setup-scuttlebot), then join us in #scuttlebutt on freenode.
+Some good articles to read next:
 
  - [Learn about Secure Scuttlebutt](../learn.md)
- - [Scuttlebot Setup Instructions](./README.md#setup-scuttlebot)
  - [Introduction to Using Scuttlebot](../intro-to-using-sbot.md)
-
-Join us in #scuttlebutt on freenode.
