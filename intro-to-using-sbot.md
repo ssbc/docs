@@ -189,18 +189,21 @@ When IDs are found in the messages, they may be treated as links, with the keyna
 An example of this:
 
 ```bash
-./sbot.js publish --type post --repliesTo "%MPB9vxHO0pvi2ve2wh6Do05ZrV7P6ZjUQ+IEYnzLfTs=.sha256" \
+./sbot.js publish --type post \
+                  --root "%MPB9vxHO0pvi2ve2wh6Do05ZrV7P6ZjUQ+IEYnzLfTs=.sha256" \
+                  --branch "%kRi8MzGDWw2iKNmZak5STshtzJ1D8G/sAj8pa4bVXLI=.sha256" \
                   --text "this is a reply!"
 ```
 ```js
 sbot.publish({
   type: "post",
-  repliesTo: "%MPB9vxHO0pvi2ve2wh6Do05ZrV7P6ZjUQ+IEYnzLfTs=.sha256",
+  root: "%MPB9vxHO0pvi2ve2wh6Do05ZrV7P6ZjUQ+IEYnzLfTs=.sha256",
+  branch: "%kRi8MzGDWw2iKNmZak5STshtzJ1D8G/sAj8pa4bVXLI=.sha256",
   text: "this is a reply!"
 })
 ```
 
-In this example, the `repliesTo` key is the relation.
+In this example, the `root` and `branch` keys are the relations.
 SSB automatically builds an index based on these links, to allow queries such as "all messages with a `repliesTo` link to this message."
 
 ---
@@ -208,7 +211,7 @@ SSB automatically builds an index based on these links, to allow queries such as
 If you want to include data in the link object, you can specify an object with the id in the `link` subattribute:
 
 ```bash
-./sbot.js publish --type post --mentions.link "%MPB9vxHO0pvi2ve2wh6Do05ZrV7P6ZjUQ+IEYnzLfTs=.sha256" \
+./sbot.js publish --type post --mentions.link "@LA9HYf5rnUJFHHTklKXLLRyrEytayjbFZRo76Aj/qKs=.ed25519" \
                   --mentions.name bob --text "hello, @bob"
 ```
 ```js
