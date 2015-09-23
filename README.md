@@ -49,10 +49,19 @@ Each message is a simple JSON object:
 ```
 
 This is a `post`-type message with a `mentions`-type link.
-SSB adds the message to the type and link indexes, but does nothing else.
-Interpretation and validation is up to the applications, per the [Kappa Architecture](http://www.kappa-architecture.com/).
+Scuttlebot creates indexes on these types.
+Interpretation and validation is left to the applications, per the [Kappa Architecture](http://www.kappa-architecture.com/).
 
-The combination of decentralized publishing and public-key crypto makes SSB ideal for Semantic Web and Web-of-Trust projects.
+The combination of decentralized publishing, public-key authentication, and typed data makes SSB ideal for Semantic and Web-of-Trust projects.
+
+#### Glossary
+
+ - **Secure-Scuttlebutt (SSB)** - A protocol for replicating logs in a gossip network.
+ - **Feeds** - a user's stream of signed messages. Also called logs.
+ - **Gossip** - a P2P networking technique where peers connect randomly to each other and ask for new updates.
+ - **Pub Servers** - SSB peers which run on public IPs, and provide connectivity and hosting for users on private IPs. Pubs are not privileged, and do not hold special authority in the network. They are not hosts.
+ - **Invite codes** - Tokens which may be used to command specific Pub servers to follow a user. These are used to join Pubs.
+
 
 ## Links
 
@@ -101,15 +110,6 @@ The combination of decentralized publishing and public-key crypto makes SSB idea
 **Blog**
 
  - [Announcing Scuttlebot](./blog/sbot-announce.md) 2015/09/25
-
-
-## Glossary
-
- - Secure-Scuttlebutt (SSB) - A protocol for replicating logs in a gossip network.
- - Pub Servers - SSB peers which run on publicly IPs, and provide connectivity and hosting for users on private IPs. Pubs are not privileged, and do not hold special authority in the network. They are not hosts.
- - Invite codes - Tokens which may be used to command specific Pub servers to follow a user. These are used to join Pubs.
- - Feeds - a user's stream of signed messages. Also called logs.
- - Gossip - a networking technique where peers connect randomly to each other and ask for new updates. Gossip is unique for not relying on any central server to push information. Instead, the information travels peer-to-peer.
 
 
 ## Setup scuttlebot
