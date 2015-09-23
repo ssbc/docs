@@ -39,7 +39,7 @@ Each message is a simple JSON object:
 
 ```js
 {
-   type: 'post',
+   type: 'post', // the only required field
    text: 'Hello, @alice!',
    mentions: [{
       link: '@hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519',
@@ -51,6 +51,9 @@ Each message is a simple JSON object:
 This is a `post`-type message with a `mentions`-type link.
 Scuttlebot creates indexes on these types.
 Interpretation and validation is left to the applications, per the [Kappa Architecture](http://www.kappa-architecture.com/).
+
+Each user maintains a separate log, and each log is an ordered list of these messages.
+Scuttlebot [provides an API](./intro-to-using-sbot.md) for querying and streaming these logs.
 
 #### Glossary
 
