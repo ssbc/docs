@@ -2,6 +2,10 @@
 
 Join us in #scuttlebutt on freenode.
 
+**Software**
+
+ - [Scuttlebot](https://github.com/ssbc/scuttlebot) - A secure-scuttlebutt server.
+
 **Guides**
 
  - [Learn About SSB](./learn.md)
@@ -15,10 +19,10 @@ Join us in #scuttlebutt on freenode.
  - [Desirable Properties for a Secure Channel](./articles/desirable-properties-for-a-secure-channel.md)
  - [Secure, Private Channels: the Good, the Bad, and the Ugly](./articles/secure-private-channels.md)
 
-**[Scuttlebot](https://github.com/ssbc/scuttlebot) - A secure-scuttlebutt server.**
+**API Docs**
 
- - [API Docs](https://github.com/ssbc/scuttlebot/blob/master/api.md)
- - Plugins
+ - [Scuttlebot API](https://github.com/ssbc/scuttlebot/blob/master/api.md)
+ - Scuttlebot Plugins
    - [Blobs](https://github.com/ssbc/scuttlebot/blob/master/plugins/blobs.md)
    - [Block](https://github.com/ssbc/scuttlebot/blob/master/plugins/block.md)
    - [Friends](https://github.com/ssbc/scuttlebot/blob/master/plugins/friends.md)
