@@ -66,6 +66,32 @@ Think of it like a distributed twitter, with an 8kb limit instead of 140 charact
  - [Learn about Secure Scuttlebutt](./learn.md)
  - [Introduction to Using Scuttlebot](./intro-to-using-sbot.md)
 
+#### Secure Gossip Networking
+
+SSB is a [p2p gossip network](https://en.wikipedia.org/wiki/Gossip_protocol).
+This means that information is able to distribute across multiple machines, without requiring direct connections between them.
+
+![Gossip graph](http://g.gravizo.com/g?
+digraph G {
+  Pub -> {Bob; Carla; Alice }; {Bob; Carla; Alice } -> Pub;
+  Dan -> Carla; Carla -> Dan;
+ }
+)
+
+Even though Alice and Dan lack a direct connection, they can still exchange feeds:
+
+![Gossip graph 2](http://g.gravizo.com/g?
+digraph G {
+  Pub -> Carla; Carla -> Pub;
+  Alice -> Pub [weight=10]; Pub -> Alice [weight=10];
+  Dan -> Carla; Carla -> Dan;
+  Dan -> Alice [style=dotted]; Alice -> Dan [style=dotted];
+ }
+)
+
+This is because Gossip creates "transitive" connections between computers.
+Dan's messages travel through Carla and the Pub to reach Alice, and visa-versa.
+Because all feeds are signed blockchains, if Dan has confirmed Alice's pubkey, then Dan doesn't have to trust Carla *or* the Pub to receive Alice's messages from them.
 
 ## Setup scuttlebot
 
