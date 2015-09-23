@@ -56,7 +56,7 @@ pull(sbot.someQuery(), pull.collect(function (err, msgs) {
 The simplest query you can run is against the feed index, [createFeedStream](https://github.com/ssbc/scuttlebot/blob/master/api.md#createfeedstream-source).
 
 ```bash
-./sbot.js feed
+sbot feed
 ```
 ```js
 pull(sbot.createFeedStream(), pull.drain(...))
@@ -70,7 +70,7 @@ This index is convenient, but not safe, as the timestamps on the messages are no
 A more reliable query is the log index, [createLogStream](https://github.com/ssbc/scuttlebot/blob/master/api.md#createlogstream-source).
 
 ```bash
-./sbot.js log
+sbot log
 ```
 ```js
 pull(sbot.createLogStream(), pull.drain(...))
@@ -84,7 +84,7 @@ This index is safer, but (in some cases) less convenient.
 If you want to filter the messages by their type, use [messagesByType](https://github.com/ssbc/scuttlebot/blob/master/api.md#messagesbytype-source).
 
 ```bash
-./sbot.js logt {type}
+sbot logt {type}
 ```
 ```js
 pull(sbot.messagesByType(type), pull.drain(...))
@@ -97,7 +97,7 @@ This will output all of the messages in your scuttlebot of the given type, order
 Finally, if you want to fetch the messages by a single feed, use [createUserStream](https://github.com/ssbc/scuttlebot/blob/master/api.md#createuserstream-source)
 
 ```bash
-./sbot.js createUserStream --id {id}
+sbot createUserStream --id {id}
 ```
 ```js
 pull(sbot.createUserStream({ id: id }), pull.drain(...))
@@ -108,7 +108,7 @@ This will output all of the messages in your scuttlebot by that log, ordered by 
 You can also use [createHistoryStream](https://github.com/ssbc/scuttlebot/blob/master/api.md#createhistorystream-source) to do the same, but with a simpler interface:
 
 ```bash
-./sbot.js hist {id}
+sbot hist {id}
 ```
 ```js
 pull(sbot.createHistoryStream(id), pull.drain(...))
@@ -119,7 +119,7 @@ pull(sbot.createHistoryStream(id), pull.drain(...))
 Also, remember you can fetch any message by ID using [get](https://github.com/ssbc/scuttlebot/blob/master/api.md#get-async):
 
 ```bash
-./sbot.js get {id}
+sbot get {id}
 ```
 ```js
 sbot.get(id, cb)
@@ -131,7 +131,7 @@ In most of the query methods, you can specify `live: true` to keep the stream op
 The stream will emit new messages as they're added to the indexes by gossip.
 
 ```bash
-./sbot.js log --live
+sbot log --live
 ```
 ```js
 pull(sbot.createLogStream({ live: true }), pull.drain(...))
@@ -142,7 +142,7 @@ pull(sbot.createLogStream({ live: true }), pull.drain(...))
 Publishing messages in Scuttlebot is very simple:
 
 ```bash
-./sbot.js publish --type {type} [...attributes]
+sbot publish --type {type} [...attributes]
 ```
 ```js
 sbot.publish({ type: type, ... }, cb)
@@ -151,7 +151,7 @@ sbot.publish({ type: type, ... }, cb)
 Here's an example publish:
 
 ```bash
-./sbot.js publish --type post --text "hello, world"
+sbot publish --type post --text "hello, world"
 ```
 ```js
 sbot.publish({ type: 'post', text: 'hello, world' }, cb)
@@ -190,7 +190,7 @@ When IDs are found in the messages, they may be treated as links, with the keyna
 An example of this:
 
 ```bash
-./sbot.js publish --type post \
+sbot publish --type post \
                   --root "%MPB9vxHO0pvi2ve2wh6Do05ZrV7P6ZjUQ+IEYnzLfTs=.sha256" \
                   --branch "%kRi8MzGDWw2iKNmZak5STshtzJ1D8G/sAj8pa4bVXLI=.sha256" \
                   --text "this is a reply!"
@@ -212,7 +212,7 @@ SSB automatically builds an index based on these links, to allow queries such as
 If you want to include data in the link object, you can specify an object with the id in the `link` subattribute:
 
 ```bash
-./sbot.js publish --type post --mentions.link "@LA9HYf5rnUJFHHTklKXLLRyrEytayjbFZRo76Aj/qKs=.ed25519" \
+sbot publish --type post --mentions.link "@LA9HYf5rnUJFHHTklKXLLRyrEytayjbFZRo76Aj/qKs=.ed25519" \
                   --mentions.name bob --text "hello, @bob"
 ```
 ```js
@@ -231,7 +231,7 @@ sbot.publish({
 To query the link-graph, use [links](https://github.com/ssbc/scuttlebot/blob/master/api.md#links-source):
 
 ```bash
-./sbot.js links [--source id|filter] [--dest id|filter] [--rel value]
+sbot links [--source id|filter] [--dest id|filter] [--rel value]
 ```
 ```js
 pull(sbot.links({ source:, dest:, rel: }), pull.drain(...))
@@ -244,9 +244,9 @@ You can also include a relation-type filter.
 Here are some example queries:
 
 ```bash
-./sbot.js links --dest %6sHHKhwjVTFVADme55JVW3j9DoWbSlUmemVA6E42bf8=.sha256
-./sbot.js links --rel about --dest @hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519
-./sbot.js links --dest "&" --source @hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519
+sbot links --dest %6sHHKhwjVTFVADme55JVW3j9DoWbSlUmemVA6E42bf8=.sha256
+sbot links --rel about --dest @hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519
+sbot links --dest "&" --source @hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519
 ```
 ```js
 pull(sbot.links({ dest: '%6sHHKhwjVTFVADme55JVW3j9DoWbSlUmemVA6E42bf8=.sha256' }), pull.drain(...))
@@ -262,7 +262,7 @@ This is useful for creating comment-threads, for instance.
 You can do that easily in scuttlebot with [relatedMessages](https://github.com/ssbc/scuttlebot/blob/master/api.md#relatedmessages-async).
 
 ```bash
-./sbot.js relatedMessages --id {id}
+sbot relatedMessages --id {id}
 ```
 ```js
 sbot.relatedMessages({ id: id }, cb)
@@ -279,7 +279,7 @@ Scuttlebot watches for certain message-types to control it's behaviors.
 To follow a users feed, publish this `contact` message:
 
 ```bash
-./sbot.js publish --type contact --contact {feedId} --following
+sbot publish --type contact --contact {feedId} --following
 ```
 ```js
 sbot.publish({ type: 'contact', contact: feedId, following: true }, cb)
@@ -292,7 +292,7 @@ Scuttlebot will query peers for new messages from this feed.
 To stop following a user, publish this `contact` message:
 
 ```bash
-./sbot.js publish --type contact --contact {feedId} --no-following
+sbot publish --type contact --contact {feedId} --no-following
 ```
 ```js
 sbot.publish({ type: 'contact', contact: feedId, following: false }, cb)
@@ -303,7 +303,7 @@ sbot.publish({ type: 'contact', contact: feedId, following: false }, cb)
 To block a user, publish this `contact` message:
 
 ```bash
-./sbot.js publish --type contact --contact {feedId} --blocking
+sbot publish --type contact --contact {feedId} --blocking
 ```
 ```js
 sbot.publish({ type: 'contact', contact: feedId, blocking: true }, cb)
@@ -317,7 +317,7 @@ Scuttlebot will not share feeds with a peer if the feed blocks them.
 To stop blocking a user, publish this `contact` message:
 
 ```bash
-./sbot.js publish --type contact --contact {feedId} --no-blocking
+sbot publish --type contact --contact {feedId} --no-blocking
 ```
 ```js
 sbot.publish({ type: 'contact', contact: feedId, blocking: false }, cb)
@@ -328,7 +328,7 @@ sbot.publish({ type: 'contact', contact: feedId, blocking: false }, cb)
 To announce a pub server, publish this `pub` message:
 
 ```bash
-./sbot.js publish --type pub --pub.link {feedId} --pub.host {string} --pub.port {number}
+sbot publish --type pub --pub.link {feedId} --pub.host {string} --pub.port {number}
 ```
 ```js
 sbot.publish({ type: 'pub', pub: { link: feedId, host: string, port: number } }, cb)
@@ -341,7 +341,7 @@ Scuttlebot will add the pub to your peer list.
 Finally, Scuttlebot doesn't do anything with `post` messages, but they're the most common way to publish text messages:
 
 ```bash
-./sbot.js publish --type post --text {text}
+sbot publish --type post --text {text}
 ```
 ```js
 sbot.publish({ type: 'post', text: text }, cb)
@@ -401,9 +401,9 @@ The blobs plugin gives you access to a content-addressed files database.
 [Here is the API](https://github.com/ssbc/scuttlebot/blob/master/plugins/blobs.md).
 
 ```bash
-$ echo "hello, world" | ./sbot.js blobs.add
+$ echo "hello, world" | sbot blobs.add
 &hT/5N2Kgbdv3IsTr6d3WbY9j3a6pf1IcPswg2nyXYCA=.sha256
-$ ./sbot.js blobs.get "&hT/5N2Kgbdv3IsTr6d3WbY9j3a6pf1IcPswg2nyXYCA=.sha256"
+$ sbot blobs.get "&hT/5N2Kgbdv3IsTr6d3WbY9j3a6pf1IcPswg2nyXYCA=.sha256"
 hello, world
 ```
 ```js
@@ -424,7 +424,7 @@ In addition to getting/putting files, you can register that you `want` a file of
 Scuttlebot will regularly poll peers for the blobs in its wantlist, and download them when found.
 
 ```bash
-./sbot.js blobs.want "&hT/5N2Kgbdv3IsTr6d3WbY9j3a6pf1IcPswg2nyXYCA=.sha256" --nowait
+sbot blobs.want "&hT/5N2Kgbdv3IsTr6d3WbY9j3a6pf1IcPswg2nyXYCA=.sha256" --nowait
 ```
 ```js
 sbot.blobs.want("&hT/5N2Kgbdv3IsTr6d3WbY9j3a6pf1IcPswg2nyXYCA=.sha256", { nowait: true }, cb)
@@ -437,7 +437,7 @@ If you omit `nowait`, Scuttlebot will not call the `cb` until the blob is found.
 You can also listen to the `changes` stream to see hashes of recently download blobs:
 
 ```bash
-./sbot.js blobs.changes
+sbot blobs.changes
 ```
 ```js
 pull(sbot.blobs.changes(), pull.drain(...))

@@ -58,7 +58,8 @@ Scuttlebot [provides an API](./intro-to-using-sbot.md) for querying and streamin
 #### Glossary
 
  - **Secure-Scuttlebutt (SSB)** - A protocol for replicating logs in a gossip network.
- - **Feeds** - a user's stream of signed messages. Also called logs.
+ - **Scuttlebot** - An SSB server.
+ - **Feeds** - a user's stream of signed messages. Also called a log.
  - **Gossip** - a P2P networking technique where peers connect randomly to each other and ask for new updates.
  - **Pub Servers** - SSB peers which run on public IPs, and provide connectivity and hosting for users on private IPs. Pubs are not privileged, and do not hold special authority in the network. They are not hosts.
  - **Invite codes** - Tokens which may be used to command specific Pub servers to follow a user. These are used to join Pubs.
@@ -113,7 +114,10 @@ Scuttlebot [provides an API](./intro-to-using-sbot.md) for querying and streamin
  - [Announcing Scuttlebot](./blog/sbot-announce.md) 2015/09/25
 
 
-## Setup scuttlebot
+## Setup Scuttlebot
+
+Scuttlebot is a server for SSB logs.
+It's meant to be installed on user devices, or on Web hosts.
 
 ### Install prerequisites
 
@@ -139,23 +143,21 @@ nvm install iojs-v2.5.0
 To begin, install the prerequisites as above.
 
 ```
-git clone https://github.com/ssbc/scuttlebot.git
-cd scuttlebot
-npm install
+npm install -g scuttlebot
 ```
 
 Start scuttlebot as server.
 
 ```
-./sbot.js server
+sbot server
 ```
 
 Then, in another session, use the cli tool to access the API:
 
 ```
-./sbot.js whoami
-./sbot.js publish --type post --text "Hello, world"
-./sbot.js log
+sbot whoami
+sbot publish --type post --text "Hello, world"
+sbot log
 ```
 
 You can get help with `-h`.
@@ -172,7 +174,7 @@ You can find a pub in the [Informal Pub Servers Registry](https://github.com/ssb
 Then:
 
 ```
-./sbot.js accept $CODE
+sbot accept $CODE
 ```
 
 Your scuttlebot will now connect to, and sync with, the pub.
@@ -217,15 +219,13 @@ nvm alias default 2.3.0
 
 Install scuttlebot:
 ```
-git clone https://github.com/ssbc/scuttlebot.git
-cd scuttlebot
-npm install
+npm install -g scuttlebot
 ```
 
 Start the server: 
 ```
 tmux
-./sbot.js server
+sbot server
 ```
 
 You can close the terminal and tmux will keep the server running. 
@@ -237,7 +237,7 @@ If you're running a pub server, you'll want to create invites:
 
 ```
 # create an invite code that may be used 1 time.
-./sbot.js invite.create 1
+sbot invite.create 1
 ```
 
 This may now be given out to friends, to command your pub to follow them.
