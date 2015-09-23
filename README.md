@@ -8,9 +8,9 @@ Secure Scuttlebutt (SSB) is a P2P database of
 
 Think of it like a distributed twitter, with an 8kb limit instead of 140 characters.
 
- - [Setup Scuttlebot, the SSB Server](#setup-scuttlebot)
+ - [Guide to setup Scuttlebot, the SSB Server](#setup-scuttlebot)
+ - [Introduction to using and developing with Scuttlebot](./intro-to-using-sbot.md)
  - [Learn about the Secure Scuttlebutt Protocol](./learn.md)
- - [Introduction to Using the Scuttlebot Server](./intro-to-using-sbot.md)
 
 Join us in #scuttlebutt on freenode.
 
@@ -25,11 +25,33 @@ Even though Alice and Dan lack a direct connection, they can still exchange feed
 
 ![Gossip graph 2](./gossip-graph2.png)
 
-This is because Gossip creates "transitive" connections between computers.
+This is because gossip creates "transitive" connections between computers.
 Dan's messages travel through Carla and the Pub to reach Alice, and visa-versa.
 Because all feeds are signed blockchains, if Dan has confirmed Alice's pubkey, then Dan doesn't have to trust Carla *or* the Pub to receive Alice's messages from them.
 
 > Graphs created with [Gravizo](http://www.gravizo.com/)
+
+#### Lightweight Semantics
+
+Messages and links in SSB are typed, but SSB doesn't try to impose any validation or schemas.
+Each message is a simple JSON object:
+
+```js
+{
+   type: 'post',
+   text: 'Hello, @alice!',
+   mentions: [{
+      link: '@hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519',
+      name: 'alice'
+   }]
+}
+```
+
+This creates a `post`-type message with a `mentions`-type link.
+SSB adds the message to the type and link indexes accordingly.
+The rest is up to the applications.
+
+The combination of decentralized publishing and public-key crypto makes SSB ideal for Semantic Web and Web-of-Trust projects.
 
 ## Links
 
