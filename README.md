@@ -52,8 +52,6 @@ This is a `post`-type message with a `mentions`-type link.
 Scuttlebot creates indexes on these types.
 Interpretation and validation is left to the applications, per the [Kappa Architecture](http://www.kappa-architecture.com/).
 
-The combination of decentralized publishing, public-key authentication, and typed data makes SSB ideal for Semantic and Web-of-Trust projects.
-
 #### Glossary
 
  - **Secure-Scuttlebutt (SSB)** - A protocol for replicating logs in a gossip network.
