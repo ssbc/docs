@@ -1,6 +1,7 @@
 # Secure Scuttlebutt
 
-Secure Scuttlebutt (SSB) is a P2P database of
+Secure Scuttlebutt (SSB) is a P2P database of data-feeds.
+It consists of
 
 - Per-user append-only logs of messages (i.e. [kappa architecture](http://www.kappa-architecture.com/))
 - Content-addressable storage (i.e. `obj.id == hash(obj)`)
@@ -49,7 +50,7 @@ Each message is a simple JSON object:
 
 This is a `post`-type message with a `mentions`-type link.
 SSB adds the message to the type and link indexes, but does nothing else.
-The rest is up to the applications.
+Interpretation and validation is up to the applications, per the [Kappa Architecture](http://www.kappa-architecture.com/).
 
 The combination of decentralized publishing and public-key crypto makes SSB ideal for Semantic Web and Web-of-Trust projects.
 
