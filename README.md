@@ -47,8 +47,8 @@ Each message is a simple JSON object:
 }
 ```
 
-This creates a `post`-type message with a `mentions`-type link.
-SSB adds the message to the type and link indexes accordingly.
+This is a `post`-type message with a `mentions`-type link.
+SSB adds the message to the type and link indexes, but does nothing else.
 The rest is up to the applications.
 
 The combination of decentralized publishing and public-key crypto makes SSB ideal for Semantic Web and Web-of-Trust projects.
