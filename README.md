@@ -1,6 +1,47 @@
 # Secure Scuttlebutt
 
+Secure Scuttlebutt (SSB) is a P2P database of
+
+- Per-user append-only logs of messages (i.e. [kappa architecture](http://www.kappa-architecture.com/))
+- Content-addressable storage (i.e. `obj.id == hash(obj)`)
+- Message distribution over a [gossip network](https://en.wikipedia.org/wiki/Gossip_protocol)
+
+Think of it like a distributed twitter, with an 8kb limit instead of 140 characters.
+
+ - [Setup Scuttlebot](#setup-scuttlebot)
+ - [Learn about Secure Scuttlebutt](./learn.md)
+ - [Introduction to Using Scuttlebot](./intro-to-using-sbot.md)
+
 Join us in #scuttlebutt on freenode.
+
+#### Secure Gossip Networking
+
+SSB is a [p2p gossip network](https://en.wikipedia.org/wiki/Gossip_protocol).
+This means that information is able to distribute across multiple machines, without requiring direct connections between them.
+
+![Gossip graph](http://g.gravizo.com/g?
+digraph G {
+  Pub -> {Bob; Carla; Alice }; {Bob; Carla; Alice } -> Pub;
+  Dan -> Carla; Carla -> Dan;
+ }
+)
+
+Even though Alice and Dan lack a direct connection, they can still exchange feeds:
+
+![Gossip graph 2](http://g.gravizo.com/g?
+digraph G {
+  Pub -> Carla; Carla -> Pub;
+  Alice -> Pub [weight=10]; Pub -> Alice [weight=10];
+  Dan -> Carla; Carla -> Dan;
+  Dan -> Alice [style=dotted]; Alice -> Dan [style=dotted];
+ }
+)
+
+This is because Gossip creates "transitive" connections between computers.
+Dan's messages travel through Carla and the Pub to reach Alice, and visa-versa.
+Because all feeds are signed blockchains, if Dan has confirmed Alice's pubkey, then Dan doesn't have to trust Carla *or* the Pub to receive Alice's messages from them.
+
+## Links
 
 **Software**
 
@@ -8,6 +49,7 @@ Join us in #scuttlebutt on freenode.
 
 **Guides**
 
+ - [Setup Scuttlebot](#setup-scuttlebot)
  - [Learn About SSB](./learn.md)
  - [Introduction to Using Scuttlebot](./intro-to-using-sbot.md)
  - [Informal Pub Servers Registry](https://github.com/ssbc/scuttlebot/wiki/Pub-servers)
@@ -56,46 +98,6 @@ Join us in #scuttlebutt on freenode.
  - Feeds - a user's stream of signed messages. Also called logs.
  - Gossip - a networking technique where peers connect randomly to each other and ask for new updates. Gossip is unique for not relying on any central server to push information. Instead, the information travels peer-to-peer.
 
-
-## Overview
-
-Secure Scuttlebutt (SSB) is a P2P database of
-
-- Per-user append-only logs of messages (i.e. [kappa architecture](http://www.kappa-architecture.com/))
-- Content-addressable storage (i.e. `obj.id == hash(obj)`)
-- Message distribution over a [gossip network](https://en.wikipedia.org/wiki/Gossip_protocol)
-
-Think of it like a distributed twitter, with an 8kb limit instead of 140 characters.
-
- - [Learn about Secure Scuttlebutt](./learn.md)
- - [Introduction to Using Scuttlebot](./intro-to-using-sbot.md)
-
-#### Secure Gossip Networking
-
-SSB is a [p2p gossip network](https://en.wikipedia.org/wiki/Gossip_protocol).
-This means that information is able to distribute across multiple machines, without requiring direct connections between them.
-
-![Gossip graph](http://g.gravizo.com/g?
-digraph G {
-  Pub -> {Bob; Carla; Alice }; {Bob; Carla; Alice } -> Pub;
-  Dan -> Carla; Carla -> Dan;
- }
-)
-
-Even though Alice and Dan lack a direct connection, they can still exchange feeds:
-
-![Gossip graph 2](http://g.gravizo.com/g?
-digraph G {
-  Pub -> Carla; Carla -> Pub;
-  Alice -> Pub [weight=10]; Pub -> Alice [weight=10];
-  Dan -> Carla; Carla -> Dan;
-  Dan -> Alice [style=dotted]; Alice -> Dan [style=dotted];
- }
-)
-
-This is because Gossip creates "transitive" connections between computers.
-Dan's messages travel through Carla and the Pub to reach Alice, and visa-versa.
-Because all feeds are signed blockchains, if Dan has confirmed Alice's pubkey, then Dan doesn't have to trust Carla *or* the Pub to receive Alice's messages from them.
 
 ## Setup scuttlebot
 
