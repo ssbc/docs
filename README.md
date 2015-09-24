@@ -125,9 +125,9 @@ Current install steps are:
 
 ```
 # ubuntu
-apt-get install automake
+apt-get install automake libtool
 # osx
-brew install automake
+brew install automake libtool
 ```
 
 Also, you'll need to use iojs@2.
