@@ -30,9 +30,16 @@ Even though Alice and Dan lack a direct connection, they can still exchange feed
 
 This is because gossip creates "transitive" connections between computers.
 Dan's messages travel through Carla and the Pub to reach Alice, and visa-versa.
-Because all feeds are signed blockchains, if Dan has confirmed Alice's pubkey, then Dan doesn't have to trust Carla *or* the Pub to receive Alice's messages from them.
+Because all feeds are signed, if Dan has confirmed Alice's pubkey, then Dan doesn't have to trust Carla *or* the Pub to receive Alice's messages from them.
 
 > Graphs created with [Gravizo](http://www.gravizo.com/)
+
+#### Network Integrity
+
+To make sure the network converges to the correct state, Scuttlebot uses the append-only log [CRDT](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type).
+The append-only constraint is enforced with a blockchain structure: each entry includes the hash of the previous message.
+If a peer receives a message with a `previous` hash that doesn't match its local cache, it'll reject the offending message.
+(There is no Proof-of-Work; each log maintains an independent order.)
 
 #### Message Semantics
 
@@ -56,6 +63,20 @@ Interpretation and validation is left to the applications, per the [Kappa Archit
 
 Each user maintains a separate log, and each log is an ordered list of these messages.
 Scuttlebot [provides an API](./intro-to-using-sbot.md) for querying and streaming these logs.
+
+#### Confidentiality and Spam-prevention
+
+For private sharing, Scuttlebot uses [libsodium](http://doc.libsodium.org/) to encrypt confidential log-entries.
+Log IDs are public keys, and so once two logs are mutually following each other, they can exchange confidential data freely.
+
+Spam is a fundamental problem any network design.
+Email is famously vulnerable to spam.
+To send someone an email, all that is required is to have their address.
+This allows unsolicited messaging.
+
+Scuttlebot uses an explicit "follow" mechanism, to opt into logs to receive.
+We call this "Solicited Spam."
+Follows are published, and then graph analysis can be applied to the friend network - spammers may be isolated, or clustered together and filtered out.
 
 #### Glossary
 
