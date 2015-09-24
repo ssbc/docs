@@ -1,4 +1,6 @@
-ssb goes out of it's way to avoid both centralization and singletons.
+# Design Challenge: Avoid Centralization and Singletons
+
+SSB goes out of it's way to avoid both centralization and singletons.
 
 ## Avoiding Centralization
 

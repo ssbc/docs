@@ -1,3 +1,5 @@
+## Desirable Properties for a Secure Channel
+
 here is a list of properties that I think are desirable in a p2p secure channel. It is assumed that peers already know the pubkeys of a server. It may not be possible to support _all_ of these properties in one protocol.
 
 1. content is forward secure

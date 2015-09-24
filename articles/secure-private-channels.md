@@ -1,3 +1,7 @@
+# Secure, Private Channels
+
+**The Good, the Bad, and the Ugly**
+
 researching what makes a good connection protocol for secure-scuttlebutt, am investigating different protocols to see what level of privacy & simplicity is achievable.
 
 One thing that is fairly obvious is the TLS is not very good, and unsuitable for a p2p protocol.
