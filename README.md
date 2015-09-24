@@ -32,7 +32,7 @@ Because all feeds are signed blockchains, if Dan has confirmed Alice's pubkey, t
 
 > Graphs created with [Gravizo](http://www.gravizo.com/)
 
-#### Lightweight Semantics
+#### Message Semantics
 
 Messages and links in SSB are typed, but SSB doesn't try to impose any validation or schemas.
 Each message is a simple JSON object:
@@ -108,10 +108,6 @@ Scuttlebot [provides an API](./intro-to-using-sbot.md) for querying and streamin
    - [Pull Sources](https://github.com/dominictarr/pull-stream/blob/master/docs/sources.md)
    - [Pull Throughs](https://github.com/dominictarr/pull-stream/blob/master/docs/throughs.md)
    - [Pull Sinks](https://github.com/dominictarr/pull-stream/blob/master/docs/sinks.md)
-
-**Blog**
-
- - [Announcing Scuttlebot](./blog/sbot-announce.md) 2015/09/25
 
 
 ## Setup Scuttlebot
