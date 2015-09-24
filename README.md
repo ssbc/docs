@@ -7,7 +7,7 @@ It consists of
 - Content-addressable storage (i.e. `obj.id == hash(obj)`)
 - Message distribution over a [gossip network](https://en.wikipedia.org/wiki/Gossip_protocol)
 
-Think of it like a distributed twitter, with an 8kb limit instead of 140 characters.
+[Scuttlebot](https://github.com/ssbc/scuttlebot) is an SSB server.
 
  - [Guide to setup Scuttlebot, the SSB Server](#setup-scuttlebot)
  - [Introduction to using and developing with Scuttlebot](./intro-to-using-sbot.md)
@@ -112,7 +112,7 @@ Scuttlebot [provides an API](./intro-to-using-sbot.md) for querying and streamin
 
 ## Setup Scuttlebot
 
-Scuttlebot is a server for SSB logs.
+[Scuttlebot](https://github.com/ssbc/scuttlebot) is a server for SSB logs.
 It's meant to be installed on user devices, or on Web hosts.
 
 ### Install prerequisites
