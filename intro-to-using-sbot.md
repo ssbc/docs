@@ -6,6 +6,7 @@ If you're not yet familiar with Scuttlebot's database protocol, Secure Scuttlebu
 If you haven't installed Scuttlebot yet, follow the [setup instructions](./README.md#setup-scuttlebot).
 
  - Learn the API
+  - [Create Client](#create-client)
   - [Basics](#basics)
   - [Links](#links)
   - [Builtin Message Types](#builtin-message-types)
@@ -20,12 +21,35 @@ If you haven't installed Scuttlebot yet, follow the [setup instructions](./READM
 
 ---
 
-
-<todo how to setup the rpc client>
-
 Scuttlebot's CLI translates directly from the shell to RPC calls.
 That means any call you can make programmatically can be made from the shell as well.
 
+---
+
+## Create Client
+
+The current process for connecting to scuttlebot involves loading the master keypair from sbot's config.
+(This will be replaced in the future.)
+
+```js
+var path    = require('path')
+var ssbKeys = require('scuttlebot/node_modules/ssb-keys')
+var config  = require('scuttlebot/node_modules/ssb-config')
+
+var keys = ssbKeys.loadOrCreateSync(path.join(config.path, 'secret'))
+var createSbot = require('scuttlebot')
+  .use(require('scuttlebot/plugins/gossip'))
+  .use(require('scuttlebot/plugins/friends'))
+  .use(require('scuttlebot/plugins/blobs'))
+  .use(require('scuttlebot/plugins/invite'))
+  .use(require('scuttlebot/plugins/block'))
+  .use(require('scuttlebot/plugins/private'))
+
+var connConfig = {port: config.port, host: config.host||'localhost', key: keys.id}
+createSbot.createClient({keys: keys})(connConfig, function (err, sbot) {
+  // ready
+})
+```
 
 ---
 
