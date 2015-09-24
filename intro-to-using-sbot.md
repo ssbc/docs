@@ -45,7 +45,7 @@ var createSbot = require('scuttlebot')
   .use(require('scuttlebot/plugins/block'))
   .use(require('scuttlebot/plugins/private'))
 
-var connConfig = {port: config.port, host: config.host||'localhost', key: keys.id}
+var connConfig = {port: config.port, host: 'localhost', key: keys.id}
 createSbot.createClient({keys: keys})(connConfig, function (err, sbot) {
   // ready
 })
