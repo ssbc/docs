@@ -28,25 +28,12 @@ That means any call you can make programmatically can be made from the shell as 
 
 ## Create Client
 
-The current process for connecting to scuttlebot involves loading the master keypair from sbot's config.
-(This will be replaced in the future.)
+The current process for connecting to scuttlebot involves loading the master keypair from sbot's config (~/.ssb/secret).
+Do this automatically with the [ssb-client](https://github.com/ssbc/ssb-client) module.
 
 ```js
-var path    = require('path')
-var ssbKeys = require('scuttlebot/node_modules/ssb-keys')
-var config  = require('scuttlebot/node_modules/ssb-config')
-
-var keys = ssbKeys.loadOrCreateSync(path.join(config.path, 'secret'))
-var createSbot = require('scuttlebot')
-  .use(require('scuttlebot/plugins/gossip'))
-  .use(require('scuttlebot/plugins/friends'))
-  .use(require('scuttlebot/plugins/blobs'))
-  .use(require('scuttlebot/plugins/invite'))
-  .use(require('scuttlebot/plugins/block'))
-  .use(require('scuttlebot/plugins/private'))
-
-var connConfig = {port: config.port, host: 'localhost', key: keys.id}
-createSbot.createClient({keys: keys})(connConfig, function (err, sbot) {
+var ssbClient = require('ssb-client')
+ssbClient(function (err, sbot) {
   // ready
 })
 ```
