@@ -107,6 +107,7 @@ Follows are published, and then graph analysis can be applied to the friend netw
  - [Design Challenge: Sybil Attacks](./articles/design-challenge-sybil-attack.md)
  - [Desirable Properties for a Secure Channel](./articles/desirable-properties-for-a-secure-channel.md)
  - [Secure, Private Channels: the Good, the Bad, and the Ugly](./articles/secure-private-channels.md)
+ - [Using Reputation Systems to Create Shared Function-critical Datastructures in Open Networks](./articles/using-reputation-systems-to-create-shared-function-critical-datastructures-in-open-networks.md)
 
 **API Docs**
 
