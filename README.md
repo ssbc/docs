@@ -226,11 +226,6 @@ ssh-copy-id scuttlebot@ip-address
 ```
 _(ssh-copy-id is standard on linux, but needs brew-install on mac)_
 
-Log back into the server and install [nvm](https://github.com/creationix/nvm):
-```
-wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.26.1/install.sh | bash
-```
-
 Install scuttlebot:
 ```
 npm install -g scuttlebot
