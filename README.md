@@ -150,13 +150,13 @@ apt-get install automake libtool
 brew install automake libtool
 ```
 
-Also, you'll need to use iojs@2.
-The easiest way to get this is [nvm](https://github.com/creationix/nvm).
+make sure you have node@4
 
+``` js
+node -v
+4.2.1
 ```
-nvm install iojs-v2.5.0
-```
-
+(anything that starts with 4. is okay)
 
 ### Install scuttlebot
 
@@ -229,12 +229,6 @@ _(ssh-copy-id is standard on linux, but needs brew-install on mac)_
 Log back into the server and install [nvm](https://github.com/creationix/nvm):
 ```
 wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.26.1/install.sh | bash
-```
-
-Install node: 
-```
-nvm install 2.3.0
-nvm alias default 2.3.0
 ```
 
 Install scuttlebot:
