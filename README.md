@@ -194,7 +194,7 @@ You can find a pub in the [Informal Pub Servers Registry](https://github.com/ssb
 Then:
 
 ```
-sbot accept $CODE
+sbot invite.accept $CODE
 ```
 
 Your scuttlebot will now connect to, and sync with, the pub.
