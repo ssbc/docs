@@ -376,6 +376,17 @@ Scuttlebot will add the pub to your peer list.
 
 ---
 
+To name a node, publish this `about` message:
+
+```bash
+sbot publish --type about --about {feedId} --name {name}
+```
+```js
+sbot.publish({type: 'about', about: feedId, name: name}, cb)
+```
+
+---
+
 Finally, Scuttlebot doesn't do anything with `post` messages, but they're the most common way to publish text messages:
 
 ```bash

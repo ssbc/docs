@@ -252,4 +252,12 @@ sbot invite.create 1
 This may now be given out to friends, to command your pub to follow them.
 You can give a larger number than 1 if you want to reuse the same code multiple times.
 
+You can give your pub a name by having it publish an about message:
+
+```
+bot publish --type about --about {feedId} --name {name}
+```
+
+Replace `{feedId}` with the ID of your pub (starts with `@`, you can find it in `~/.ssb/secret`), and `{name}` with the name you want it to call itself.
+
 You may want to add your pub to the [Informal Pub Servers Registry](https://github.com/ssbc/scuttlebot/wiki/Pub-servers).
