@@ -152,7 +152,7 @@ brew install automake libtool
 
 make sure you have node@4
 
-``` js
+```
 node -v
 4.2.1
 ```
