@@ -1,0 +1,184 @@
+<html>
+    <head>
+    <title>Desirable Properties for a Secure Channel - Articles - SSBC</title>
+    <link rel="stylesheet" href="/normalize.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/monokai.css">
+    <script src="/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+    <body>
+      <div id="leftnav">
+    <div class="leftnav-item ">
+      <a href="/patchwork" title="Patchwork">Patchwork<br><small>Messaging App</small></a>
+    </div>
+    <div class="leftnav-subitems">
+      <div class="leftnav-item ">
+      <a href="/docs/patchwork/install.html" title="Install">Install</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/patchwork/help-faq.html" title="Help / FAQ">Help / FAQ</a>
+    </div>
+    </div>
+    <div class="leftnav-item ">
+      <a href="/scuttlebot" title="Scuttlebot">Scuttlebot<br><small>P2P Database</small></a>
+    </div>
+    <div class="leftnav-subitems">
+      <div class="leftnav-item ">
+      <a href="/docs/sbot/quickstart.html" title="Quickstart">Quickstart</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/sbot/tutorial.html" title="Tutorial">Tutorial</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/sbot/howto-setup-pub.html" title="HOWTO: Setup a Pub">HOWTO: Setup a Pub</a>
+    </div>
+    </div>
+    <div class="leftnav-item ">
+      <a href="/secure-scuttlebutt" title="Secure Scuttlebutt">Secure Scuttlebutt<br><small>Database Protocol</small></a>
+    </div>
+    <div class="leftnav-subitems">
+      <div class="leftnav-item ">
+      <a href="/docs/ssb/learn.html" title="Learn about the Protocol">Learn about the Protocol</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/secret-handshake.html" title="Secret Handshake">Secret Handshake</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/private-box.html" title="End-to-end Encryption">End-to-end Encryption</a>
+    </div>
+    </div>
+    <div class="leftnav-item ">
+      <a href="/docs/api/index.html" title="API Documentation">API Documentation</a>
+    </div>
+    <div class="leftnav-subitems">
+      <div class="leftnav-item ">
+      <a href="/docs/api/scuttlebot.html" title="scuttlebot">scuttlebot</a>
+    </div>
+      <div class="leftnav-indent">
+        <div class="leftnav-item ">
+      <a href="/docs/api/scuttlebot-blobs.html" title="blobs">blobs</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/api/scuttlebot-block.html" title="block">block</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/api/scuttlebot-friends.html" title="friends">friends</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/api/scuttlebot-gossip.html" title="gossip">gossip</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/api/scuttlebot-invite.html" title="invite">invite</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/api/scuttlebot-replicate.html" title="replicate">replicate</a>
+    </div>
+      </div>
+      <div class="leftnav-item ">
+      <a href="/docs/api/ssb-msgs.html" title="ssb-msgs">ssb-msgs</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/api/ssb-msg-schemas.html" title="ssb-msg-schemas">ssb-msg-schemas</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/api/ssb-ref.html" title="ssb-ref">ssb-ref</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/api/ssb-keys.html" title="ssb-keys">ssb-keys</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/api/ssb-config.html" title="ssb-config">ssb-config</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/api/secret-stack.html" title="secret-stack">secret-stack</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/api/muxrpc.html" title="muxrpc">muxrpc</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/api/pull-stream.html" title="pull-stream">pull-stream</a>
+    </div>
+    </div>
+    <div class="leftnav-item ">
+      <a href="/docs/articles/index.html" title="Articles">Articles</a>
+    </div>
+    <div class="leftnav-subitems">
+      <div class="leftnav-item ">
+      <a href="/docs/articles/design-challenge-avoid-centralization-and-singletons.html" title="Design Challenge: Avoiding Centralization and Singletons">Design Challenge: Avoiding Centralization and Singletons</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/articles/design-challenge-sybil-attack.html" title="Design Challenge: Sybil Attacks">Design Challenge: Sybil Attacks</a>
+    </div>
+      <div class="leftnav-item selected">
+      <a href="/docs/articles/desirable-properties-for-a-secure-channel.html" title="Desirable Properties for a Secure Channel">Desirable Properties for a Secure Channel</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/articles/secure-private-channels.html" title="Secure, Private Channels: the Good, the Bad, and the Ugly">Secure, Private Channels: the Good, the Bad, and the Ugly</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/articles/using-reputation-in-open-networks.html" title="Using Reputation in Open Networks">Using Reputation in Open Networks</a>
+    </div>
+    </div>
+  </div>
+      <div id="content">
+        <h2 id="desirable-properties-for-a-secure-channel">Desirable Properties for a Secure Channel</h2>
+<p>here is a list of properties that I think are desirable in a p2p secure channel. It is assumed that peers already know the pubkeys of a server. It may not be possible to support <em>all</em> of these properties in one protocol.</p>
+<ol>
+<li>content is forward secure</li>
+<li>server verifies client identity</li>
+<li>client verifies server identity</li>
+<li>server knows client has verified</li>
+<li>client knows server has verified</li>
+<li>resists replay attack</li>
+<li>resists man-in-the-middle attack</li>
+<li>prevents cold calling/war-dialing (only accept calls from clients that know who server is)</li>
+<li>eavesdropper cannot learn client key</li>
+<li>eavesdropper cannot learn server key</li>
+<li>eavesdropper cannot confirm client key</li>
+<li>eavesdropper cannot confirm server key</li>
+<li>replay attack cannot learn who is authorized</li>
+<li>unauthorized client cannot learn server key.</li>
+<li>unauthorized client cannot confirm server key</li>
+<li>man in the middle cannot learn or confirm client or server keys</li>
+</ol>
+<h2 id="requirements">requirements</h2>
+<p>how to achieve the above properties</p>
+<h2 id="1-forward-secure-content">1. forward secure content</h2>
+<p>Use diffie-helman style key exchange, an ensure a different key is used every connection.</p>
+<h2 id="2-3-verify-identities">2,3. verify identities</h2>
+<p>challenge the remote peer to provide a signature of a nonce.</p>
+<h2 id="4-5-know-the-remote-has-verified-you">4,5. know the remote has verified you</h2>
+<p>acknowledge their signed challenge by signing it.</p>
+<h2 id="6-resist-replay-attack">6. resist replay attack</h2>
+<p>force peer to respond (sign) something you know is unique (nonce) (see 2,3)</p>
+<h2 id="7-resist-man-in-the-middle-attack">7. resist man in the middle attack</h2>
+<p>verify identities &amp; client must abort connection if response was from unexpected server.
+Use diffie-helman to exchange keys (or box every message)</p>
+<h2 id="8-prevent-cold-calling-war-dialing">8. prevent cold-calling/war-dialing</h2>
+<p>client must prove it knows the server&#39;s pubkey.
+This treats the pubkey as a write capability.</p>
+<p>one method would be to box the hello to the server&#39;s pubkey.
+Another option, would be to hmac with the server&#39;s pubkey.</p>
+<h2 id="9-10-protect-client-server-keys-from-eavesdropper">9, 10. protect client/server keys from eavesdropper</h2>
+<p>do not send long term keys as plaintext.
+It shouldn&#39;t be necessary to send the server key at all, given that the client has know business connecting to a server they don&#39;t know (see 8, prevent war dialing)</p>
+<h2 id="11-12-eavesdropper-cannot-confirm-client-server">11, 12. eavesdropper cannot confirm client/server</h2>
+<p>If an eavesdropper happens to know the client or server&#39;s key, are they able to know it is those peers talking? This property protects the client&#39;s privacy in particular. The server is likely to be a staticly addressed server, so their key is likely to eventually become public knowledge. Although, in a p2p protocol it&#39;s likely that the server may also move.</p>
+<p>The client on the other hand, is likely to be a mobile device that changes ip addresses. Being able to identify / observe their key would allow you to know track their location.</p>
+<p>This property is stronger than 9,10 even if the eavesdropper knows the keys, they are unable to confirm the identity of the peer.</p>
+<h2 id="13-a-replay-attack-cannot-learn-whether-a-given-client-is-authorized-on-this-server-">13. a replay attack cannot learn whether a given client is authorized on this server.</h2>
+<p>It would be easy for a eavesdropper to record client hellos, and then send them to random servers to see whether that client is authorized on that server. If the server rejects that connection before the client has proven their identity then this leaks information from the server&#39;s access list. The server should wait until the client has proved their identity before rejecting a connection.</p>
+<h2 id="14-unauthorized-client-cannot-learn-server-key-">14. unauthorized client cannot learn server key.</h2>
+<p>To realize this property it would be necessary for the client to auth to the server first.
+This property seems reasonable - &quot;hi this is Alice, is Bob there?&quot; if Bob isn&#39;t talking to Alice, or if it&#39;s a wrong number the server responds &quot;sorry wrong number&quot; and hangs up. This will require an extra round trip, because a challenge must be issued to the client.</p>
+<p>This property would prevent an active attacker from learning who a given server is.</p>
+<h2 id="15-unauthorized-client-cannot-confirm-server-key-">15. unauthorized client cannot confirm server key.</h2>
+<p>This property is stronger than 14, because 14 means the server shouldn&#39;t reveal their key to an unauthorized client, but this property means the server should not give the client evidence incase the client already knows happens to know that key. This means a malicious client cannot get a list of keys (by some other mechanism) and check that those servers really are those keys.</p>
+<p>to realize this property it is necessary for the client to authorize to the server first, and for the server to be able to reject the client without revealing any more information. </p>
+<h2 id="16-mitm-wrong-number-cannot-learn-or-confirm-keys-">16. MITM/wrong number cannot learn or confirm keys.</h2>
+<p>The client needs asymmetrically encrypt their authorization to the server, such that the server will act the same way whether the client is unauthorized, or just dialed a wrong number (unauthorized server)</p>
+
+      </div>
+    </body>
+  </html>

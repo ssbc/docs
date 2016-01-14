@@ -1,0 +1,295 @@
+<html>
+    <head>
+    <title>Secure, Private Channels: the Good, the Bad, and the Ugly - Articles - SSBC</title>
+    <link rel="stylesheet" href="/normalize.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/monokai.css">
+    <script src="/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+    <body>
+      <div id="leftnav">
+    <div class="leftnav-item ">
+      <a href="/patchwork" title="Patchwork">Patchwork<br><small>Messaging App</small></a>
+    </div>
+    <div class="leftnav-subitems">
+      <div class="leftnav-item ">
+      <a href="/docs/patchwork/install.html" title="Install">Install</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/patchwork/help-faq.html" title="Help / FAQ">Help / FAQ</a>
+    </div>
+    </div>
+    <div class="leftnav-item ">
+      <a href="/scuttlebot" title="Scuttlebot">Scuttlebot<br><small>P2P Database</small></a>
+    </div>
+    <div class="leftnav-subitems">
+      <div class="leftnav-item ">
+      <a href="/docs/sbot/quickstart.html" title="Quickstart">Quickstart</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/sbot/tutorial.html" title="Tutorial">Tutorial</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/sbot/howto-setup-pub.html" title="HOWTO: Setup a Pub">HOWTO: Setup a Pub</a>
+    </div>
+    </div>
+    <div class="leftnav-item ">
+      <a href="/secure-scuttlebutt" title="Secure Scuttlebutt">Secure Scuttlebutt<br><small>Database Protocol</small></a>
+    </div>
+    <div class="leftnav-subitems">
+      <div class="leftnav-item ">
+      <a href="/docs/ssb/learn.html" title="Learn about the Protocol">Learn about the Protocol</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/secret-handshake.html" title="Secret Handshake">Secret Handshake</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/private-box.html" title="End-to-end Encryption">End-to-end Encryption</a>
+    </div>
+    </div>
+    <div class="leftnav-item ">
+      <a href="/docs/api/index.html" title="API Documentation">API Documentation</a>
+    </div>
+    <div class="leftnav-subitems">
+      <div class="leftnav-item ">
+      <a href="/docs/api/scuttlebot.html" title="scuttlebot">scuttlebot</a>
+    </div>
+      <div class="leftnav-indent">
+        <div class="leftnav-item ">
+      <a href="/docs/api/scuttlebot-blobs.html" title="blobs">blobs</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/api/scuttlebot-block.html" title="block">block</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/api/scuttlebot-friends.html" title="friends">friends</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/api/scuttlebot-gossip.html" title="gossip">gossip</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/api/scuttlebot-invite.html" title="invite">invite</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/api/scuttlebot-replicate.html" title="replicate">replicate</a>
+    </div>
+      </div>
+      <div class="leftnav-item ">
+      <a href="/docs/api/ssb-msgs.html" title="ssb-msgs">ssb-msgs</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/api/ssb-msg-schemas.html" title="ssb-msg-schemas">ssb-msg-schemas</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/api/ssb-ref.html" title="ssb-ref">ssb-ref</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/api/ssb-keys.html" title="ssb-keys">ssb-keys</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/api/ssb-config.html" title="ssb-config">ssb-config</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/api/secret-stack.html" title="secret-stack">secret-stack</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/api/muxrpc.html" title="muxrpc">muxrpc</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/api/pull-stream.html" title="pull-stream">pull-stream</a>
+    </div>
+    </div>
+    <div class="leftnav-item ">
+      <a href="/docs/articles/index.html" title="Articles">Articles</a>
+    </div>
+    <div class="leftnav-subitems">
+      <div class="leftnav-item ">
+      <a href="/docs/articles/design-challenge-avoid-centralization-and-singletons.html" title="Design Challenge: Avoiding Centralization and Singletons">Design Challenge: Avoiding Centralization and Singletons</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/articles/design-challenge-sybil-attack.html" title="Design Challenge: Sybil Attacks">Design Challenge: Sybil Attacks</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/articles/desirable-properties-for-a-secure-channel.html" title="Desirable Properties for a Secure Channel">Desirable Properties for a Secure Channel</a>
+    </div>
+      <div class="leftnav-item selected">
+      <a href="/docs/articles/secure-private-channels.html" title="Secure, Private Channels: the Good, the Bad, and the Ugly">Secure, Private Channels: the Good, the Bad, and the Ugly</a>
+    </div>
+      <div class="leftnav-item ">
+      <a href="/docs/articles/using-reputation-in-open-networks.html" title="Using Reputation in Open Networks">Using Reputation in Open Networks</a>
+    </div>
+    </div>
+  </div>
+      <div id="content">
+        <h1 id="secure-private-channels">Secure, Private Channels</h1>
+<p><strong>The Good, the Bad, and the Ugly</strong></p>
+<p>researching what makes a good connection protocol for secure-scuttlebutt, am investigating different protocols to see what level of privacy &amp; simplicity is achievable.</p>
+<p>One thing that is fairly obvious is the TLS is not very good, and unsuitable for a p2p protocol.
+In a p2p protocol we can usually regard key management as a solved problem - with the web, there is the whole CA system to certify that a given peer (ip address) is actually the owner of the given domain, but in a p2p system peers are identified by their public key (which is stable) and not their ip address, which is unstable. Usually there is a some sort of look-up system to get the ip addresses,<br>so it may not be necessary to send the key inside the connection.</p>
+<h2 id="private-stream">private-stream</h2>
+<p><a href="https://github.com/dominictarr/private-stream">private-stream</a> is a very simple private protocol that I wrote. It provides encryption, but not authentication. That is, you cannot be sure exactly who you are talking to, but you may be sure that no one else is listening. It is a symmetrical protocol, in that client and server handshake are identical. Each peer sends a Diffie Helman public key + an Initialization Vector (8 byte random number). The DH keys are combined to produce a shared key, and a cipher streams (salsa20) are constructed using the shared key and the two ivs so that each channel (A-&gt;B, and B-&gt;A) have the same key but different IVs (which is sufficient for security)</p>
+<p>I was considering putting authentication inside of this protocol but I am now re-evaluating that.</p>
+<h3 id="dramatization-of-private-stream">dramatization of private stream</h3>
+<p>Alice and Bob meet in a dark alleyway</p>
+<p>Alice &amp; Bob (simultaniously) passes each other a secret note, also with random number written on outside.</p>
+<blockquote>
+<p>Alice and Bob now combine their secret, with the secret they received and the random numbers,
+to communicate with each other.</p>
+</blockquote>
+<p>Alice does not know who Bob is and vice versa, but no one can tell what they are saying either.</p>
+<h3 id="further-reading">Further Reading</h3>
+<ul>
+<li><a href="https://github.com/dominictarr/private-stream">readme</a></li>
+</ul>
+<h2 id="bittorrent-obfuscation">bittorrent obfuscation</h2>
+<p>BT encryption is not well regarded, but because it chooses insecure algorithms, not because it&#39;s abstract design is bad. It provides the same assurances (or it would, if it&#39;s ciphers where secure) as private-stream, except it&#39;s a little uglier because it&#39;s not symmetrical. (the stream has to know whether it&#39;s the caller (client) or answerer (server), so it can derive a distinct key)</p>
+<h3 id="dramatization-of-bittorrent-obfuscation">Dramatization of Bittorrent Obfuscation</h3>
+<p>Alice and Bob meet in an alleyway wearing silly costumes.
+They do not realize there is a security camera.
+Luckily nobody really cares what they are up to.
+Alice and Bob exchange notes and feel like they are spies.
+etc, etc.</p>
+<h3 id="further-reading">Further Reading</h3>
+<ul>
+<li><a href="http://bramcohen.livejournal.com/29886.html">bittorrent creator on why obfuscation is silly</a></li>
+<li><a href="http://wiki.vuze.com/w/Message_Stream_Encryption">message stream encryption</a></li>
+<li><a href="https://en.wikipedia.org/wiki/BitTorrent_protocol_encryption">wikipedia page</a></li>
+</ul>
+<h2 id="tls">tls</h2>
+<h3 id="dramatization-of-a-tls-handshake-">dramatization of a TLS handshake:</h3>
+<p>Alice: &quot;hello, I speak english, spanish, and mandarin&quot;</p>
+<blockquote>
+<p>(alice opens connection, and describes the cihper suite she supports)</p>
+</blockquote>
+<p>Bob: &quot;hi this is bob and I speak english, just ask carl&quot;</p>
+<blockquote>
+<p>(bob selects cipher, identifies himself, with a reference.
+carl is a respected member of the community (a CA) who knows bob (has issued bob a cert).
+alice may choose to quickly contact carl to check if bob is cool)</p>
+</blockquote>
+<p>Alice:
+  (whispers) &quot;hey bob, the key is &#39;foofoo&#39;&quot;</p>
+<blockquote>
+<p>(alice chooses a secret and encrypts it to bob)</p>
+<p>Bob/Alice now encrypt all further messages with the key.</p>
+</blockquote>
+<h3 id="further-reading">Further Reading</h3>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Transport_Layer_Security#TLS_handshake">tls handshake</a></li>
+</ul>
+<h2 id="ssh">SSH</h2>
+<p>SSH seems very complicated and has a variety of methods of authenticating. Flexibility in a security protocol is bad because then there are more edge cases and thus more surface area to audit / cracks for bugs to hide in. <a href="http://curvecp.org/security.html">djb agrees</a></p>
+<p>SSH differs from our model p2p protocol because there is no key/address lookup system, and so a client cannot know that it&#39;s information on a host is uptodate. Also, it may only update information about a host by connecting to it</p>
+<h3 id="dramatization-of-ssh-connection">Dramatization of SSH connection</h3>
+<p>Alice: &quot;hi I want to talk to you, in english, spanish or mandarin (prefer english)&quot;</p>
+<blockquote>
+<p>Alice opens a connection, and lists the ciphers she supports, with preference.</p>
+</blockquote>
+<p>Bob: &quot;hi I speak in english, spanish or mandarin (prefer english), okay lets whisper now&quot;</p>
+<p>Alice: passes a secret note to Bob</p>
+<blockquote>
+<p>generates DiffieHelman key, sends public DH key to bob.
+begins DH exchange</p>
+</blockquote>
+<p>Bob: passes a note back, with I AM BOB signed on the outside.</p>
+<blockquote>
+<p>bob replies with bob&#39;s public DH key, bob&#39;s public RSA key, and a signature to prove they are bob.
+Alice now knows she is talking to Bob, Bob does not know who Alice is yet,
+but they do have secure communication now.</p>
+</blockquote>
+<p>To be honest, this seems a little unfair on bob. He has answered the phone and identified himself to a stranger. It happens to be his friend Alice, but it <em>could</em> be a telemarketer, who is now updating their database because they now know where bob lives.</p>
+<p>Alice and Bob now have secure communication, and inside that, Alice authenticates to Bob.
+I think the reason that SSH is designed this way is to support a variety of client authentication protocols, such as password, host based (checks the ip address of the client (!)), keyboard interactive (usually used for a password, the client&#39;s keyboard is directly connected to a program running on the server so it can be literally anything (!)), and finally, pubkeys.</p>
+<p>We are only interested in pubkey based authentications.</p>
+<p>The following is all private so Alice and Bob can speak normally.</p>
+<p>Alice: hey I&#39;m alice and I want to use pubkey auth with <code>algorithm</code> and <code>key</code></p>
+<p>Bob: okay go ahead &quot;Alice&quot;</p>
+<p>Alice: see it&#39;s me: <em>signed, Alice!</em></p>
+<p>Bob: Alice it is you!!!</p>
+<h3 id="further-reading">Further Reading</h3>
+<ul>
+<li>Architecture of SSH protocol <a href="http://tools.ietf.org/html/rfc4251">rfc4251</a></li>
+<li>SSH transport protocol <a href="http://tools.ietf.org/html/rfc4253">rfc4253</a> (encryption, and server auth)</li>
+<li>SSH Client Authentication Protocol <a href="http://tools.ietf.org/html/rfc4252">rfc4252</a></li>
+</ul>
+<h2 id="curvecp">CurveCP</h2>
+<p>djb&#39;s new Mutual Authenticated UDP based protocol. DJB seems to like to solve all the problems at once, so CurveCP fixes tcp as well as tls. CurveCP is unconfigurable, so there are no edge cases around cipher suite negotiation (yay!). Interesting features of the design include making intro packets sent by the client and server the same size, so that attackers cannot goad the server into wasting more resources than they do (neat!). Also, it has forward secrecy. But all these concerns do make it a little complicated.</p>
+<p>CurveCP uses Boxing as the only primitive. A box is encrypted to a recipient key, and signed by the sender. I think the signature is inside the box, so that only the recipient can open and verify.</p>
+<h3 id="dramatization-of-curvescp-handshake">Dramatization of CurvesCP handshake</h3>
+<p>Alice generates a temporary identity Andy.</p>
+<p>Alice says: &quot;Hi call me Andy&quot; and Boxes a message from Andy (that is all zeros)</p>
+<blockquote>
+<p>Alice sends her temporary identity (Andy) to Bob.
+And a message of zeros boxed by Andy.
+this is so that her message is not longer than bobs (we&#39;ll ignore this for now)</p>
+</blockquote>
+<p>Bob generates a temporary identity Betty.</p>
+<p>Bob boxes a message to Andy: &quot;hi call me Betty, also please remember this code word: c00k13z&quot;</p>
+<blockquote>
+<p>Bob sends his temporary identity to Alices temporary identity.
+Bob does not know who Alice is yet, but he knows that Alice knows who he is,
+(otherwise he would not have been able to decrypt her message!)
+so he boxes it as Bob (note: this means an eavesdropper who knows bob&#39;s long term key can confirm this server is bob... but this is likely to be public information anyway?)
+the cookie is actually some secret information that bob wants to use again
+but he sends it to Alice because he is busy and doesn&#39;t want to remember it (allocate memory)
+because he is worried about people wasting his time (Denial of Service attacks)</p>
+</blockquote>
+<p>Alice now knows that she is talking to Bob, and that Bob knows she knows this.</p>
+<p>Alice boxes Andy&#39;s id to Bob, and then Andy boxes <em>that box</em> to Betty, then sends it back, along with the cookie.</p>
+<blockquote>
+<p>Bob can now unpack Andy&#39;s box (as Betty), and then finds a box from Alice inside that is addressed to Bob, containing Andy&#39;s key. Now Bob knows he is talking to Alice.</p>
+</blockquote>
+<p>Bob and Alice now know who they are talking to,
+(although they will continue to converse as Andy and Betty instead, sneaky!)</p>
+<p>From now on, they just box messages as Andy and Betty,
+except that Andy includes Andy&#39;s pubkey along with the box.</p>
+<p>Later they will make up new secret identities and discard Andy and Betty.
+Alice and Bob always create new temporary identities whenever they talk to <em>anybody</em>.</p>
+<h3 id="conclusion-">Conclusion.</h3>
+<p>curvecp is good but has a few minor problems.</p>
+<ul>
+<li>A replay attacker may confirm that a server is actually bob (since the first message is boxed, if a server does respond to that packet, then that indicates it managed to decrypt the first packet... a server <em>could</em> respond with a correctly sized nonsence packet, but a protocol design that avoids this would be better.</li>
+<li>If Bob&#39;s keys are compromised, an attacker can connect to Bob and pretend to be <em>anyone</em> (who&#39;s public key you know!). This could again be solved by signature authentication at the application layer, but any cryptomodule should be designed to <em>avoid all surprising edgecases</em>. Expecting users to make up for design flaws via interactions between layers in their cryptosystem is inviting disaster!</li>
+</ul>
+<p>A protocol that took the best ideas from curvecp but also solved these two problems would be very robust.</p>
+<h3 id="questions">Questions</h3>
+<ul>
+<li><p>why does Alice include Andy&#39;s pub key is every message?
+it seems like it is so that Bob doesn&#39;t have to remember Andy,
+but he does still need to remember that is who he is talking to...)</p>
+</li>
+<li><p>what are the properties of a &quot;box&quot; exactly?
+<a href="https://github.com/ssbc/scuttlebot/wiki/a-secure-secure-channel-(WIP">answer</a>#crypto_box)</p>
+</li>
+</ul>
+<h3 id="further-reading">Further Reading</h3>
+<ul>
+<li><a href="http://curvecp.org">curvecp website</a></li>
+</ul>
+<h3 id="ipfs-s-secure-channel">ipfs&#39;s secure channel</h3>
+<p><a href="http://ipfs.io">ipfs</a> contains a simple secure channel protocol. It encrypts the content of the session with forward secrecy, prevents replay and man-in-the-middle attacks. It does leak some metadata: the keys that are communicating are shared in plaintext, and thus a passive eavesdropper can see who is talking to who. The protocol is symmetrical, so there is no difference between the client and server messages.</p>
+<h3 id="dramatization-of-ipfs-secure-channel-connection">dramatization of ipfs-secure-channel connection</h3>
+<p>Alice and Bob (simultaniously): Hi, I am {Alice,Bob}. I speak {ciphers,key-exchange,hashes}. {random number}</p>
+<blockquote>
+<p>Alice and Bob both open with a packet containing their public key, a nonce, and the cipher suite they support.
+Alice and Bob both select the cryptographic functions to use (key-exchange, hash, cipher) by hash(Alice&#39;s nonce + Bob&#39;s key) and comparing that to hash(Bob&#39;s nonce + Alice&#39;s key). Although the hash function used by the protocol is negotiated, at this point it uses a hard coded hash (sha256). Also, ipfs encodes hashes as <a href="https://github.com/jbenet/multihash">multihash</a>, which start with an identifier and then a length. These are bytewise compared, and that determines who&#39;s cipher suite has preference. (It seems the intention here is to ensure that cipher suite selection is fair. Forcing the ciphersuite could lead to some attacks, such as a downgrade attack. However, it is fairly easy, if Alice knows she is contacting Bob, to mine for a nonce such that hash(Bob&#39;s key, nonce) is very high, and thus likely to win the cipher selection)
+(Personally, I feel having a ciphersuit selection process at all is troublesome, and express my thoughts about it in the <a href="https://github.com/ipfs/go-ipfs/pull/34">original pull request</a>)
+Once the order is decided, each peer selects each {KeyExchange, Cipher, Hash} by taking the order winner&#39;s first choice which is also supported by the other peer.</p>
+</blockquote>
+<p>Alice and Bob (simultaniously): you said X, and I said Y, and here is my key exchangep. signed, Alice/Bob :lock_with_ink_pen:</p>
+<blockquote>
+<p>Alice and Bob now send a DiffieHelman key, and a signature. Alice&#39;s signature is: <code>sign(Alice&#39;s hello + Bob&#39;s hello + Alice&#39;s DH key)</code>. Bob&#39;s is <code>sign(Bob&#39;s hello + Alice&#39;s hello + Bob&#39;s DH key)</code>.</p>
+<p>When Alice and Bob receive the other&#39;s key, they know whether or not they are <em>really</em> talking to Alice/Bob. 
+Since Alice and Bob sign not just their DH key, but also (indirectly) each other&#39;s nonces then replay attacks and man-in-the-middle attacks are impossible. An attacker could replay the hello message, but since the exchange packet depends on the other&#39;s hello packet, and contains an unpredictable nonce, then a replayed exchange packet will be invalid. Also, <em>assuming that the client (caller) knew which server (answerer) they intended to contact, and abort the connection if an unexpected peer responds</em> then a man-in-the-middle attack is not possible either. A man in the middle could present a new key, appearing to the server to be a different peer, but the client was expecting to contact a specific server, and aborts the channel before sending anything more.</p>
+<p>If Alice and Bob are satisfied they are talking to the correct peer, they initialize the encryption.</p>
+</blockquote>
+<p>Alice and Bob (simultaniously): here is the random number you gave me.</p>
+<blockquote>
+<p>Alice and Bob both send back the the nonce the other sent to them. This confirms they are authorized with the other peer, and can now begin secure communication. (NOTE: this means that the first nonce.length bytes of the ciphertext are a [high entropy] plaintext known to an eavesdropper) I don&#39;t think there is any special reason to send the nonce back, it might as well be the string &quot;ACCESS GRANTED&quot; (unless I am mistaken?)</p>
+</blockquote>
+<p>ipfs-secure-channel is quite simple, although it could be a little simpler I think. It&#39;s basic properties are reasonable, although I think it would be better to remove cipher suite selection because that creates a better primitive.</p>
+
+      </div>
+    </body>
+  </html>
