@@ -112,8 +112,49 @@
     </div>
   </div>
       <div id="content">
-        <h1 id="install">Install</h1>
-<p>We&#39;re sorry! This article hasn&#39;t been written yet. Please check back soon.</p>
+        <h1 id="install-patchwork">Install Patchwork</h1>
+<h2 id="from-npm">From NPM</h2>
+<p>NPM hosts the stable release.
+It will be the least likely to have bugs.</p>
+<p><strong>Dependencies:</strong></p>
+<ul>
+<li>node v5.3.x (you might like to use <a href="https://github.com/creationix/nvm">nvm</a>)</li>
+<li>npm v3.5.x (<a href="#updating-npm">Instructions to update NPM when using NVM</a>)</li>
+</ul>
+<p><strong>Install:</strong></p>
+<pre><code class="lang-bash">npm install ssb-patchwork -g
+</code></pre>
+<p><strong>Run:</strong></p>
+<pre><code class="lang-bash">patchwork
+</code></pre>
+<h2 id="from-git">From Git</h2>
+<p>GitHub hosts the development version.
+It will contain updates not yet published on NPM.</p>
+<p><strong>Dependencies:</strong></p>
+<ul>
+<li>node v5.3.x (you might like to use <a href="https://github.com/creationix/nvm">nvm</a>)</li>
+<li>npm v3.5.x (<a href="#updating-npm">Instructions to update NPM when using NVM</a>)</li>
+</ul>
+<p><strong>Install:</strong></p>
+<pre><code class="lang-bash">git clone https://github.com/ssbc/patchwork.git
+cd patchwork
+npm install
+</code></pre>
+<p><strong>Run:</strong></p>
+<p>From directory you cloned patchwork to:</p>
+<pre><code class="lang-bash">npm start
+</code></pre>
+<p><strong>Update:</strong></p>
+<p>From directory you cloned patchwork to:</p>
+<pre><code class="lang-bash">git pull origin master
+npm install
+</code></pre>
+<h2 id="updating-npm">Updating NPM</h2>
+<p>Some people experience installation issues when using the npm version packaged with node 5.3.0. We have found upgrading to npm 3.5.x solves these issues.</p>
+<p>If you are using nvm, you can update npm with the following steps:</p>
+<pre><code class="lang-bash">cd ~/.nvm/versions/node/v5.3.0/lib
+npm install npm
+</code></pre>
 
       </div>
     </body>
