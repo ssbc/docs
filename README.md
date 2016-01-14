@@ -105,8 +105,6 @@ Follows are published, and then graph analysis can be applied to the friend netw
 
  - [Design Challenge: Avoiding Centralization and Singletons](./articles/design-challenge-avoid-centralization-and-singletons.md)
  - [Design Challenge: Sybil Attacks](./articles/design-challenge-sybil-attack.md)
- - [Desirable Properties for a Secure Channel](./articles/desirable-properties-for-a-secure-channel.md)
- - [Secure, Private Channels: the Good, the Bad, and the Ugly](./articles/secure-private-channels.md)
  - [Using Trust in Open Networks](./articles/using-trust-in-open-networks.md)
 
 **API Docs**
