@@ -1,4 +1,4 @@
-# Using Reputation Systems to Create Shared Function-critical Datastructures in Open Networks
+# Using Reputation in Open Networks
 
 Search engines, spam filtration, and p2p protocols - all need to rate the value of information.
 Search engines need it to provide good results; spam filtration needs it to exclude noise; and p2p networks need it for security and efficiency.
