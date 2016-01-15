@@ -42,8 +42,74 @@
       </div>
     </div>
         <div id="content">
-          <h1 id="howto-setup-a-pub">HOWTO: Setup a Pub</h1>
-<p>We&#39;re sorry! This article hasn&#39;t been written yet. Please check back soon.</p>
+          <h1 id="setup-a-pub">Setup a Pub</h1>
+<p>Note, this guide assumes moderate technical ability.</p>
+<h2 id="1-get-the-server">1. Get the Server</h2>
+<p>Pub servers need a static, publicly-reachable IP address.
+The easiest way to get a public server is by renting a virtual server from businesses such as <a href="https://aws.amazon.com/">Amazon</a>, <a href="https://www.linode.com/">Linode</a>, or <a href="https://www.digitalocean.com/">Digital Ocean</a>.</p>
+<p>After renting the server, follow the guides provided by your host to configure the software.
+We recommend using a common Linux distribution, such as Ubuntu.</p>
+<h2 id="2-install-node">2. Install Node</h2>
+<p>On the server, install <a href="https://github.com/creationix/nvm">NVM</a>:</p>
+<pre><code class="lang-bash">curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.30.1/install.sh | bash
+</code></pre>
+<p>Then install node 5.3.x:</p>
+<pre><code class="lang-bash">nvm install 5.3
+nvm alias default v5.3.0
+</code></pre>
+<p>And update NPM to 3.5.x:</p>
+<pre><code class="lang-bash">npm install -g npm@3.5
+</code></pre>
+<h2 id="3-install-scuttlebot">3. Install Scuttlebot</h2>
+<p>Install Scuttlebot using NPM.
+(If you prefer to install using git, <a href="./install.md">follow the instructions here</a>).</p>
+<pre><code class="lang-bash">npm install -g scuttlebot
+</code></pre>
+<p>To update scuttlebot in the future, simply run the global install again.</p>
+<h2 id="4-create-a-run-sbot-sh-script">4. Create a run-sbot.sh script</h2>
+<p>Save the following script somewhere easy to find, such as <code>~/run-sbot.sh</code>.
+This script will help ensure uptime, even if scuttlebot experiences a crash:</p>
+<pre><code class="lang-bash">#!/bin/bash
+while true; do
+  sbot server --host {your-hostname}
+done
+</code></pre>
+<p>Be sure to replace <code>{your-hostname}</code> with the actual hostname of your server
+For instance, if your server is <code>foobar.com</code>, then you should enter <code>sbot server --host foobar.com</code>.</p>
+<h2 id="5-run-the-server-script">5. Run the server script</h2>
+<p>Use a session-manager such as <a href="https://www.rackaid.com/blog/linux-screen-tutorial-and-how-to/">screen</a> or <a href="https://wiki.archlinux.org/index.php/Tmux">tmux</a> to create a detachable session.
+Start the session and run the script:</p>
+<pre><code class="lang-bash">sh ~/run-sbot.sh
+</code></pre>
+<p>Then, detach the session.</p>
+<h2 id="6-confirm-scuttlebot-server-is-running">6. Confirm Scuttlebot server is running</h2>
+<p>To check if sbot is running, use the following command:</p>
+<pre><code class="lang-bash">sbot whoami
+</code></pre>
+<p>If all is well, your Pub&#39;s ID will be logged to the console.
+If this fails, check that the server-script is still active, and isn&#39;t failing during startup.</p>
+<h2 id="7-create-the-pub-s-profile">7. Create the Pub&#39;s profile</h2>
+<p>It&#39;s a good idea to give your Pub a name, by publishing one on its feed.
+To do this, first get the Pub&#39;s ID, with <code>sbot whoami</code>.
+Then, publish a name with the following command:</p>
+<pre><code class="lang-bash">sbot publish --type about --about {pub-id} --name {name}
+</code></pre>
+<p>It&#39;s a good idea to use your Pub&#39;s hostname.
+Also, don&#39;t use spaces, or include the <code>@</code> symbol.
+Here&#39;s an example usage (dont copy this!):</p>
+<pre><code class="lang-bash">sbot publish --type about --about @2mIg4e/GO53+hKJBBrn+KZtb+1aMYazb/9FGEHoQp3U=.ed25519 --name foobar.com
+</code></pre>
+<h2 id="8-create-invites">8. Create invites</h2>
+<p>For a last step, you should create invite codes, which you can send to other users to let them join the pub.
+The command to create an invite code is:</p>
+<pre><code class="lang-bash">sbot invite.create 1
+</code></pre>
+<p>This may now be given out to friends, to command your pub to follow them.
+If you want to let a single code be used more than once, you can provide a number larger than 1.</p>
+<h2 id="9-backup-your-data-directory-optional-">9. Backup your data directory (optional)</h2>
+<p>It&#39;s a good idea to regularly backup the Pub&#39;s data directory, in case of failures.
+The data-directory will include the Pub&#39;s keypair, messages, and files.
+It can be found at <code>~/.ssb</code>, where <code>~</code> points to the home directory of the user running Scuttlebot.</p>
 
         </div>
       </div>
