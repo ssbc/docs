@@ -42,8 +42,54 @@
       </div>
     </div>
         <div id="content">
-          <h1 id="install">Install</h1>
-<p>We&#39;re sorry! This article hasn&#39;t been written yet. Please check back soon.</p>
+          <h1 id="install-scuttlebot">Install Scuttlebot</h1>
+<h2 id="from-npm">From NPM</h2>
+<p>NPM hosts the stable release.
+It will be the least likely to have bugs.</p>
+<p><strong>Dependencies:</strong></p>
+<ul>
+<li>node v4 and greater (you might like to use <a href="https://github.com/creationix/nvm">nvm</a>)</li>
+</ul>
+<p><strong>Install:</strong></p>
+<pre><code class="lang-bash">npm install scuttlebot -g
+</code></pre>
+<p><strong>Run:</strong></p>
+<p>Start scuttlebot as server.</p>
+<pre><code class="lang-bash">sbot server
+</code></pre>
+<p>Then, in another session, use the cli tool to access the API:</p>
+<pre><code class="lang-bash">sbot whoami
+sbot publish --type post --text &quot;Hello, world&quot;
+sbot log
+</code></pre>
+<p>You can get help with <code>-h</code>.</p>
+<h2 id="from-git">From Git</h2>
+<p>GitHub hosts the development version.
+It will contain updates not yet published on NPM.</p>
+<p><strong>Dependencies:</strong></p>
+<ul>
+<li>node v4 and greater (you might like to use <a href="https://github.com/creationix/nvm">nvm</a>)</li>
+</ul>
+<p><strong>Install:</strong></p>
+<pre><code class="lang-bash">git clone https://github.com/ssbc/scuttlebot.git
+cd scuttlebot
+npm install
+</code></pre>
+<p><strong>Run:</strong></p>
+<p>From directory you cloned scuttlebot to:</p>
+<pre><code class="lang-bash">./bin.js server
+</code></pre>
+<p>Then, in another session, use the cli tool to access the API:</p>
+<pre><code class="lang-bash">./bin.js whoami
+./bin.js publish --type post --text &quot;Hello, world&quot;
+./bin.js log
+</code></pre>
+<p>You can get help with <code>-h</code>.</p>
+<p><strong>Update:</strong></p>
+<p>From directory you cloned scuttlebot to:</p>
+<pre><code class="lang-bash">git pull origin master
+npm install
+</code></pre>
 
         </div>
       </div>

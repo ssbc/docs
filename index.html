@@ -220,30 +220,6 @@ Follows are published, and then graph analysis can be applied to the friend netw
 </ul>
 </li>
 </ul>
-<h2 id="setup-scuttlebot">Setup Scuttlebot</h2>
-<p><a href="https://github.com/ssbc/scuttlebot">Scuttlebot</a> is a server for SSB logs.
-It&#39;s meant to be installed on user devices, or on Web hosts.</p>
-<h3 id="install-prerequisites">Install prerequisites</h3>
-<p>Current install steps are:</p>
-<pre><code># ubuntu
-apt-get install automake libtool
-# osx
-brew install automake libtool
-</code></pre><p>make sure you have node@4</p>
-<pre><code>node -v
-4.2.1
-</code></pre><p>(anything that starts with 4. is okay)</p>
-<h3 id="install-scuttlebot">Install scuttlebot</h3>
-<p>To begin, install the prerequisites as above.</p>
-<pre><code>npm install -g scuttlebot
-</code></pre><p>Start scuttlebot as server.</p>
-<pre><code>sbot server
-</code></pre><p>Then, in another session, use the cli tool to access the API:</p>
-<pre><code>sbot whoami
-sbot publish --type post --text &quot;Hello, world&quot;
-sbot log
-</code></pre><p>You can get help with <code>-h</code>.</p>
-<p>To go deeper, read the <a href="./intro-to-using-sbot.md">Introduction to Using Scuttlebot</a>.</p>
 <h3 id="join-a-pub">Join a Pub</h3>
 <p>If you want to connect to your friends across the net, you need to be followed by a Pub server.</p>
 <p>First get an invite-code from a pub owner you know.
