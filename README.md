@@ -132,56 +132,6 @@ Follows are published, and then graph analysis can be applied to the friend netw
    - [Pull Sinks](https://github.com/dominictarr/pull-stream/blob/master/docs/sinks.md)
 
 
-## Setup Scuttlebot
-
-[Scuttlebot](https://github.com/ssbc/scuttlebot) is a server for SSB logs.
-It's meant to be installed on user devices, or on Web hosts.
-
-### Install prerequisites
-
-Current install steps are:
-
-```
-# ubuntu
-apt-get install automake libtool
-# osx
-brew install automake libtool
-```
-
-make sure you have node@4
-
-```
-node -v
-4.2.1
-```
-(anything that starts with 4. is okay)
-
-### Install scuttlebot
-
-To begin, install the prerequisites as above.
-
-```
-npm install -g scuttlebot
-```
-
-Start scuttlebot as server.
-
-```
-sbot server
-```
-
-Then, in another session, use the cli tool to access the API:
-
-```
-sbot whoami
-sbot publish --type post --text "Hello, world"
-sbot log
-```
-
-You can get help with `-h`.
-
-To go deeper, read the [Introduction to Using Scuttlebot](./intro-to-using-sbot.md).
-
 ### Join a Pub
 
 If you want to connect to your friends across the net, you need to be followed by a Pub server.
