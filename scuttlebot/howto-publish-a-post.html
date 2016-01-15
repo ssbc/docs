@@ -1,6 +1,6 @@
 <html>
     <head>
-    <title>Install - Scuttlebot - SSBC</title>
+    <title>HOWTO: Publish a Post - Scuttlebot - SSBC</title>
     <link rel="stylesheet" href="/normalize.css">
     <link rel="stylesheet" href="/styles.css">
     <link rel="stylesheet" href="/monokai.css">
@@ -30,7 +30,7 @@
       <a href="/scuttlebot" title="Scuttlebot">Scuttlebot</a>
     </div>
       <div class="leftnav-subitems">
-        <div class="leftnav-item selected">
+        <div class="leftnav-item ">
       <a href="/docs/scuttlebot/install.html" title="Install">Install</a>
     </div>
         <div class="leftnav-item ">
@@ -57,7 +57,7 @@
         <div class="leftnav-item ">
       <a href="/docs/scuttlebot/howto-get-your-address.html" title="Get your Address">Get your Address</a>
     </div>
-        <div class="leftnav-item ">
+        <div class="leftnav-item selected">
       <a href="/docs/scuttlebot/howto-publish-a-post.html" title="Publish a Post">Publish a Post</a>
     </div>
         <div class="leftnav-item ">
@@ -84,54 +84,60 @@
       </div>
     </div>
         <div id="content">
-          <h1 id="install-scuttlebot">Install Scuttlebot</h1>
-<h2 id="from-npm">From NPM</h2>
-<p>NPM hosts the stable release.
-It will be the least likely to have bugs.</p>
-<p><strong>Dependencies:</strong></p>
-<ul>
-<li>node v4 and greater (you might like to use <a href="https://github.com/creationix/nvm">nvm</a>)</li>
-</ul>
-<p><strong>Install:</strong></p>
-<pre><code class="lang-bash">npm install scuttlebot -g
+          <h1 id="publish-a-post">Publish a Post</h1>
+<p>Publishing messages in Scuttlebot is very simple:</p>
+<pre><code class="lang-bash">sbot publish --type {type} [...attributes]
 </code></pre>
-<p><strong>Run:</strong></p>
-<p>Start scuttlebot as server.</p>
-<pre><code class="lang-bash">sbot server
+<pre><code class="lang-js">sbot.publish({ type: type, ... }, cb)
 </code></pre>
-<p>Then, in another session, use the cli tool to access the API:</p>
-<pre><code class="lang-bash">sbot whoami
-sbot publish --type post --text &quot;Hello, world&quot;
-sbot log
+<p>The &quot;post&quot; type is a generic text-based message.
+Here&#39;s an example publish command:</p>
+<pre><code class="lang-bash">sbot publish --type post --text &quot;hello, world&quot;
 </code></pre>
-<p>You can get help with <code>-h</code>.</p>
-<h2 id="from-git">From Git</h2>
-<p>GitHub hosts the development version.
-It will contain updates not yet published on NPM.</p>
-<p><strong>Dependencies:</strong></p>
-<ul>
-<li>node v4 and greater (you might like to use <a href="https://github.com/creationix/nvm">nvm</a>)</li>
-</ul>
-<p><strong>Install:</strong></p>
-<pre><code class="lang-bash">git clone https://github.com/ssbc/scuttlebot.git
-cd scuttlebot
-npm install
+<pre><code class="lang-js">sbot.publish({ type: &#39;post&#39;, text: &#39;hello, world&#39; }, cb)
 </code></pre>
-<p><strong>Run:</strong></p>
-<p>From directory you cloned scuttlebot to:</p>
-<pre><code class="lang-bash">./bin.js server
+<h2 id="schema">Schema</h2>
+<p>The full schema of a post message is:</p>
+<pre><code class="lang-js">{
+  type: &#39;post&#39;,
+  text: String,
+  channel: optional String,
+  root: optional MsgLink,
+  branch: optional MsgLink,
+  recps: optional FeedLinks,
+  mentions: optional Links
+}
 </code></pre>
-<p>Then, in another session, use the cli tool to access the API:</p>
-<pre><code class="lang-bash">./bin.js whoami
-./bin.js publish --type post --text &quot;Hello, world&quot;
-./bin.js log
+<h2 id="posting-to-a-channel">Posting to a Channel</h2>
+<p>To post to a channel, just include the name of the channel, without the #.
+For instance, to publish to &#39;#patchwork-dev&#39;:</p>
+<pre><code class="lang-bash">sbot publish --type post --text &quot;hello, world&quot; --channel patchwork-dev
 </code></pre>
-<p>You can get help with <code>-h</code>.</p>
-<p><strong>Update:</strong></p>
-<p>From directory you cloned scuttlebot to:</p>
-<pre><code class="lang-bash">git pull origin master
-npm install
+<pre><code class="lang-js">sbot.publish({ type: &#39;post&#39;, text: &#39;hello, world&#39;, channel: &#39;patchwork-dev&#39; }, cb)
 </code></pre>
+<h2 id="posting-a-reply">Posting a Reply</h2>
+<p>Replies use the <code>root</code> and <code>branch</code> attributes of posts.
+The <code>root</code> should give the ID of the topmost post in the thread, whereas <code>branch</code> has the ID of the immediate parent.
+If replying to the topmost post, then <code>root</code> and <code>branch</code> will be equal.</p>
+<p>Here&#39;s an example of replying to the topmost post:</p>
+<pre><code class="lang-bash">sbot publish --type post --text &quot;I agree!&quot; --root %cfts5CAC/KIg1MNCbDXMVXPVhPsc4dRNWMXO2dNrN9Y=.sha256 --branch %cfts5CAC/KIg1MNCbDXMVXPVhPsc4dRNWMXO2dNrN9Y=.sha256
+</code></pre>
+<pre><code class="lang-js">sbot.publish({ type: &#39;post&#39;, text: &#39;I agree!&#39;, root: &#39;%cfts5CAC/KIg1MNCbDXMVXPVhPsc4dRNWMXO2dNrN9Y=.sha256&#39;, branch: &#39;%cfts5CAC/KIg1MNCbDXMVXPVhPsc4dRNWMXO2dNrN9Y=.sha256&#39; }, cb)
+</code></pre>
+<p>If the thread is in a channel, be sure to include the <code>channel</code> attribute as well.</p>
+<h2 id="mentioning-a-user">Mentioning a User</h2>
+<p>The <code>mentions</code> attribute lets you explicitly reference other users, messages, or files.
+If a link is present in <code>mentions</code>, then it&#39;s usually because the name of the mentioned object is in the text of the post.</p>
+<p>Here&#39;s an example of mentioning a user:</p>
+<pre><code class="lang-bash">sbot publish --type post --text &quot;hello, @paul&quot; --mentions.0.name paul --mentions.0.link @hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519
+</code></pre>
+<pre><code class="lang-js">sbot.publish({ type: &#39;post&#39;, text: &#39;hello, @paul&#39;, mentions: [{ name: &#39;paul&#39;, link: &#39;@hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519&#39; }] }, cb)
+</code></pre>
+<h2 id="setting-recipients">Setting Recipients</h2>
+<p>When a post is private, it will be <a href="howto-publish-encrypted-messages.md">encrypted</a>.
+Because Scuttlebot&#39;s encrypted form doesn&#39;t include any metadata about who the message is encrypted to, you&#39;ll need to include the recipients list in the <code>recps</code> attribute.</p>
+<p>Note, you should only use <code>recps</code> in encrypted messages.
+It&#39;s not really meant for public messages.</p>
 
         </div>
       </div>

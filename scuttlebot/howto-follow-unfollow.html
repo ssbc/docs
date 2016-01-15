@@ -1,6 +1,6 @@
 <html>
     <head>
-    <title>Install - Scuttlebot - SSBC</title>
+    <title>HOWTO: Follow / Unfollow - Scuttlebot - SSBC</title>
     <link rel="stylesheet" href="/normalize.css">
     <link rel="stylesheet" href="/styles.css">
     <link rel="stylesheet" href="/monokai.css">
@@ -30,7 +30,7 @@
       <a href="/scuttlebot" title="Scuttlebot">Scuttlebot</a>
     </div>
       <div class="leftnav-subitems">
-        <div class="leftnav-item selected">
+        <div class="leftnav-item ">
       <a href="/docs/scuttlebot/install.html" title="Install">Install</a>
     </div>
         <div class="leftnav-item ">
@@ -66,7 +66,7 @@
         <div class="leftnav-item ">
       <a href="/docs/scuttlebot/howto-publish-encrypted-messages.html" title="Publish Encrypted Messages">Publish Encrypted Messages</a>
     </div>
-        <div class="leftnav-item ">
+        <div class="leftnav-item selected">
       <a href="/docs/scuttlebot/howto-follow-unfollow.html" title="Follow/Unfollow">Follow/Unfollow</a>
     </div>
         <div class="leftnav-item ">
@@ -84,53 +84,17 @@
       </div>
     </div>
         <div id="content">
-          <h1 id="install-scuttlebot">Install Scuttlebot</h1>
-<h2 id="from-npm">From NPM</h2>
-<p>NPM hosts the stable release.
-It will be the least likely to have bugs.</p>
-<p><strong>Dependencies:</strong></p>
-<ul>
-<li>node v4 and greater (you might like to use <a href="https://github.com/creationix/nvm">nvm</a>)</li>
-</ul>
-<p><strong>Install:</strong></p>
-<pre><code class="lang-bash">npm install scuttlebot -g
+          <h1 id="follow-unfollow">Follow / Unfollow</h1>
+<p>To follow a users feed, publish this <code>contact</code> message:</p>
+<pre><code class="lang-bash">sbot publish --type contact --contact {feedId} --following
 </code></pre>
-<p><strong>Run:</strong></p>
-<p>Start scuttlebot as server.</p>
-<pre><code class="lang-bash">sbot server
+<pre><code class="lang-js">sbot.publish({ type: &#39;contact&#39;, contact: feedId, following: true }, cb)
 </code></pre>
-<p>Then, in another session, use the cli tool to access the API:</p>
-<pre><code class="lang-bash">sbot whoami
-sbot publish --type post --text &quot;Hello, world&quot;
-sbot log
+<p>Scuttlebot will query peers for new messages from this feed.</p>
+<p>To stop following a user, publish this <code>contact</code> message:</p>
+<pre><code class="lang-bash">sbot publish --type contact --contact {feedId} --no-following
 </code></pre>
-<p>You can get help with <code>-h</code>.</p>
-<h2 id="from-git">From Git</h2>
-<p>GitHub hosts the development version.
-It will contain updates not yet published on NPM.</p>
-<p><strong>Dependencies:</strong></p>
-<ul>
-<li>node v4 and greater (you might like to use <a href="https://github.com/creationix/nvm">nvm</a>)</li>
-</ul>
-<p><strong>Install:</strong></p>
-<pre><code class="lang-bash">git clone https://github.com/ssbc/scuttlebot.git
-cd scuttlebot
-npm install
-</code></pre>
-<p><strong>Run:</strong></p>
-<p>From directory you cloned scuttlebot to:</p>
-<pre><code class="lang-bash">./bin.js server
-</code></pre>
-<p>Then, in another session, use the cli tool to access the API:</p>
-<pre><code class="lang-bash">./bin.js whoami
-./bin.js publish --type post --text &quot;Hello, world&quot;
-./bin.js log
-</code></pre>
-<p>You can get help with <code>-h</code>.</p>
-<p><strong>Update:</strong></p>
-<p>From directory you cloned scuttlebot to:</p>
-<pre><code class="lang-bash">git pull origin master
-npm install
+<pre><code class="lang-js">sbot.publish({ type: &#39;contact&#39;, contact: feedId, following: false }, cb)
 </code></pre>
 
         </div>

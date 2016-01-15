@@ -1,6 +1,6 @@
 <html>
     <head>
-    <title>Install - Scuttlebot - SSBC</title>
+    <title>HOWTO: Publish a File - Scuttlebot - SSBC</title>
     <link rel="stylesheet" href="/normalize.css">
     <link rel="stylesheet" href="/styles.css">
     <link rel="stylesheet" href="/monokai.css">
@@ -30,7 +30,7 @@
       <a href="/scuttlebot" title="Scuttlebot">Scuttlebot</a>
     </div>
       <div class="leftnav-subitems">
-        <div class="leftnav-item selected">
+        <div class="leftnav-item ">
       <a href="/docs/scuttlebot/install.html" title="Install">Install</a>
     </div>
         <div class="leftnav-item ">
@@ -60,7 +60,7 @@
         <div class="leftnav-item ">
       <a href="/docs/scuttlebot/howto-publish-a-post.html" title="Publish a Post">Publish a Post</a>
     </div>
-        <div class="leftnav-item ">
+        <div class="leftnav-item selected">
       <a href="/docs/scuttlebot/howto-publish-a-file.html" title="Publish a File">Publish a File</a>
     </div>
         <div class="leftnav-item ">
@@ -84,54 +84,43 @@
       </div>
     </div>
         <div id="content">
-          <h1 id="install-scuttlebot">Install Scuttlebot</h1>
-<h2 id="from-npm">From NPM</h2>
-<p>NPM hosts the stable release.
-It will be the least likely to have bugs.</p>
-<p><strong>Dependencies:</strong></p>
-<ul>
-<li>node v4 and greater (you might like to use <a href="https://github.com/creationix/nvm">nvm</a>)</li>
-</ul>
-<p><strong>Install:</strong></p>
-<pre><code class="lang-bash">npm install scuttlebot -g
+          <h1 id="publish-a-file">Publish a File</h1>
+<p>The blobs plugin gives you access to a content-addressed files database.
+<a href="../api/scuttlebot-blobs.md">Here is the API</a>.</p>
+<pre><code class="lang-bash">$ echo &quot;hello, world&quot; | sbot blobs.add
+&amp;hT/5N2Kgbdv3IsTr6d3WbY9j3a6pf1IcPswg2nyXYCA=.sha256
+$ sbot blobs.get &quot;&amp;hT/5N2Kgbdv3IsTr6d3WbY9j3a6pf1IcPswg2nyXYCA=.sha256&quot;
+hello, world
 </code></pre>
-<p><strong>Run:</strong></p>
-<p>Start scuttlebot as server.</p>
-<pre><code class="lang-bash">sbot server
+<pre><code class="lang-js">pull(
+  pull.values(&#39;hello, world&#39;),
+  sbot.blobs.add(function (err, hash) {
+    pull(sbot.blobs.get(hash), pull.collect(function (err, values) {
+      if (err) throw err
+      assert(values.join(&#39;&#39;) == &#39;hello, world&#39;)
+    }))
+  })
+)
 </code></pre>
-<p>Then, in another session, use the cli tool to access the API:</p>
-<pre><code class="lang-bash">sbot whoami
-sbot publish --type post --text &quot;Hello, world&quot;
-sbot log
+<p>After adding a file to the blobstore, you can mention the file in a post to publish it.
+When peers receive your message, they&#39;ll see the file reference (if they can decrypt the message) and sync the file using the blobs api.</p>
+<pre><code class="lang-bash">sbot publish --type post --text &quot;checkout this pic! ![CHC.jpg](&amp;akkg6hKV7ee6sATu3mLeR6KfhgUbNGHWl/QJeALpQ0Y=.sha256)&quot; --mentions.0.name CHC.jpg --mentions.0.link &amp;akkg6hKV7ee6sATu3mLeR6KfhgUbNGHWl/QJeALpQ0Y=.sha256 --mentions.0.size 288388 --mentions.0.type image/jpeg
 </code></pre>
-<p>You can get help with <code>-h</code>.</p>
-<h2 id="from-git">From Git</h2>
-<p>GitHub hosts the development version.
-It will contain updates not yet published on NPM.</p>
-<p><strong>Dependencies:</strong></p>
-<ul>
-<li>node v4 and greater (you might like to use <a href="https://github.com/creationix/nvm">nvm</a>)</li>
-</ul>
-<p><strong>Install:</strong></p>
-<pre><code class="lang-bash">git clone https://github.com/ssbc/scuttlebot.git
-cd scuttlebot
-npm install
+<pre><code class="lang-js">sbot.publish({
+  type: &#39;post&#39;,
+  text: &#39;checkout this pic! ![CHC.jpg](&amp;akkg6hKV7ee6sATu3mLeR6KfhgUbNGHWl/QJeALpQ0Y=.sha256)&#39;,
+  mentions: [{
+    name: &#39;CHC.jpg&#39;,
+    link: &#39;&amp;akkg6hKV7ee6sATu3mLeR6KfhgUbNGHWl/QJeALpQ0Y=.sha256&#39;,
+    size: 288388,
+    type: &#39;image/jpeg&#39;
+  }]
+}, cb)
 </code></pre>
-<p><strong>Run:</strong></p>
-<p>From directory you cloned scuttlebot to:</p>
-<pre><code class="lang-bash">./bin.js server
-</code></pre>
-<p>Then, in another session, use the cli tool to access the API:</p>
-<pre><code class="lang-bash">./bin.js whoami
-./bin.js publish --type post --text &quot;Hello, world&quot;
-./bin.js log
-</code></pre>
-<p>You can get help with <code>-h</code>.</p>
-<p><strong>Update:</strong></p>
-<p>From directory you cloned scuttlebot to:</p>
-<pre><code class="lang-bash">git pull origin master
-npm install
-</code></pre>
+<h2 id="limitations">Limitations</h2>
+<p>It&#39;s best not to post files larger than 5MB right now, and to avoid flooding a lot of files.
+Peers that follow you will automatically sync files that you reference in your posts, without the user asking first.
+If you abuse that power, you&#39;ll get unfollowed!</p>
 
         </div>
       </div>
