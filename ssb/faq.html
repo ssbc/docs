@@ -1,0 +1,241 @@
+<html>
+    <head>
+    <title>FAQ - Scuttlebot - SSBC</title>
+    <link rel="stylesheet" href="/normalize.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/monokai.css">
+    <script src="/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+    <body>
+      <div id="topnav">
+    <div id="topnav-inner">
+      <a class="topnav-item " href="/" title="Home">
+      Home<br><small>SSBC</small>
+    </a>
+      <a class="topnav-item " href="/patchwork" title="Patchwork">
+      Patchwork<br><small>Messaging App</small>
+    </a>
+      <a class="topnav-item selected" href="/scuttlebot" title="Scuttlebot">
+      Scuttlebot<br><small>P2P Database</small>
+    </a>
+      <a class="topnav-item " href="/docs" title="Documentation">
+      Documentation<br><small>APIs, Articles</small>
+    </a>
+    </div>
+  </div>
+      <div id="layout">
+        <div id="leftnav">
+      <div class="leftnav-item ">
+      <a href="/scuttlebot" title="Scuttlebot">Scuttlebot</a>
+    </div>
+      <div class="leftnav-subitems">
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/install.html" title="Install">Install</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/tutorial.html" title="Tutorial">Tutorial</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/api/scuttlebot.html" title="API / CLI Reference">API / CLI Reference</a>
+    </div>
+      </div>
+      <div class="leftnav-item ">
+      <a href="/secure-scuttlebutt" title="Secure Scuttlebutt">Secure Scuttlebutt<br><small>Database Protocol</small></a>
+    </div>
+      <div class="leftnav-subitems">
+        <div class="leftnav-item ">
+      <a href="/docs/ssb/key-concepts.html" title="Key Concepts">Key Concepts</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/ssb/linking.html" title="Linking">Linking</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/ssb/secret-handshake.html" title="Secret Handshake">Secret Handshake</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/ssb/end-to-end-encryption.html" title="End-to-end Encryption">End-to-end Encryption</a>
+    </div>
+        <div class="leftnav-item selected">
+      <a href="/docs/ssb/faq.html" title="FAQ">FAQ</a>
+    </div>
+      </div>
+      <div class="leftnav-item">Howto Guides</div>
+      <div class="leftnav-subitems">
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-setup-a-pub.html" title="Setup a Pub">Setup a Pub</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-create-a-js-client.html" title="Create a JS Client">Create a JS Client</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-get-your-id.html" title="Get your ID">Get your ID</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-get-your-address.html" title="Get your Address">Get your Address</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-publish-a-post.html" title="Publish a Post">Publish a Post</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-publish-a-file.html" title="Publish a File">Publish a File</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-publish-encrypted-messages.html" title="Publish Encrypted Messages">Publish Encrypted Messages</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-follow-unfollow.html" title="Follow/Unfollow">Follow/Unfollow</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-announce-a-pub-server.html" title="Announce a Pub Server">Announce a Pub Server</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-create-an-invite.html" title="Create an Invite">Create an Invite</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-use-an-invite.html" title="Use an Invite">Use an Invite</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-update-your-profile.html" title="Update your Profile">Update your Profile</a>
+    </div>
+      </div>
+    </div>
+        <div id="content">
+          <h1 id="faq">FAQ</h1>
+<h2 id="how-does-user-identity-work-">How does user identity work?</h2>
+<p>Users are identified by public keys.
+This means it is not necessary to have a global registry of user names, nor to have a central server that tracks the action of users.
+Instead, every user action (post) is signed, and this can be verified by any peer.</p>
+<p>To evaluate the trustworthiness of a user, you look at information published by other trusted users about the target.
+If trusted users have flagged the target, then it is a bad actor.
+If trusted users have followed the target, then it is probably a good actor.</p>
+<h2 id="what-does-a-message-look-like-">What does a message look like?</h2>
+<p>Here is an example message.
+The top level properties are all mandatory, but the user may set anything inside the <code>content</code> property, as long as there is a <code>type</code> field which is a string between 3 and 64 characters long. 
+(The type is up to 64 characters long so that it may be represented by a hash.)</p>
+<pre><code class="lang-js">{
+  &quot;previous&quot;: &quot;%26AC+gU0t74jRGVeDY013cVghlZRc0nfUAnMnutGGHM=.sha256&quot;,
+  &quot;author&quot;: &quot;@hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519&quot;,
+  &quot;sequence&quot;: 216,
+  &quot;timestamp&quot;: 1442590513298,
+  &quot;hash&quot;: &quot;sha256&quot;,
+  &quot;content&quot;: {
+    &quot;type&quot;: &quot;vote&quot;,
+    &quot;vote&quot;: {
+      &quot;link&quot;: &quot;%WbQ4dq0m/zu5jxll9zUbe0iGmDOajCx1ZkLKjZ80JvI=.sha256&quot;,
+      &quot;value&quot;: 1
+    }
+  },
+  &quot;signature&quot;: &quot;Sjq1C3yiKdmi1TWvNqxIk1ZQBf4pPJYl0HHRDVf/xjm5tWJHBaW4kXo6mHPcUMbJYUtc03IvPwVqB+BMnBgmAQ==.sig.ed25519&quot;
+}
+</code></pre>
+<p>The <code>previous</code> is the hash of the message before this in the feed signed by <code>author</code>.
+<code>author</code> is the public key which signs this feed. 
+The key pair for this feed <em>may not</em> be used for other feeds.</p>
+<h2 id="why-is-there-a-size-limit-on-messages-">Why is there a size limit on messages?</h2>
+<p>Messages are limited at 8kb in size so that the time required to replicate is predictable.
+Also, since peers will replicate all messages for peers they follow, it&#39;s important that peers do not create an unreasonable amount of work for each other.</p>
+<p>If you need a larger object, use &quot;blob attachments.&quot;</p>
+<h2 id="what-are-attachments-">What are attachments?</h2>
+<p>Attachments are immutable blobs of binary data, similar to email attachments.
+When clients see a message that refers to a given attachment, it will request it if the attachment isn&#39;t already stored locally.
+Attachments are limited to 10mb.</p>
+<p>Replication of larger files could be implemented by integrating bittorrent (or even better, <a href="https://github.com/feross/webtorrent">webtorrent</a>).</p>
+<h2 id="how-do-new-users-join-the-system-">How do new users join the system?</h2>
+<p>To join the network, a user needs to know a server in the system.
+To have their data replicated, they need someone to follow them.</p>
+<p>The simplest way to join the network is to use an invite code.
+The invite code contains the address of a pub server, and a secret that commands the server to follow (and therefore replicate) the invite&#39;s user.
+If you run your own pub server you can create invite codes and give them to your friends.</p>
+<h2 id="why-do-you-have-pub-servers-isn-t-that-a-point-of-centralization-">Why do you have pub servers? isn&#39;t that a point of centralization?</h2>
+<p>Routers with Network Address Translation (&quot;NAT&quot;) and firewalls, and the shortage of IP addresses, make p2p difficult.
+The simplest way around this problem was to create &quot;pub servers&quot;.</p>
+<p>A pub server is exactly like a normal client, except you run it on a server with a static IP address.
+It&#39;s a &quot;pub&quot; as in a bar where your friends meet to exchange gossip.</p>
+<p>Anyone can run a pub server.
+It&#39;s not centralization because pub servers are totally generic (same code as &quot;clients&quot;) and because, if we did have ipv6 and full p2p, ssb would work without any changes.
+Also note that ssb also detects other peers running on your local network (wifi) and connects to them directly, without pub servers.</p>
+<h2 id="how-do-i-reserve-my-user-name-">How do I reserve my user name?</h2>
+<p>Secure Scuttlebutt does not have unique user names, because that would require a central registry of names, and then the system would not be decentralized.</p>
+<p>Instead, ssb&#39;s nicknames can be set locally.
+If two of your friends pick the same name, then you can rename one to disambiguate them.</p>
+<p>The web interface alerts the user to name conflicts, so that this can be resolved quickly.</p>
+<h2 id="how-do-we-prevent-harassment-and-spam-">How do we prevent harassment and spam?</h2>
+<p>Harassment is a problem on most online services.
+The normal approach is to give users block or mute buttons or to have moderators.
+All of these could be implemented on top of secure scuttlebutt.</p>
+<p>Presently, there is a &quot;flag&quot; feature, which is an extremely strong negative signal.
+If somebody is behaving poorly, feel free to flag them.</p>
+<h2 id="is-it-possible-to-delete-or-edit-messages-">Is it possible to delete or edit messages?</h2>
+<p>Secure Scuttlebutt is immutable, so strictly speaking you cannot change anything that has been published.
+There are, however, abstractions on top of the feeds which allow behaviors like deletion and editing.</p>
+<h3 id="delete">Delete</h3>
+<p>A true delete is not possible: instead, you post a message asking your friends to <em>ignore</em> the message.
+This is somewhat like real life - if you say something embarrassing, the best you can do is ask your friends to ignore it.
+(Life is much better when you have good friends.)</p>
+<h3 id="edit">Edit</h3>
+<p>Editable objects can be represented by posting a create message, and then posting a message that refers to that message and overrides properties on that message, or applies patches to it.
+By declaring lists of who may or may not edit documents, and using CRDTs to ensure convergence, you could implement access controls.</p>
+<h2 id="could-games-be-built-on-top-of-ssb-">Could games be built on top of ssb?</h2>
+<p>SSB would be quite suitable for turn based games.</p>
+<p>Generally, games are competitive, and so ensuring fairness requires consistency, i.e. turns. 
+In some games, player move in a given order (i.e. in a card game, players move one at a time).
+In other games, players make moves simultaneously (i.e. in rock paper scissors).
+(This is distinct from collaborative tasks such as wiki editing which are cooperative and are generally fine with eventual consistency.)</p>
+<p>This would be similar to editable documents, except that there would be well defined order that &quot;edits&quot; must occur in.</p>
+<h3 id="perfect-information-games-chess-checkers-go">Perfect information games: chess / checkers / go</h3>
+<p>Often in strategy games, all players know all information (except the plan of their opponent).
+This could be easily implemented by posting messages that indicated the move taken from the previous game state.</p>
+<h3 id="rock-paper-scissors">Rock Paper Scissors</h3>
+<p>In Rock Paper Scissors players reveal a secret simultaneously (their move).
+This could be implemented securely by using a <a href="https://en.wikipedia.org/wiki/Commitment_scheme">commitment protocol</a>.</p>
+<h3 id="poker">Poker</h3>
+<p>Poker could be implemented securely (though, with more than 2 players you would have to trust other players not to collude, as you would in real life).
+Shortly after inventing RSA encryption, Shamir, Rivest, Adleman developed a system for secure online poker called <a href="https://en.wikipedia.org/wiki/Mental_poker">mental poker</a>.</p>
+<p>I am not currently aware of any online poker site that uses their system, however.
+Online poker depends on a trusted server - imagine playing poker around a table, but the dealer holds the cards face up, and shuffles behind a screen.
+And yes, there have been <a href="http://freakonomics.com/2007/10/17/the-absolute-poker-cheating-scandal-blown-wide-open/">scandals</a> where poker sites have had backdoors and have had house players that knew what cards the other players have!</p>
+<h2 id="how-do-you-ensure-data-consistency-between-users-">How do you ensure data consistency between users?</h2>
+<p>Sometimes, you want to make sure that other users are aware of a given change.
+This can be implemented by posting acknowledgement messages.</p>
+<p>There is also active discussion about using signed pings to send ephemeral acknowledgements (off of the feeds).</p>
+<h3 id="is-ssb-highly-available-ap-or-highly-consistent-cp-">Is SSB highly available (AP) or highly consistent (CP)?</h3>
+<p>SSB is highly-available (AP).
+Devices can create messages while offline, then synchronize later.
+This means all data is eventually-consistent.</p>
+<h3 id="can-i-know-if-i-have-the-latest-messages-from-somebody-">Can I know if I have the latest messages from somebody?</h3>
+<p>No, because it&#39;s possible for devices to drop and continue operating (a network &quot;partition&quot;).
+There&#39;s a proposal to used signed pings to measure the &quot;freshness&quot; of a feed, but this could only be used in small groups of interested peers.</p>
+<h3 id="is-there-a-global-total-order-in-ssb-">Is there a global total order in SSB?</h3>
+<p>No.
+There is, however, a global <a href="http://en.wikipedia.org/wiki/Partially_ordered_set#Formal_definition">partial order</a>.</p>
+<p>An individual feed has an internal <a href="http://en.wikipedia.org/wiki/Total_order">total order</a>.
+Every message contains a sequence number and a pointer to the previous message in that feed.</p>
+<p>If feed A posts a message that links to a message in feed B, then we know that A&#39;s message is <em>after</em> B&#39;s.
+That is, message-links imply a <code>happens-before</code> relationship.
+(This is because, in order to know the hash of an object, that object must already exist.)</p>
+<p>Messages contain <a href="http://en.wikipedia.org/wiki/Monotonic_function">monotonically increasing</a> UTC timestamps and sequence numbers.
+This means you can assign an order to any two messages.
+However, be aware that there is no way to ensure that the timestamp is accurate.</p>
+<h2 id="can-i-deploy-applications-over-ssb-">Can I deploy applications over SSB?</h2>
+<p>It would be possible to deploy applications over ssb by sending the assets for that application as an attachment.
+Then other users could run that app on their local machine.</p>
+<p>We have plans to build on this in the future.</p>
+<h3 id="how-will-you-know-it-is-safe-to-run-an-application-">How will you know it is safe to run an application?</h3>
+<p>Applications would be run in a sandbox, and, since new versions of the application would be immutably published, it would always be possible to see the history of that application.
+This would actually be much more secure that a normal web application.
+In a normal website your browser just downloads code and runs it.
+While it does run in a sandbox, it would be entirely possible to send one person a special version of the code that contained a targeted backdoor.
+Since, in ssb, everyone will see the same history, it would be impossible to attack a single user like this without eventually being caught out.</p>
+<h3 id="auditing-applications">Auditing applications</h3>
+<p>Some applications require a higher quality standard, especially if they need special rights to the device&#39;s resources.</p>
+<p>Since performing a security audit is a highly skilled task, most users will not be able to perform their own security audit.
+In this case, the user could &quot;delegate&quot; the auditing task to another user (or users) who perform the audit, posting a message declaring a given version safe to run.
+Since the user can choose their auditors independently, it would mean an attacker would have to compromise the developers and many auditors in order to get people to install malicious code.</p>
+<p>Auditing could also be applied to application permissons.
+Of course, the decision about what permissions is reasonable for a given application is much simpler than looking at code and checking there is nothing unsafe.</p>
+
+        </div>
+      </div>
+    </body>
+  </html>

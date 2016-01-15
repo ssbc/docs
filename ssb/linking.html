@@ -1,6 +1,6 @@
 <html>
     <head>
-    <title>HOWTO: Publish a Post - Scuttlebot - SSBC</title>
+    <title>Linking - Scuttlebot - SSBC</title>
     <link rel="stylesheet" href="/normalize.css">
     <link rel="stylesheet" href="/styles.css">
     <link rel="stylesheet" href="/monokai.css">
@@ -47,7 +47,7 @@
         <div class="leftnav-item ">
       <a href="/docs/ssb/key-concepts.html" title="Key Concepts">Key Concepts</a>
     </div>
-        <div class="leftnav-item ">
+        <div class="leftnav-item selected">
       <a href="/docs/ssb/linking.html" title="Linking">Linking</a>
     </div>
         <div class="leftnav-item ">
@@ -74,7 +74,7 @@
         <div class="leftnav-item ">
       <a href="/docs/scuttlebot/howto-get-your-address.html" title="Get your Address">Get your Address</a>
     </div>
-        <div class="leftnav-item selected">
+        <div class="leftnav-item ">
       <a href="/docs/scuttlebot/howto-publish-a-post.html" title="Publish a Post">Publish a Post</a>
     </div>
         <div class="leftnav-item ">
@@ -101,60 +101,81 @@
       </div>
     </div>
         <div id="content">
-          <h1 id="publish-a-post">Publish a Post</h1>
-<p>Publishing messages in Scuttlebot is very simple:</p>
-<pre><code class="lang-bash">sbot publish --type {type} [...attributes]
+          <h1 id="linking">Linking</h1>
+<p>Messages, feeds, and blobs are addressable by specially-formatted identifiers.
+Message and blob IDs are content-hashes, while feed IDs are public keys.</p>
+<p>To indicate the type of ID, a &quot;sigil&quot; is prepended to the string. They are:</p>
+<ul>
+<li><code>@</code> for feeds</li>
+<li><code>%</code> for messages</li>
+<li><code>&amp;</code> for blobs</li>
+</ul>
+<p>Additionally, each ID has a &quot;tag&quot; appended to indicate the hash or key algorithm.
+Some example IDs:</p>
+<ul>
+<li>A feed: <code>@LA9HYf5rnUJFHHTklKXLLRyrEytayjbFZRo76Aj/qKs=.ed25519</code></li>
+<li>A message: <code>%MPB9vxHO0pvi2ve2wh6Do05ZrV7P6ZjUQ+IEYnzLfTs=.sha256</code></li>
+<li>A blob: <code>&amp;Pe5kTo/V/w4MToasp1IuyMrMcCkQwDOdyzbyD5fy4ac=.sha256</code></li>
+</ul>
+<hr>
+<p>When IDs are found in the messages, they may be treated as links, with the keyname acting as a &quot;relation&quot; type.
+An example of this:</p>
+<pre><code class="lang-bash">sbot publish --type post \
+  --root &quot;%MPB9vxHO0pvi2ve2wh6Do05ZrV7P6ZjUQ+IEYnzLfTs=.sha256&quot; \
+  --branch &quot;%kRi8MzGDWw2iKNmZak5STshtzJ1D8G/sAj8pa4bVXLI=.sha256&quot; \
+  --text &quot;this is a reply!&quot;
 </code></pre>
-<pre><code class="lang-js">sbot.publish({ type: type, ... }, cb)
+<pre><code class="lang-js">sbot.publish({
+  type: &quot;post&quot;,
+  root: &quot;%MPB9vxHO0pvi2ve2wh6Do05ZrV7P6ZjUQ+IEYnzLfTs=.sha256&quot;,
+  branch: &quot;%kRi8MzGDWw2iKNmZak5STshtzJ1D8G/sAj8pa4bVXLI=.sha256&quot;,
+  text: &quot;this is a reply!&quot;
+})
 </code></pre>
-<p>The &quot;post&quot; type is a generic text-based message.
-Here&#39;s an example publish command:</p>
-<pre><code class="lang-bash">sbot publish --type post --text &quot;hello, world&quot;
+<p>In this example, the <code>root</code> and <code>branch</code> keys are the relations.
+SSB automatically builds an index based on these links, to allow queries such as &quot;all messages with a <code>root</code> link to this message.&quot;</p>
+<hr>
+<p>If you want to include data in the link object, you can specify an object with the id in the <code>link</code> subattribute:</p>
+<pre><code class="lang-bash">sbot publish --type post \
+  --mentions.link &quot;@LA9HYf5rnUJFHHTklKXLLRyrEytayjbFZRo76Aj/qKs=.ed25519&quot; \
+  --mentions.name bob \
+  --text &quot;hello, @bob&quot;
 </code></pre>
-<pre><code class="lang-js">sbot.publish({ type: &#39;post&#39;, text: &#39;hello, world&#39; }, cb)
+<pre><code class="lang-js">sbot.publish({
+  type: &quot;post&quot;,
+  mentions: { 
+    link: &quot;@LA9HYf5rnUJFHHTklKXLLRyrEytayjbFZRo76Aj/qKs=.ed25519&quot;,
+    name: &quot;bob&quot;
+  },
+  text: &quot;hello, @bob&quot;
+})
 </code></pre>
-<h2 id="schema">Schema</h2>
-<p>The full schema of a post message is:</p>
-<pre><code class="lang-js">{
-  type: &#39;post&#39;,
-  text: String,
-  channel: optional String,
-  root: optional MsgLink,
-  branch: optional MsgLink,
-  recps: optional FeedLinks,
-  mentions: optional Links
-}
+<hr>
+<p>To query the link-graph, use <a href="https://github.com/ssbc/scuttlebot/blob/master/api.md#links-source">links</a>:</p>
+<pre><code class="lang-bash">sbot links [--source id|filter] [--dest id|filter] [--rel value]
 </code></pre>
-<h2 id="posting-to-a-channel">Posting to a Channel</h2>
-<p>To post to a channel, just include the name of the channel, without the #.
-For instance, to publish to &#39;#patchwork-dev&#39;:</p>
-<pre><code class="lang-bash">sbot publish --type post --text &quot;hello, world&quot; --channel patchwork-dev
+<pre><code class="lang-js">pull(sbot.links({ source:, dest:, rel: }), pull.drain(...))
 </code></pre>
-<pre><code class="lang-js">sbot.publish({ type: &#39;post&#39;, text: &#39;hello, world&#39;, channel: &#39;patchwork-dev&#39; }, cb)
+<p>You can provide either the source or the destination.
+Both can be set to a sigil to filter; for instance, using <code>&#39;&amp;&#39;</code> will filter to blobs, as <code>&amp;</code> is the sigil that precedes blob IDs.
+You can also include a relation-type filter.</p>
+<p>Here are some example queries:</p>
+<pre><code class="lang-bash">sbot links --dest %6sHHKhwjVTFVADme55JVW3j9DoWbSlUmemVA6E42bf8=.sha256
+sbot links --rel about --dest @hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519
+sbot links --dest &quot;&amp;&quot; --source @hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519
 </code></pre>
-<h2 id="posting-a-reply">Posting a Reply</h2>
-<p>Replies use the <code>root</code> and <code>branch</code> attributes of posts.
-The <code>root</code> should give the ID of the topmost post in the thread, whereas <code>branch</code> has the ID of the immediate parent.
-If replying to the topmost post, then <code>root</code> and <code>branch</code> will be equal.</p>
-<p>Here&#39;s an example of replying to the topmost post:</p>
-<pre><code class="lang-bash">sbot publish --type post --text &quot;I agree!&quot; --root %cfts5CAC/KIg1MNCbDXMVXPVhPsc4dRNWMXO2dNrN9Y=.sha256 --branch %cfts5CAC/KIg1MNCbDXMVXPVhPsc4dRNWMXO2dNrN9Y=.sha256
+<pre><code class="lang-js">pull(sbot.links({ dest: &#39;%6sHHKhwjVTFVADme55JVW3j9DoWbSlUmemVA6E42bf8=.sha256&#39; }), pull.drain(...))
+pull(sbot.links({ rel: &#39;about&#39;, dest: &#39;@hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519&#39; }), pull.drain(...))
+pull(sbot.links({ dest: &#39;&amp;&#39;, source: &#39;@hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519&#39; }), pull.drain(...))
 </code></pre>
-<pre><code class="lang-js">sbot.publish({ type: &#39;post&#39;, text: &#39;I agree!&#39;, root: &#39;%cfts5CAC/KIg1MNCbDXMVXPVhPsc4dRNWMXO2dNrN9Y=.sha256&#39;, branch: &#39;%cfts5CAC/KIg1MNCbDXMVXPVhPsc4dRNWMXO2dNrN9Y=.sha256&#39; }, cb)
+<hr>
+<p>A common pattern is to recursively fetch the links that point to a message, creating a tree.
+This is useful for creating comment-threads, for instance.</p>
+<p>You can do that easily in scuttlebot with <a href="https://github.com/ssbc/scuttlebot/blob/master/api.md#relatedmessages-async">relatedMessages</a>.</p>
+<pre><code class="lang-bash">sbot relatedMessages --id {id}
 </code></pre>
-<p>If the thread is in a channel, be sure to include the <code>channel</code> attribute as well.</p>
-<h2 id="mentioning-a-user">Mentioning a User</h2>
-<p>The <code>mentions</code> attribute lets you explicitly reference other users, messages, or files.
-If a link is present in <code>mentions</code>, then it&#39;s usually because the name of the mentioned object is in the text of the post.</p>
-<p>Here&#39;s an example of mentioning a user:</p>
-<pre><code class="lang-bash">sbot publish --type post --text &quot;hello, @paul&quot; --mentions.0.name paul --mentions.0.link @hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519
+<pre><code class="lang-js">sbot.relatedMessages({ id: id }, cb)
 </code></pre>
-<pre><code class="lang-js">sbot.publish({ type: &#39;post&#39;, text: &#39;hello, @paul&#39;, mentions: [{ name: &#39;paul&#39;, link: &#39;@hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519&#39; }] }, cb)
-</code></pre>
-<h2 id="setting-recipients">Setting Recipients</h2>
-<p>When a post is private, it will be <a href="howto-publish-encrypted-messages.md">encrypted</a>.
-Because Scuttlebot&#39;s encrypted form doesn&#39;t include any metadata about who the message is encrypted to, you&#39;ll need to include the recipients list in the <code>recps</code> attribute.</p>
-<p>Note, you should only use <code>recps</code> in encrypted messages.
-It&#39;s not really meant for public messages.</p>
 
         </div>
       </div>

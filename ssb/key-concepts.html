@@ -1,0 +1,160 @@
+<html>
+    <head>
+    <title>Key Concepts - Scuttlebot - SSBC</title>
+    <link rel="stylesheet" href="/normalize.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/monokai.css">
+    <script src="/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+    <body>
+      <div id="topnav">
+    <div id="topnav-inner">
+      <a class="topnav-item " href="/" title="Home">
+      Home<br><small>SSBC</small>
+    </a>
+      <a class="topnav-item " href="/patchwork" title="Patchwork">
+      Patchwork<br><small>Messaging App</small>
+    </a>
+      <a class="topnav-item selected" href="/scuttlebot" title="Scuttlebot">
+      Scuttlebot<br><small>P2P Database</small>
+    </a>
+      <a class="topnav-item " href="/docs" title="Documentation">
+      Documentation<br><small>APIs, Articles</small>
+    </a>
+    </div>
+  </div>
+      <div id="layout">
+        <div id="leftnav">
+      <div class="leftnav-item ">
+      <a href="/scuttlebot" title="Scuttlebot">Scuttlebot</a>
+    </div>
+      <div class="leftnav-subitems">
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/install.html" title="Install">Install</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/tutorial.html" title="Tutorial">Tutorial</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/api/scuttlebot.html" title="API / CLI Reference">API / CLI Reference</a>
+    </div>
+      </div>
+      <div class="leftnav-item ">
+      <a href="/secure-scuttlebutt" title="Secure Scuttlebutt">Secure Scuttlebutt<br><small>Database Protocol</small></a>
+    </div>
+      <div class="leftnav-subitems">
+        <div class="leftnav-item selected">
+      <a href="/docs/ssb/key-concepts.html" title="Key Concepts">Key Concepts</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/ssb/linking.html" title="Linking">Linking</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/ssb/secret-handshake.html" title="Secret Handshake">Secret Handshake</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/ssb/end-to-end-encryption.html" title="End-to-end Encryption">End-to-end Encryption</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/ssb/faq.html" title="FAQ">FAQ</a>
+    </div>
+      </div>
+      <div class="leftnav-item">Howto Guides</div>
+      <div class="leftnav-subitems">
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-setup-a-pub.html" title="Setup a Pub">Setup a Pub</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-create-a-js-client.html" title="Create a JS Client">Create a JS Client</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-get-your-id.html" title="Get your ID">Get your ID</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-get-your-address.html" title="Get your Address">Get your Address</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-publish-a-post.html" title="Publish a Post">Publish a Post</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-publish-a-file.html" title="Publish a File">Publish a File</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-publish-encrypted-messages.html" title="Publish Encrypted Messages">Publish Encrypted Messages</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-follow-unfollow.html" title="Follow/Unfollow">Follow/Unfollow</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-announce-a-pub-server.html" title="Announce a Pub Server">Announce a Pub Server</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-create-an-invite.html" title="Create an Invite">Create an Invite</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-use-an-invite.html" title="Use an Invite">Use an Invite</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/scuttlebot/howto-update-your-profile.html" title="Update your Profile">Update your Profile</a>
+    </div>
+      </div>
+    </div>
+        <div id="content">
+          <h1 id="key-concepts">Key Concepts</h1>
+<h2 id="feeds-and-users">Feeds and Users</h2>
+<p>SSB&#39;s primary data-structure is the append-only log, known also as the &quot;feed.&quot;
+Feeds are used by applications to build more sophisticated data-structures.</p>
+<p>The database contains many feeds.
+Each feed has one owner user, and each user can only write to one feed.
+Therefore, you can think of feeds and users as interchangeble concepts.</p>
+<p>Each feed is managed by an elliptic-curve keypair.
+The public key acts as the ID of the feed.
+The private key is used to sign each message on the feed.
+Keypairs can not be reused for multiple feeds.</p>
+<h2 id="the-blockchains">The Blockchains</h2>
+<p>A signed blockchain structure is used to ensure feed-consistency across the network.
+The signature proves authorship, making it possible for messages to be gossipped over untrusted peers.
+The prev-hashes reveal changes to history, stopping users from altering their old messages after publishing.
+With these protections, the network can converge on one universal state.</p>
+<p>Some blockchain protocols, such as Bitcoin and Ethereum, create one global blockchain.
+This requires coming to consensus about the order of messages in the blockchain.
+Proof-of-Work computation is used to create this consensus.
+Because SSB contains many feeds, and each feed is maintained by a single user, there is no need to come to consensus about order.
+This is because the owning user asserts the feed&#39;s order, and thus could only conflict with itself.
+Therefore, no proof-of-work is required.</p>
+<h2 id="trust-graphs">Trust Graphs</h2>
+<p>SSB uses trust-graphs between feeds to solve discovery, and to protect against spam and sybil attacks.
+This is presented to users as a social network.
+Users choose which feeds to follow, and each follow is published on their feed, creating a public follow-graph.</p>
+<p>The follow-graph is used to reduce spam, by only allowing followeds to reach the inbox with mail.
+It is also used as a signal to identify mutual friends, similar to how PGP&#39;s Web-of-Trust works.</p>
+<p>Users can flag feeds for bad behavior, and these flags are also published, creating a flag-graph.
+Flagged users may be blocked from syncing with regions of the network.</p>
+<h2 id="gossip-replication">Gossip Replication</h2>
+<p>When a connection is opened between nodes, they ask each other for any updates in their follow-lists.
+Because feeds are sequential append-only logs, the gossip handshake is a simple list of <code>(feed-id, seq)</code> tuples.
+If the receiving peer has messages for a feed with a <code>seq</code> number greater than given in the handshake, it streams them to the other peer.</p>
+<p>Gossip provides transitive connectivity through-out the network.
+This is enables sync between nodes which can&#39;t connect directly via intermediary nodes.</p>
+<h2 id="lan-and-internet-connectivity">LAN and Internet connectivity</h2>
+<p>SSB is hostless: each computer installs the same copy of software and has equal rights in the network.
+Devices discover each other over the LAN with multicast UDP and sync automatically.</p>
+<p>To sync across the Internet, &quot;Pub&quot; nodes run at public IPs and follow users.
+They are essentially mail-bots which improve uptime and availability.
+Users generate invite-codes to command Pubs to follow their friends.
+The SSB team runs some Pubs, but anybody can create and introduce their own.</p>
+<h2 id="using-ssb">Using SSB</h2>
+<p>Secure Scuttlebutt is a <a href="http://www.kappa-architecture.com/">Kappa Architecture</a> API.
+Applications pull the feeds&#39; messages in a stream, and use them to compute &quot;views&quot; of the current state.
+The views can be computed by application code, or by a database engine like SQLite or PostgreSQL after converting the messages to <code>INSERT</code> statements.</p>
+<p>SSB stores received messages in a LevelDB instance on the local disk.
+By default, it creates indexes for quickly reading streams of messages by type, by author, and by links.</p>
+<h2 id="blobs">Blobs</h2>
+<p>The Scuttlebot server watches the incoming messages of followed users for blob links.
+When a blob link is detected, it queries its peers for the blob, and downloads the blob to a local cache if found.</p>
+
+        </div>
+      </div>
+    </body>
+  </html>
