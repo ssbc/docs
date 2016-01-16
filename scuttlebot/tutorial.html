@@ -240,6 +240,17 @@ function addFileFromDisk (sbot, package, name, filePath, cb) {
 <p>And we can now use this function to publish our jpg:</p>
 <pre><code class="lang-js">addFileFromDisk(sbot, &#39;My Files Package&#39;, &#39;my-picture.jpg&#39;, &#39;./my-picture.jpg&#39;)
 </code></pre>
+<p>The result is something more like this:</p>
+<pre><code class="lang-js">{
+  type: &#39;add-file-to-package&#39;,
+  package: &#39;My Files Package&#39;,
+  name: &#39;my-picture.jpg&#39;,
+  fileData: &#39;&amp;RRELXJAxum631eq1ikj7+qngd3f6Dvz7eA1mZNHBPQ0=.sha256&#39;
+}
+</code></pre>
+<p>The value of <code>fileData</code> is now a <a href="https://ssbc.github.io/docs/ssb/linking.html">content-hash link</a>.
+When other Scuttlebots see it, they&#39;ll ask their peers for the blob that matches that sha256 hash.
+That means the file will lag behind the message a little bit, but it&#39;ll get there eventually!</p>
 <h2 id="reading-the-messages">Reading the Messages</h2>
 <p>Now that we&#39;ve got the publishing handled, we need to read the messages in, and process them into our output state.</p>
 <p>Scuttlebot uses <a href="https://github.com/dominictarr/pull-stream">pull-streams</a>.
