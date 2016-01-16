@@ -100,127 +100,79 @@
     </div>
         <div id="content">
           <h1 id="introduction-to-using-scuttlebot">Introduction to Using Scuttlebot</h1>
-<p>This guide will help you familiarize with Scuttlebot&#39;s API, both from the command-line and in applications, so you can build scripts and applications.</p>
-<p>If you&#39;re not yet familiar with Scuttlebot&#39;s database protocol, Secure Scuttlebutt, I recommend you read <a href="./learn.md">&quot;Learn about SSB&quot;</a> first, as it will explain a lot of the basic technical concepts more fully.
-If you haven&#39;t installed Scuttlebot yet, follow the <a href="./README.md#setup-scuttlebot">setup instructions</a>.</p>
-<ul>
-<li>Learn the API<ul>
-<li><a href="#create-client">Create Client</a></li>
-<li><a href="#basics">Basics</a></li>
-<li><a href="#links">Links</a></li>
-<li><a href="#builtin-message-types">Builtin Message Types</a></li>
-<li><a href="#confidential-messages">Confidential Messages</a></li>
-</ul>
-</li>
-<li>Plugin APIs<ul>
-<li><a href="#blobs">Blobs</a></li>
-<li><a href="#friends">Friends</a></li>
-<li><a href="#gossip">Gossip</a></li>
-<li><a href="#invite">Invite</a></li>
-<li><a href="#replicate">Replicate</a></li>
-</ul>
-</li>
-</ul>
-<hr>
-<p>Scuttlebot&#39;s CLI translates directly from the shell to RPC calls.
-That means any call you can make programmatically can be made from the shell as well.</p>
-<hr>
-<h2 id="create-client">Create Client</h2>
+<p>This tutorial will help you familiarize with Scuttlebot, so you can build scripts and applications.</p>
+<p>Scuttlebot is pretty unusual compared to datastores like MySQL or Redis, so let&#39;s get started with some basics.</p>
+<h2 id="what-is-scuttlebot-">What is Scuttlebot?</h2>
+<p>Scuttlebot is a peer-to-peer log store.
+Its data model is similar to that of <a href="https://kafka.apache.org/">Apache Kafka</a>, and it&#39;s part of a pattern that&#39;s now referred to as the <a href="kappa-architecture.com/">Kappa Architecture</a>.</p>
+<p>What is Kappa Architecture?</p>
+<blockquote>
+<p>Kappa Architecture is a software architecture pattern.
+ Rather than using a relational DB like SQL or a key-value store like Cassandra, the canonical data store in a Kappa Architecture system is an append-only immutable log.
+ From the log, data is streamed through a computational system and fed into auxiliary stores for serving.</p>
+</blockquote>
+<p>So, imagine if Twitter supported JSON posts, and allowed more characters.
+Now imagine your JSON-Twitter was also peer-to-peer.</p>
+<p>In a nutshell, that&#39;s Scuttlebot.</p>
+<h2 id="how-do-you-write-applications-with-it-">How do you write applications with it?</h2>
+<p>While feeds of JSON messages may seem pretty limited, they&#39;re actually able to support some pretty complex data-structures.</p>
+<p>For instance, imagine we wanted to write a new file-sharing app.
+To declare a new &quot;package&quot; of files, we might just publish a message like this:</p>
+<pre><code class="lang-js">{
+  type: &#39;create-file-package&#39;,
+  package: &#39;My Files Package&#39;
+}
+</code></pre>
+<p>Then, we could add files with some more messages:</p>
+<pre><code class="lang-js">{
+  type: &#39;add-file-to-package&#39;,
+  package: &#39;My Files Package&#39;,
+  name: &#39;hello-world.txt&#39;,
+  fileData: &#39;Hello, world!&#39;
+}
+{
+  type: &#39;add-file-to-package&#39;,
+  package: &#39;My Files Package&#39;,
+  name: &#39;my-picture.jpg&#39;,
+  fileData: fs.readFileSync(&#39;./my-picture.jpg&#39;).toString(&#39;base64&#39;)
+}
+</code></pre>
+<p>And then decide that, no, maybe that picture shouldnt be in the package:</p>
+<pre><code class="lang-js">{
+  type: &#39;remove-file-from-package&#39;,
+  package: &#39;My Files Package&#39;,
+  name: &#39;my-picture.jpg&#39;
+}
+</code></pre>
+<p>With the right processing code, we could easily scan these messages and produce a predictable output state, in the form of a data-structure:</p>
+<pre><code class="lang-js">{
+  package: &#39;My Files Package&#39;,
+  files: { &#39;hello-world.txt&#39;: &#39;Hello, world!&#39; }
+}
+</code></pre>
+<p>And that&#39;s exactly how Scuttlebot applications work.
+So, let&#39;s dig into the practical steps of making that happen.</p>
+<h2 id="setup-the-server">Setup the Server</h2>
+<p>The first step is to <a href="./install.html">install</a> Scuttlebot.
+You&#39;ll want the server running on the device that&#39;s running your application.</p>
+<p>Scuttlebot is meant to be used on users&#39; devices, in a P2P network.
+It can be embedded (<a href="https://ssbc.github.io/patchwork/">Patchwork</a> does this) but that&#39;s going to create conflicts after the user installs two Scuttlebot-embedding apps.
+So, for now, it&#39;s best to tell your users to install and run Scuttlebot or Patchwork themselves, as dependencies to your app.</p>
+<h2 id="create-the-client">Create the Client</h2>
 <p>The current process for connecting to scuttlebot involves loading the master keypair from sbot&#39;s config (~/.ssb/secret).
-Do this automatically with the <a href="https://github.com/ssbc/ssb-client">ssb-client</a> module.</p>
+You can do this automatically with the <a href="https://github.com/ssbc/ssb-client">ssb-client</a> module.</p>
 <pre><code class="lang-js">var ssbClient = require(&#39;ssb-client&#39;)
 ssbClient(function (err, sbot) {
   // ready
 })
 </code></pre>
-<hr>
-<p>To get your ID:</p>
-<pre><code class="lang-bash">sbot whoami
-</code></pre>
-<pre><code class="lang-js">sbot.whoami(cb)
-</code></pre>
-<p>Incidentally, your ID is your public key.</p>
-<hr>
-<p>To get your address:</p>
-<pre><code class="lang-bash">sbot getAddress
-</code></pre>
-<pre><code class="lang-js">sbot.getAddress(cb)
-</code></pre>
-<p>Addresses look like <code>ip:port:id</code>.
-This will try to get your public address.
-If you don&#39;t have a public IP, this will probably give an IP in the 192 range.</p>
-<hr>
-<h2 id="basics">Basics</h2>
-<p>Scuttlebot uses <a href="https://github.com/dominictarr/pull-stream">pull-streams</a>.
-In most cases, you&#39;ll use them like this:   </p>
-<pre><code class="lang-js">pull(sbot.someQuery(), pull.drain(function (msg) 
-  // process the message as it arrive
-}, function (err) {
-  // stream is over
-}))
-</code></pre>
-<p>Or, like this</p>
-<pre><code class="lang-js">pull(sbot.someQuery(), pull.collect(function (err, msgs) {
-  // process all the messages after the stream ends
-}))
-</code></pre>
-<hr>
-<p>The simplest query you can run is against the feed index, <a href="https://github.com/ssbc/scuttlebot/blob/master/api.md#createfeedstream-source">createFeedStream</a>.</p>
-<pre><code class="lang-bash">sbot feed
-</code></pre>
-<pre><code class="lang-js">pull(sbot.createFeedStream(), pull.drain(...))
-</code></pre>
-<p>This will output all of the messages in your scuttlebot, ordered by the claimed timestamp of the messages.
-This index is convenient, but not safe, as the timestamps on the messages are not verifiable.</p>
-<hr>
-<p>A more reliable query is the log index, <a href="https://github.com/ssbc/scuttlebot/blob/master/api.md#createlogstream-source">createLogStream</a>.</p>
-<pre><code class="lang-bash">sbot log
-</code></pre>
-<pre><code class="lang-js">pull(sbot.createLogStream(), pull.drain(...))
-</code></pre>
-<p>This will output all of the messages in your scuttlebot, ordered by when you received the messages.
-This index is safer, but (in some cases) less convenient.</p>
-<hr>
-<p>If you want to filter the messages by their type, use <a href="https://github.com/ssbc/scuttlebot/blob/master/api.md#messagesbytype-source">messagesByType</a>.</p>
-<pre><code class="lang-bash">sbot logt {type}
-</code></pre>
-<pre><code class="lang-js">pull(sbot.messagesByType(type), pull.drain(...))
-</code></pre>
-<p>This will output all of the messages in your scuttlebot of the given type, ordered by when you received the messages.</p>
-<hr>
-<p>Finally, if you want to fetch the messages by a single feed, use <a href="https://github.com/ssbc/scuttlebot/blob/master/api.md#createuserstream-source">createUserStream</a></p>
-<pre><code class="lang-bash">sbot createUserStream --id {id}
-</code></pre>
-<pre><code class="lang-js">pull(sbot.createUserStream({ id: id }), pull.drain(...))
-</code></pre>
-<p>This will output all of the messages in your scuttlebot by that log, ordered by sequence number.</p>
-<p>You can also use <a href="https://github.com/ssbc/scuttlebot/blob/master/api.md#createhistorystream-source">createHistoryStream</a> to do the same, but with a simpler interface:</p>
-<pre><code class="lang-bash">sbot hist {id}
-</code></pre>
-<pre><code class="lang-js">pull(sbot.createHistoryStream(id), pull.drain(...))
-</code></pre>
-<hr>
-<p>Also, remember you can fetch any message by ID using <a href="https://github.com/ssbc/scuttlebot/blob/master/api.md#get-async">get</a>:</p>
-<pre><code class="lang-bash">sbot get {id}
-</code></pre>
-<pre><code class="lang-js">sbot.get(id, cb)
-</code></pre>
-<hr>
-<p>In most of the query methods, you can specify <code>live: true</code> to keep the stream open.
-The stream will emit new messages as they&#39;re added to the indexes by gossip.</p>
-<pre><code class="lang-bash">sbot log --live
-</code></pre>
-<pre><code class="lang-js">pull(sbot.createLogStream({ live: true }), pull.drain(...))
-</code></pre>
-<hr>
+<p>NOTE: Scuttlebot&#39;s CLI translates directly from the shell to RPC calls.
+That means any call you can make programmatically can be made from the shell as well.</p>
+<h2 id="publishing-messages">Publishing Messages</h2>
 <p>Publishing messages in Scuttlebot is very simple:</p>
-<pre><code class="lang-bash">sbot publish --type {type} [...attributes]
-</code></pre>
 <pre><code class="lang-js">sbot.publish({ type: type, ... }, cb)
 </code></pre>
 <p>Here&#39;s an example publish:</p>
-<pre><code class="lang-bash">sbot publish --type post --text &quot;hello, world&quot;
-</code></pre>
 <pre><code class="lang-js">sbot.publish({ type: &#39;post&#39;, text: &#39;hello, world&#39; }, cb)
 </code></pre>
 <p>You are free to put anything you want in the message, with the following rules:</p>
@@ -228,207 +180,241 @@ The stream will emit new messages as they&#39;re added to the indexes by gossip.
 <li>You must include a <code>type</code> attribute.</li>
 <li>The output message, including headers, cannot exceed 8kb.</li>
 </ul>
-<p>You can find <a href="https://github.com/ssbc/ssb-msg-schemas">common message-schemas here</a>.</p>
-<hr>
-<h2 id="links">Links</h2>
-<p>Messages, feeds, and blobs are addressable by specially-formatted identifiers.
-Message and blob IDs are content-hashes, while feed IDs are public keys.</p>
-<p>To indicate the type of ID, a &quot;sigil&quot; is prepended to the string. They are:</p>
-<ul>
-<li><code>@</code> for feeds</li>
-<li><code>%</code> for messages</li>
-<li><code>&amp;</code> for blobs</li>
-</ul>
-<p>Additionally, each ID has a &quot;tag&quot; appended to indicate the hash or key algorithm.
-Some example IDs:</p>
-<ul>
-<li>A feed: <code>@LA9HYf5rnUJFHHTklKXLLRyrEytayjbFZRo76Aj/qKs=.ed25519</code></li>
-<li>A message: <code>%MPB9vxHO0pvi2ve2wh6Do05ZrV7P6ZjUQ+IEYnzLfTs=.sha256</code></li>
-<li>A blob: <code>&amp;Pe5kTo/V/w4MToasp1IuyMrMcCkQwDOdyzbyD5fy4ac=.sha256</code></li>
-</ul>
-<hr>
-<p>When IDs are found in the messages, they may be treated as links, with the keyname acting as a &quot;relation&quot; type.
-An example of this:</p>
-<pre><code class="lang-bash">sbot publish --type post \
-                  --root &quot;%MPB9vxHO0pvi2ve2wh6Do05ZrV7P6ZjUQ+IEYnzLfTs=.sha256&quot; \
-                  --branch &quot;%kRi8MzGDWw2iKNmZak5STshtzJ1D8G/sAj8pa4bVXLI=.sha256&quot; \
-                  --text &quot;this is a reply!&quot;
-</code></pre>
-<pre><code class="lang-js">sbot.publish({
-  type: &quot;post&quot;,
-  root: &quot;%MPB9vxHO0pvi2ve2wh6Do05ZrV7P6ZjUQ+IEYnzLfTs=.sha256&quot;,
-  branch: &quot;%kRi8MzGDWw2iKNmZak5STshtzJ1D8G/sAj8pa4bVXLI=.sha256&quot;,
-  text: &quot;this is a reply!&quot;
-})
-</code></pre>
-<p>In this example, the <code>root</code> and <code>branch</code> keys are the relations.
-SSB automatically builds an index based on these links, to allow queries such as &quot;all messages with a <code>root</code> link to this message.&quot;</p>
-<hr>
-<p>If you want to include data in the link object, you can specify an object with the id in the <code>link</code> subattribute:</p>
-<pre><code class="lang-bash">sbot publish --type post --mentions.link &quot;@LA9HYf5rnUJFHHTklKXLLRyrEytayjbFZRo76Aj/qKs=.ed25519&quot; \
-                  --mentions.name bob --text &quot;hello, @bob&quot;
-</code></pre>
-<pre><code class="lang-js">sbot.publish({
-  type: &quot;post&quot;,
-  mentions: { 
-    link: &quot;@LA9HYf5rnUJFHHTklKXLLRyrEytayjbFZRo76Aj/qKs=.ed25519&quot;,
-    name: &quot;bob&quot;
-  },
-  text: &quot;hello, @bob&quot;
-})
-</code></pre>
-<hr>
-<p>To query the link-graph, use <a href="https://github.com/ssbc/scuttlebot/blob/master/api.md#links-source">links</a>:</p>
-<pre><code class="lang-bash">sbot links [--source id|filter] [--dest id|filter] [--rel value]
-</code></pre>
-<pre><code class="lang-js">pull(sbot.links({ source:, dest:, rel: }), pull.drain(...))
-</code></pre>
-<p>You can provide either the source or the destination.
-Both can be set to a sigil to filter; for instance, using <code>&#39;&amp;&#39;</code> will filter to blobs, as <code>&amp;</code> is the sigil that precedes blob IDs.
-You can also include a relation-type filter.</p>
-<p>Here are some example queries:</p>
-<pre><code class="lang-bash">sbot links --dest %6sHHKhwjVTFVADme55JVW3j9DoWbSlUmemVA6E42bf8=.sha256
-sbot links --rel about --dest @hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519
-sbot links --dest &quot;&amp;&quot; --source @hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519
-</code></pre>
-<pre><code class="lang-js">pull(sbot.links({ dest: &#39;%6sHHKhwjVTFVADme55JVW3j9DoWbSlUmemVA6E42bf8=.sha256&#39; }), pull.drain(...))
-pull(sbot.links({ rel: &#39;about&#39;, dest: &#39;@hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519&#39; }), pull.drain(...))
-pull(sbot.links({ dest: &#39;&amp;&#39;, source: &#39;@hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519&#39; }), pull.drain(...))
-</code></pre>
-<hr>
-<p>A common pattern is to recursively fetch the links that point to a message, creating a tree.
-This is useful for creating comment-threads, for instance.</p>
-<p>You can do that easily in scuttlebot with <a href="https://github.com/ssbc/scuttlebot/blob/master/api.md#relatedmessages-async">relatedMessages</a>.</p>
-<pre><code class="lang-bash">sbot relatedMessages --id {id}
-</code></pre>
-<pre><code class="lang-js">sbot.relatedMessages({ id: id }, cb)
-</code></pre>
-<hr>
-<h2 id="builtin-message-types">Builtin Message Types</h2>
-<p>Scuttlebot watches for certain message-types to control it&#39;s behaviors.</p>
-<hr>
-<p>To follow a users feed, publish this <code>contact</code> message:</p>
-<pre><code class="lang-bash">sbot publish --type contact --contact {feedId} --following
-</code></pre>
-<pre><code class="lang-js">sbot.publish({ type: &#39;contact&#39;, contact: feedId, following: true }, cb)
-</code></pre>
-<p>Scuttlebot will query peers for new messages from this feed.</p>
-<hr>
-<p>To stop following a user, publish this <code>contact</code> message:</p>
-<pre><code class="lang-bash">sbot publish --type contact --contact {feedId} --no-following
-</code></pre>
-<pre><code class="lang-js">sbot.publish({ type: &#39;contact&#39;, contact: feedId, following: false }, cb)
-</code></pre>
-<hr>
-<p>To block a user, publish this <code>contact</code> message:</p>
-<pre><code class="lang-bash">sbot publish --type contact --contact {feedId} --blocking
-</code></pre>
-<pre><code class="lang-js">sbot.publish({ type: &#39;contact&#39;, contact: feedId, blocking: true }, cb)
-</code></pre>
-<p>This is a strong negative signal.
-Scuttlebot will not share feeds with a peer if the feed blocks them.</p>
-<hr>
-<p>To stop blocking a user, publish this <code>contact</code> message:</p>
-<pre><code class="lang-bash">sbot publish --type contact --contact {feedId} --no-blocking
-</code></pre>
-<pre><code class="lang-js">sbot.publish({ type: &#39;contact&#39;, contact: feedId, blocking: false }, cb)
-</code></pre>
-<hr>
-<p>To announce a pub server, publish this <code>pub</code> message:</p>
-<pre><code class="lang-bash">sbot publish --type pub --pub.link {feedId} --pub.host {string} --pub.port {number}
-</code></pre>
-<pre><code class="lang-js">sbot.publish({ type: &#39;pub&#39;, pub: { link: feedId, host: string, port: number } }, cb)
-</code></pre>
-<p>Scuttlebot will add the pub to your peer list.</p>
-<hr>
-<p>To name a node, publish this <code>about</code> message:</p>
-<pre><code class="lang-bash">sbot publish --type about --about {feedId} --name {name}
-</code></pre>
-<pre><code class="lang-js">sbot.publish({type: &#39;about&#39;, about: feedId, name: name}, cb)
-</code></pre>
-<hr>
-<p>Finally, Scuttlebot doesn&#39;t do anything with <code>post</code> messages, but they&#39;re the most common way to publish text messages:</p>
-<pre><code class="lang-bash">sbot publish --type post --text {text}
-</code></pre>
-<pre><code class="lang-js">sbot.publish({ type: &#39;post&#39;, text: text }, cb)
-</code></pre>
-<hr>
-<h3 id="confidential-messages">Confidential Messages</h3>
-<p>You can publish messages which are encrypted for up to 7 other recipients.
-This is done with the <code>private</code> plugin.</p>
-<p>First is <a href="https://github.com/ssbc/scuttlebot/blob/master/plugins/private.md#publish-async">private.publish</a>:</p>
-<pre><code class="lang-js">sbot.private.publish({ type: type, ... }, recps, cb)
-</code></pre>
-<p>This works exactly like <code>sbot.publish</code>, but <code>recps</code> includes a list of feed-ids to encrypted the message for.
-(Note, the CLI is currently not able to handle this function&#39;s signature.)</p>
-<hr>
-<p>To decode a message, you use <a href="https://github.com/ssbc/scuttlebot/blob/master/plugins/private.md#unbox-sync">private.unbox</a></p>
-<pre><code class="lang-js">sbot.private.unbox(ciphertext, cb)
-</code></pre>
-<p>An encrypted message&#39;s <code>content</code> attribute will be a string.
-So, you can see that a message is encrypted with this check:</p>
-<pre><code class="lang-js">function isEncrypted (msg) {
-  return (typeof msg.value.content == &#39;string&#39;)
+<p>You can find <a href="https://github.com/ssbc/ssb-msg-schemas">common message-schemas here</a>.
+For our toy file-publishing app, we&#39;ll make our own message schemas.</p>
+<p>Let&#39;s create some convenience functions to do the publishing:</p>
+<pre><code class="lang-js">function createPackage (sbot, package, cb) {
+  sbot.publish({
+    type: &#39;create-file-package&#39;,
+    package: package
+  }, cb)
+}
+
+function addFile (sbot, package, name, fileData, cb) {
+  sbot.publish({
+    type: &#39;add-file-to-package&#39;,
+    package: package,
+    name: name,
+    fileData: fileData
+  }, cb)
+}
+
+function removeFile (sbot, package, name, cb) {
+  sbot.publish({
+    type: &#39;remove-file-from-package&#39;,
+    package: package,
+    name: name
+  }, cb)
 }
 </code></pre>
-<p>There is no way to see who an encrypted message is for.
-If <code>unbox()</code> decrypts successfully, then you&#39;ll know the message was for you.
-Note, Scuttlebot will attempt to decrypt all incoming messages, and add them to its indexes.</p>
-<hr>
-<h2 id="plugin-apis">Plugin APIs</h2>
-<p>Scuttlebot includes a set of optional behaviors in the form of plugins.
-All of the plugins sbot includes are enabled, by default.
-That means you can use their APIs.</p>
-<h3 id="blobs">Blobs</h3>
-<p>The blobs plugin gives you access to a content-addressed files database.
-<a href="https://github.com/ssbc/scuttlebot/blob/master/plugins/blobs.md">Here is the API</a>.</p>
-<pre><code class="lang-bash">$ echo &quot;hello, world&quot; | sbot blobs.add
-&amp;hT/5N2Kgbdv3IsTr6d3WbY9j3a6pf1IcPswg2nyXYCA=.sha256
-$ sbot blobs.get &quot;&amp;hT/5N2Kgbdv3IsTr6d3WbY9j3a6pf1IcPswg2nyXYCA=.sha256&quot;
-hello, world
+<p>Now it&#39;s a little easier to create the messages we published earlier:</p>
+<pre><code class="lang-js">var pictureBase64 = fs.readFileSync(&#39;./my-picture.jpg&#39;).toString(&#39;base64&#39;)
+createPackage(sbot, &#39;My Files Package&#39;)
+addFile(sbot, &#39;My Files Package&#39;, &#39;hello-world.txt&#39;, &#39;Hello, world!&#39;)
+addFile(sbot, &#39;My Files Package&#39;, &#39;my-picture.jpg&#39;, pictureBase64)
+removeFile(sbot, &#39;My Files Package&#39;, &#39;my-picture.jpg&#39;)
 </code></pre>
-<pre><code class="lang-js">pull(
-  pull.values(&#39;hello, world&#39;),
-  sbot.blobs.add(function (err, hash) {
-    pull(sbot.blobs.get(hash), pull.collect(function (err, values) {
-      if (err) throw err
-      assert(values.join(&#39;&#39;) == &#39;hello, world&#39;)
-    }))
-  })
-)
+<h2 id="attaching-files-to-messages">Attaching Files to Messages</h2>
+<p>Messages have an 8kb limit, including the headers that are automatically added, so it&#39;s not a good idea to try to cram base64-encoded files into them.
+Instead, we should use Scuttlebot&#39;s blob-store to publish the files, which presently has a 5MB limit.</p>
+<p>We&#39;ll add another function to do this:</p>
+<pre><code class="lang-js">var fs = require(&#39;fs&#39;)
+var pull = require(&#39;pull-stream&#39;) // will explain later
+var toPull = require(&#39;stream-to-pull-stream&#39;)
+
+function addFileFromDisk (sbot, package, name, filePath, cb) {
+  // add the file to the local blobstore
+  pull(
+    toPull.source(fs.createReadStream(filePath)),
+    sbot.blobs.add(function (err, fileId) {
+      if (err)
+        cb(err)
+      else {
+        // publish
+        addFile(sbot, package, name, fileId, cb)
+      }
+    })
+  )
+}
 </code></pre>
-<hr>
-<p>In addition to getting/putting files, you can register that you <code>want</code> a file of a specific hash.
-Scuttlebot will regularly poll peers for the blobs in its wantlist, and download them when found.</p>
-<pre><code class="lang-bash">sbot blobs.want &quot;&amp;hT/5N2Kgbdv3IsTr6d3WbY9j3a6pf1IcPswg2nyXYCA=.sha256&quot; --nowait
+<p>And we can now use this function to publish our jpg:</p>
+<pre><code class="lang-js">addFileFromDisk(sbot, &#39;My Files Package&#39;, &#39;my-picture.jpg&#39;, &#39;./my-picture.jpg&#39;)
 </code></pre>
-<pre><code class="lang-js">sbot.blobs.want(&quot;&amp;hT/5N2Kgbdv3IsTr6d3WbY9j3a6pf1IcPswg2nyXYCA=.sha256&quot;, { nowait: true }, cb)
+<h2 id="reading-the-messages">Reading the Messages</h2>
+<p>Now that we&#39;ve got the publishing handled, we need to read the messages in, and process them into our output state.</p>
+<p>Scuttlebot uses <a href="https://github.com/dominictarr/pull-stream">pull-streams</a>.
+In most cases, you&#39;ll use them like this:   </p>
+<pre><code class="lang-js">pull(sbot.foo(), pull.drain(function (msg) {
+  // process the message as it arrive
+}, function (err) {
+  // stream is over
+}))
 </code></pre>
-<p>If you omit <code>nowait</code>, Scuttlebot will not call the <code>cb</code> until the blob is found.</p>
-<hr>
-<p>You can also listen to the <code>changes</code> stream to see hashes of recently download blobs:</p>
-<pre><code class="lang-bash">sbot blobs.changes
+<p>Or, like this</p>
+<pre><code class="lang-js">pull(sbot.foo(), pull.collect(function (err, msgs) {
+  // process all the messages after the stream ends
+}))
 </code></pre>
-<pre><code class="lang-js">pull(sbot.blobs.changes(), pull.drain(...))
+<p>We&#39;ll use them now with <a href="http://ssbc.github.io/docs/api/scuttlebot.html#createlogstream-source">createLogStream</a> to create a persistent live stream of messages.
+As each message is added, either due to network-gossip, or by the local user, it will be emitted here:</p>
+<pre><code class="lang-js">pull(sbot.createLogStream({ live: true }), pull.drain(processMsg))
 </code></pre>
-<p>The blobs plugin works alongside the logs.
-Any time Scuttlebot receives a log-entry that links to a blob, if the message&#39;s timestamp was in the last month, then Scuttlebot will add that blob to the want-list.</p>
-<hr>
-<h3 id="friends">Friends</h3>
-<p>The <a href="https://github.com/ssbc/scuttlebot/blob/master/plugins/friends.md">friends plugin</a> gives you tools to analyze the follow-graph and flag-graph.
-The two main methods: <a href="https://github.com/ssbc/scuttlebot/blob/master/plugins/friends.md#all-async">all()</a> gives you the full graph, while <a href="https://github.com/ssbc/scuttlebot/blob/master/plugins/friends.md#hops-async">hops()</a> tells you the connective distance from one user to all others.</p>
-<hr>
-<h3 id="gossip">Gossip</h3>
-<p>The <a href="https://github.com/ssbc/scuttlebot/blob/master/plugins/gossip.md">gossip plugin</a> controls the table of peers, and decides when to initiate route connections in order to syncronize.</p>
-<p>You can list peers with <a href="https://github.com/ssbc/scuttlebot/blob/master/plugins/gossip.md#peers-sync">peers</a>, add peers with <a href="https://github.com/ssbc/scuttlebot/blob/master/plugins/gossip.md#add-sync">add</a>, add-and-connect peers with <a href="https://github.com/ssbc/scuttlebot/blob/master/plugins/gossip.md#connect-async">connect</a>, and listen for connectivity events with <a href="https://github.com/ssbc/scuttlebot/blob/master/plugins/gossip.md#changes-source">changes</a>.</p>
-<hr>
-<h3 id="invite">Invite</h3>
-<p>The <a href="https://github.com/ssbc/scuttlebot/blob/master/plugins/invite.md">invites plugin</a> creates and uses invite-codes, which Pub servers use to add new members.
-You can create new codes with <a href="https://github.com/ssbc/scuttlebot/blob/master/plugins/invite.md#create-async">create</a> and use the codes with <a href="https://github.com/ssbc/scuttlebot/blob/master/plugins/invite.md#accept-async">accept</a></p>
-<hr>
-<h3 id="replicate">Replicate</h3>
-<p>The <a href="https://github.com/ssbc/scuttlebot/blob/master/plugins/replicate.md">replicate plugin</a> listens for new connections with peers and downloads updates for its followed logins.
-It exposes the <a href="https://github.com/ssbc/scuttlebot/blob/master/plugins/replicate.md#changes-source">changes</a> method so you can watch download progress.</p>
+<h2 id="processing-the-messages">Processing the Messages</h2>
+<p>Let&#39;s create some in-memory data structures to hold onto the file-packages.</p>
+<p>It&#39;s important to realize, that the order of messages is only preserved within a given user&#39;s feed.
+If Bob publishes 3 messages in a row, then every user that syncs Bob&#39;s feed will get those 3 messages in the same order.
+But, if Alice publishes a fourth message, other users will not know if her message came before Bob&#39;s 3 messages, after them, or somewhere in the middle.</p>
+<p>This can be mitigated with <a href="https://ssbc.github.io/docs/ssb/linking.html">Content Hash Links</a>, which provides a guaranteed &quot;happens before&quot; relationship.
+However, that&#39;s not enough in our case to allow us to mix the users&#39; packages.
+Therefore, we&#39;ll separate the packages by user.</p>
+<p>Here&#39;s how we&#39;ll handle <code>create-file-package</code> messages:</p>
+<pre><code class="lang-js">var packagesByUser = {}
+
+function onCreatePackage (msg) {
+  // pull variables out of the message
+  var author = msg.value.author
+  var package = msg.value.content.package
+
+  // validate the content
+  if (!package || typeof package !== &#39;string&#39;)
+    return console.log(&#39;Warning: malformed message&#39;, msg)
+
+  // create the user&#39;s entry in the listing, if it does not exist yet
+  if (!(author in packagesByUser))
+    packagesByUser[author] = {}
+
+  // create the package structure (overwrite if it already existed)
+  packagesByUser[author][package] = {
+    package: package,
+    files: {}
+  }
+}
+</code></pre>
+<p>Notice that <code>msg.value.content.package</code> is validated, but <code>msg.value.author</code> is not.
+Scuttlebot&#39;s internal APIs will validate everything in <code>msg.value.*</code> except for <code>msg.value.content.*</code>.
+That&#39;s up to the application.</p>
+<p>Like incoming HTTP requests, you should always validate the content of the message, as it may be incorrect or harmful.</p>
+<p>Let&#39;s handle the &#39;add-file-to-package&#39; message next:</p>
+<pre><code class="lang-js">function onAddFile (msg) {
+  // pull variables out of the message
+  var author = msg.value.author
+  var package = msg.value.content.package
+  var name = msg.value.content.name
+  var fileData = msg.value.content.fileData
+
+  // validate the content
+  if (!package || typeof package !== &#39;string&#39;)
+    return console.log(&#39;Warning: malformed message&#39;, msg)
+  if (!name || typeof name !== &#39;string&#39;)
+    return console.log(&#39;Warning: malformed message&#39;, msg)
+  if (!fileData || typeof fileData !== &#39;string&#39;)
+    return console.log(&#39;Warning: malformed message&#39;, msg)
+
+  // reject if the package doesnt exist yet
+  if (!(author in packagesByUser) || !(package in packagesByUser[author]))
+    return console.log(&#39;Warning: add-file-to-package message published before create-package&#39;, msg)
+
+  // update the file entry
+  packagesByUser[author][package].files[name] = fileData
+}
+</code></pre>
+<p>That should be relatively unsurprising.
+The remove-file code should also be pretty obvious:</p>
+<pre><code class="lang-js">function onRemoveFile (msg) {
+  // pull variables out of the message
+  var author = msg.value.author
+  var package = msg.value.content.package
+  var name = msg.value.content.name
+
+  // validate the content
+  if (!package || typeof package !== &#39;string&#39;)
+    return console.log(&#39;Warning: malformed message&#39;, msg)
+  if (!name || typeof name !== &#39;string&#39;)
+    return console.log(&#39;Warning: malformed message&#39;, msg)
+
+  // reject if the package doesnt exist yet
+  if (!(author in packagesByUser) || !(package in packagesByUser[author]))
+    return console.log(&#39;Warning: add-file-to-package message published before create-package&#39;, msg)
+
+  // remove the file entry
+  delete packagesByUser[author][package].files[name]
+}
+</code></pre>
+<p>Now we can tie it together with the processMsg function:</p>
+<pre><code class="lang-js">pull(sbot.createLogStream({ live: true }), pull.drain(processMsg))
+
+function processMsg (msg) {
+  if (msg.value.content.type == &#39;create-package&#39;)
+    onCreatePackage(msg)
+
+  if (msg.value.content.type == &#39;add-file-to-package&#39;)
+    onAddFile(msg)
+
+  if (msg.value.content.type == &#39;remove-file-from-package&#39;)
+    onRemoveFile(msg)
+}
+</code></pre>
+<p>And, there you have it.
+Our data-structure will now look like what we expect it to:</p>
+<pre><code class="lang-js">// after processing the messages
+console.log(packagesByUser) /* =&gt; {
+  &#39;@hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519&#39;: {
+    &#39;My Files Package&#39;: {
+      package: &#39;My Files Package&#39;,
+      files: { &#39;hello-world.txt&#39;: &#39;Hello, world!&#39; }
+    }
+  }
+}
+</code></pre>
+<p>But, what about those files in the blob-store?</p>
+<h2 id="reading-files-from-messages">Reading Files from Messages</h2>
+<p>The blob-store provides a hash-id when you add a file, which is used to create <a href="https://ssbc.github.io/docs/ssb/linking.html">Content-Hash Links</a>.</p>
+<p>When you expect an attribute to be a link, you can handle it with <a href="http://ssbc.github.io/docs/api/ssb-msgs.html">ssb-msgs</a> link functions.
+Let&#39;s create a &quot;get file&quot; function to demonstrate it:</p>
+<pre><code class="lang-js">var fs = require(&#39;fs&#39;)
+var mlib = require(&#39;ssb-msgs&#39;)
+var pull = require(&#39;pull-stream&#39;)
+var toPull = require(&#39;stream-to-pull-stream&#39;)
+
+function writeFile (sbot, user, package, name, outPath) {
+  // find the file
+  if (!(user in packagesByUser))
+    return cb(new Error(&#39;not found&#39;))
+  if (!(package in packagesByUser[user]))
+    return cb(new Error(&#39;not found&#39;))
+  if (!(name in packagesByUser[user][package].files))
+    return cb(new Error(&#39;not found&#39;))
+
+  // handle depending on whether it&#39;s a link
+  var fileData = packagesByUser[user][package].files[name]
+  if (mlib.isLink(fileData, &#39;blob&#39;)) {
+    // it is, pull from the blob store
+    readFileFromBlobstore(sbot, fileData, outPath, cb)
+  } else {
+    // it&#39;s not, the data was inlined in the message
+    fs.writeFile(outPath, fileData, cb)
+  }
+}
+function readFileFromBlobstore (sbot, fileData, outPath, cb) {
+  // standardize the link format (links can take many different shapes)
+  var fileLink = mlib.link(fileData)
+
+  // get from blobstore and write to disk
+  pull(
+    sbot.blobs.get(fileLink.link),
+    toPull.sink(fs.createWriteStream(outpath), cb)
+  )
+}
+</code></pre>
+<p>And there you have it!
+A nice quick way to get your jpg:</p>
+<pre><code class="lang-js">writeFile(sbot, userId, &#39;My Files Package&#39;, &#39;my-picture.jpg&#39;, &#39;./my-picture.jpg&#39;, console.log)
+</code></pre>
+<h2 id="next-steps">Next Steps</h2>
+<p>From here, you should read about the <a href="https://ssbc.github.io/secure-scuttlebutt/">Secure Scuttlebutt protocol</a>, and be sure to understand the <a href="https://ssbc.github.io/docs/ssb/linking.html">Content-Hash Linking</a>.
+There are Howto Guides and Examples along the left nav.
+You can also find detailed API references, and some articles, in the <a href="https://ssbc.github.io/docs/">documentation section</a>.</p>
+<p>Happy coding!</p>
 
         </div>
       </div>
