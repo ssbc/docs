@@ -14,7 +14,7 @@
       Home<br><small>SSBC</small>
     </a>
       <a class="topnav-item " href="/patchwork" title="Patchwork">
-      Patchwork<br><small>Social App</small>
+      Patchwork<br><small>Social Messaging App</small>
     </a>
       <a class="topnav-item " href="/scuttlebot" title="Scuttlebot">
       Scuttlebot<br><small>P2P Log Store</small>
@@ -26,6 +26,24 @@
   </div>
       <div id="layout">
         <div id="leftnav">
+      <div class="leftnav-item">Key Concepts</div>
+      <div class="leftnav-subitems">
+        <div class="leftnav-item ">
+      <a href="/secure-scuttlebutt" title="Secure Scuttlebutt: a global database protocol">Secure Scuttlebutt: a global database protocol</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/ssb/linking.html" title="Content-Hash Linking">Content-Hash Linking</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/ssb/secret-handshake.html" title="Secret Handshake: a secure channel protocol">Secret Handshake: a secure channel protocol</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/ssb/end-to-end-encryption.html" title="Private Box: metadata-free encryption">Private Box: metadata-free encryption</a>
+    </div>
+        <div class="leftnav-item ">
+      <a href="/docs/ssb/faq.html" title="Frequently Asked Questions">Frequently Asked Questions</a>
+    </div>
+      </div>
       <div class="leftnav-item">API Documentation</div>
       <div class="leftnav-subitems">
         <div class="leftnav-item ">
@@ -93,130 +111,23 @@
       </div>
     </div>
         <div id="content">
-          <h1 id="secure-scuttlebutt">Secure Scuttlebutt</h1>
-<p><img src="https://avatars2.githubusercontent.com/u/10190339?v=3&amp;s=200" alt="Hermies the Hermit Crab"></p>
-<p>Secure Scuttlebutt (SSB) is a P2P database of message-feeds.
-It consists of</p>
+          <h1 id="documentation">Documentation</h1>
+<p>Get started with Scuttlebot and the Secure Scuttlebutt protocol.</p>
+<p><strong>Links:</strong></p>
 <ul>
-<li>Per-user append-only logs of messages (i.e. <a href="http://www.kappa-architecture.com/">kappa architecture</a>)</li>
-<li>Content-addressable storage (i.e. <code>obj.id == hash(obj)</code>)</li>
-<li>Message distribution over a <a href="https://en.wikipedia.org/wiki/Gossip_protocol">gossip network</a></li>
+<li><a href="http://ssbc.github.io/scuttlebot/">Scuttlebot</a>: a p2p log store</li>
+<li><a href="http://ssbc.github.io/secure-scuttlebutt/">Secure Scuttlebutt</a>: a global database protocol</li>
+<li><a href="http://ssbc.github.io/patchwork/">Patchwork</a>: a social messaging app built on Scuttlebot and SSB</li>
 </ul>
-<p><a href="https://github.com/ssbc/scuttlebot">Scuttlebot</a> is an SSB server.</p>
+<h2 id="glossary">Glossary</h2>
 <ul>
-<li><a href="#setup-scuttlebot">Guide to setup Scuttlebot, the SSB Server</a></li>
-<li><a href="./intro-to-using-sbot.md">Introduction to using and developing with Scuttlebot</a></li>
-<li><a href="./learn.md">Learn about the Secure Scuttlebutt Protocol</a></li>
-</ul>
-<p>Join us in #scuttlebutt on freenode.</p>
-<h4 id="secure-gossip-networking">Secure Gossip Networking</h4>
-<p>SSB is a <a href="https://en.wikipedia.org/wiki/Gossip_protocol">P2P gossip network</a>.
-This means that information is able to distribute across multiple machines, without requiring direct connections between them.</p>
-<p><img src="./gossip-graph1.png" alt="Gossip graph"></p>
-<p>Even though Alice and Dan lack a direct connection, they can still exchange feeds:</p>
-<p><img src="./gossip-graph2.png" alt="Gossip graph 2"></p>
-<p>This is because gossip creates &quot;transitive&quot; connections between computers.
-Dan&#39;s messages travel through Carla and the Pub to reach Alice, and visa-versa.
-Because all feeds are signed, if Dan has confirmed Alice&#39;s pubkey, then Dan doesn&#39;t have to trust Carla <em>or</em> the Pub to receive Alice&#39;s messages from them.</p>
-<blockquote>
-<p>Graphs created with <a href="http://www.gravizo.com/">Gravizo</a></p>
-</blockquote>
-<h4 id="network-integrity">Network Integrity</h4>
-<p>To make sure the network converges to the correct state, Scuttlebot uses the append-only log <a href="https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type">CRDT</a>.
-The append-only constraint is enforced with a blockchain structure: each entry includes the hash of the previous message.
-If a peer receives a message with a <code>previous</code> hash that doesn&#39;t match its local cache, it&#39;ll reject the offending message.
-(There is no Proof-of-Work; each log maintains an independent order.)</p>
-<h4 id="message-semantics">Message Semantics</h4>
-<p>Messages and links in SSB are typed, but SSB doesn&#39;t try to impose any validation or schemas.
-Each message is a simple JSON object:</p>
-<pre><code class="lang-js">{
-   type: &#39;post&#39;, // the only required field
-   text: &#39;Hello, @alice!&#39;,
-   mentions: [{
-      link: &#39;@hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519&#39;,
-      name: &#39;alice&#39;
-   }]
-}
-</code></pre>
-<p>This is a <code>post</code>-type message with a <code>mentions</code>-type link.
-Scuttlebot creates indexes on these types.
-Interpretation and validation is left to the applications, per the <a href="http://www.kappa-architecture.com/">Kappa Architecture</a>.</p>
-<p>Each user maintains a separate log, and each log is an ordered list of these messages.
-Scuttlebot <a href="./intro-to-using-sbot.md">provides an API</a> for querying and streaming these logs.</p>
-<h4 id="confidentiality-and-spam-prevention">Confidentiality and Spam-prevention</h4>
-<p>For private sharing, Scuttlebot uses <a href="http://doc.libsodium.org/">libsodium</a> to encrypt confidential log-entries.
-Log IDs are public keys, and so once two logs are mutually following each other, they can exchange confidential data freely.</p>
-<p>Spam is a fundamental problem any network design.
-Email is famously vulnerable to spam.
-To send someone an email, all that is required is to have their address.
-This allows unsolicited messaging.</p>
-<p>Scuttlebot uses an explicit &quot;follow&quot; mechanism, to opt into logs to receive.
-We call this &quot;Solicited Spam.&quot;
-Follows are published, and then graph analysis can be applied to the friend network - spammers may be isolated, or clustered together and filtered out.</p>
-<h4 id="glossary">Glossary</h4>
-<ul>
-<li><strong>Secure-Scuttlebutt (SSB)</strong> - A protocol for replicating logs in a gossip network.</li>
+<li><strong>Secure-Scuttlebutt (SSB)</strong> - A protocol for replicating logs in a global gossip network.</li>
 <li><strong>Scuttlebot</strong> - An SSB server.</li>
 <li><strong>Feeds</strong> - a user&#39;s stream of signed messages. Also called a log.</li>
 <li><strong>Gossip</strong> - a P2P networking technique where peers connect randomly to each other and ask for new updates.</li>
 <li><strong>Pub Servers</strong> - SSB peers which run on public IPs, and provide connectivity and hosting for users on private IPs. Pubs are not privileged, and do not hold special authority in the network. They are not hosts.</li>
 <li><strong>Invite codes</strong> - Tokens which may be used to command specific Pub servers to follow a user. These are used to join Pubs.</li>
 </ul>
-<h2 id="links">Links</h2>
-<p><strong>Software</strong></p>
-<ul>
-<li><a href="https://github.com/ssbc/scuttlebot">Scuttlebot</a> - A secure-scuttlebutt server.</li>
-</ul>
-<p><strong>Guides</strong></p>
-<ul>
-<li><a href="#setup-scuttlebot">Setup Scuttlebot</a></li>
-<li><a href="./learn.md">Learn About SSB</a></li>
-<li><a href="./intro-to-using-sbot.md">Introduction to Using Scuttlebot</a></li>
-<li><a href="https://github.com/ssbc/scuttlebot/wiki/Pub-servers">Informal Pub Servers Registry</a></li>
-</ul>
-<p><strong>Articles</strong></p>
-<ul>
-<li><a href="./articles/design-challenge-avoid-centralization-and-singletons.md">Design Challenge: Avoiding Centralization and Singletons</a></li>
-<li><a href="./articles/design-challenge-sybil-attack.md">Design Challenge: Sybil Attacks</a></li>
-<li><a href="./articles/using-trust-in-open-networks.md">Using Trust in Open Networks</a></li>
-</ul>
-<p><strong>API Docs</strong></p>
-<ul>
-<li><a href="https://github.com/ssbc/scuttlebot/blob/master/api.md">Scuttlebot API</a></li>
-<li>Scuttlebot Plugins<ul>
-<li><a href="https://github.com/ssbc/scuttlebot/blob/master/plugins/blobs.md">Blobs</a></li>
-<li><a href="https://github.com/ssbc/scuttlebot/blob/master/plugins/block.md">Block</a></li>
-<li><a href="https://github.com/ssbc/scuttlebot/blob/master/plugins/friends.md">Friends</a></li>
-<li><a href="https://github.com/ssbc/scuttlebot/blob/master/plugins/gossip.md">Gossip</a></li>
-<li><a href="https://github.com/ssbc/scuttlebot/blob/master/plugins/invite.md">Invite</a></li>
-<li><a href="https://github.com/ssbc/scuttlebot/blob/master/plugins/private.md">Private</a></li>
-<li><a href="https://github.com/ssbc/scuttlebot/blob/master/plugins/replicate.md">Replicate</a></li>
-</ul>
-</li>
-</ul>
-<p><strong>Libraries</strong></p>
-<ul>
-<li><a href="https://github.com/ssbc/secure-scuttlebutt">secure-scuttlebutt</a> - Wraps leveldb with tools for reading, writing to, and replicating feeds. Used internally by Scuttlebot.</li>
-<li><a href="https://github.com/ssbc/ssb-msg-schemas">ssb-msg-schemas</a> - A collection of common message schemas.</li>
-<li><a href="https://github.com/ssbc/ssb-msgs">ssb-msgs</a> - Message-processing tools.</li>
-<li><a href="https://github.com/ssbc/ssb-ref">ssb-ref</a> - Check if a string is an SSB reference (used in linking).</li>
-<li><a href="https://github.com/ssbc/muxrpc">muxrpc</a> - Lightweight multiplexed rpc.</li>
-<li><a href="https://github.com/dominictarr/pull-stream">pull-stream</a> - Minimal, pipable, streams.<ul>
-<li>A Primer for Pull-streams: <a href="https://github.com/dominictarr/pull-stream-examples/blob/master/pull.js">The Basics (part 1)</a> and <a href="https://github.com/dominictarr/pull-stream-examples/blob/master/duplex.js">Duplex Streams (part 2)</a></li>
-<li><a href="https://github.com/dominictarr/pull-stream/blob/master/docs/sources.md">Pull Sources</a></li>
-<li><a href="https://github.com/dominictarr/pull-stream/blob/master/docs/throughs.md">Pull Throughs</a></li>
-<li><a href="https://github.com/dominictarr/pull-stream/blob/master/docs/sinks.md">Pull Sinks</a></li>
-</ul>
-</li>
-</ul>
-<h3 id="join-a-pub">Join a Pub</h3>
-<p>If you want to connect to your friends across the net, you need to be followed by a Pub server.</p>
-<p>First get an invite-code from a pub owner you know.
-You can find a pub in the <a href="https://github.com/ssbc/scuttlebot/wiki/Pub-servers">Informal Pub Servers Registry</a>.</p>
-<p>Then:</p>
-<pre><code>sbot invite.accept $CODE
-</code></pre><p>Your scuttlebot will now connect to, and sync with, the pub.
-Other users can sync with the pub to receive your log.</p>
 
         </div>
       </div>
