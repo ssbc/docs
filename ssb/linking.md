@@ -78,14 +78,46 @@ You can also include a relation-type filter.
 Here are some example queries:
 
 ```bash
-sbot links --dest %6sHHKhwjVTFVADme55JVW3j9DoWbSlUmemVA6E42bf8=.sha256
-sbot links --rel about --dest @hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519
-sbot links --dest "&" --source @hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519
+# all links pointing to this message
+sbot links \
+  --dest %6sHHKhwjVTFVADme55JVW3j9DoWbSlUmemVA6E42bf8=.sha256
+
+# all "about" links pointing to this user
+sbot links \
+  --rel about \
+  --dest @hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519
+
+# all blob links from this user
+sbot links \
+  --dest "&" \
+  --source @hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519
 ```
 ```js
-pull(sbot.links({ dest: '%6sHHKhwjVTFVADme55JVW3j9DoWbSlUmemVA6E42bf8=.sha256' }), pull.drain(...))
-pull(sbot.links({ rel: 'about', dest: '@hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519' }), pull.drain(...))
-pull(sbot.links({ dest: '&', source: '@hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519' }), pull.drain(...))
+// all links pointing to this message
+pull(
+  sbot.links({
+    dest: '%6sHHKhwjVTFVADme55JVW3j9DoWbSlUmemVA6E42bf8=.sha256'
+  }),
+  pull.drain(...)
+)
+
+// all "about" links pointing to this user
+pull(
+  sbot.links({
+    rel: 'about',
+    dest: '@hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519'
+  }),
+  pull.drain(...)
+)
+
+// all blob links from this user
+pull(
+  sbot.links({
+    dest: '&',
+    source: '@hxGxqPrplLjRG2vtjQL87abX4QKqeLgCwQpS730nNwE=.ed25519'
+  }),
+  pull.drain(...)
+)
 ```
 
 ---
