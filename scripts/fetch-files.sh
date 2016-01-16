@@ -24,18 +24,4 @@ function fetch() {
   fi
 }
 
-fetch scuttlebot      api.md                ./api/scuttlebot.md
-fetch scuttlebot      plugins/blobs.md      ./api/scuttlebot-blobs.md
-fetch scuttlebot      plugins/block.md      ./api/scuttlebot-block.md
-fetch scuttlebot      plugins/friends.md    ./api/scuttlebot-friends.md
-fetch scuttlebot      plugins/gossip.md     ./api/scuttlebot-gossip.md
-fetch scuttlebot      plugins/invite.md     ./api/scuttlebot-invite.md
-fetch scuttlebot      plugins/replicate.md  ./api/scuttlebot-replicate.md
-fetch ssb-msgs        README.md             ./api/ssb-msgs.md
-fetch ssb-msg-schemas README.md             ./api/ssb-msg-schemas.md
-fetch ssb-ref         README.md             ./api/ssb-ref.md
-fetch ssb-keys        README.md             ./api/ssb-keys.md
-fetch ssb-config      README.md             ./api/ssb-config.md
-fetch secret-stack    README.md             ./api/secret-stack.md
-fetch muxrpc          README.md             ./api/muxrpc.md
 fetch pull-stream     README.md             ./api/pull-stream.md dominictarr
