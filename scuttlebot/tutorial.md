@@ -191,6 +191,21 @@ And we can now use this function to publish our jpg:
 addFileFromDisk(sbot, 'My Files Package', 'my-picture.jpg', './my-picture.jpg')
 ```
 
+The result is something more like this:
+
+```js
+{
+  type: 'add-file-to-package',
+  package: 'My Files Package',
+  name: 'my-picture.jpg',
+  fileData: '&RRELXJAxum631eq1ikj7+qngd3f6Dvz7eA1mZNHBPQ0=.sha256'
+}
+```
+
+The value of `fileData` is now a [content-hash link](https://ssbc.github.io/docs/ssb/linking.html).
+When other Scuttlebots see it, they'll ask their peers for the blob that matches that sha256 hash.
+That means the file will lag behind the message a little bit, but it'll get there eventually!
+
 ## Reading the Messages
 
 Now that we've got the publishing handled, we need to read the messages in, and process them into our output state.
