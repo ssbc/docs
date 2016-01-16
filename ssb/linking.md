@@ -1,4 +1,4 @@
-# Linking
+# Content-Hash Linking
 
 Messages, feeds, and blobs are addressable by specially-formatted identifiers.
 Message and blob IDs are content-hashes, while feed IDs are public keys.
