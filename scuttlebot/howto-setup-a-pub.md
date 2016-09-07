@@ -10,6 +10,8 @@ The easiest way to get a public server is by renting a virtual server from busin
 After renting the server, follow the guides provided by your host to configure the software.
 We recommend using a common Linux distribution, such as Ubuntu.
 
+Scuttlebot by default uses port `8008`, so make sure to expose that port (or whatever port you configure scuttlebot to use) to the internet.
+
 ## 2. Install Node
 
 On the server, install [NVM](https://github.com/creationix/nvm):
