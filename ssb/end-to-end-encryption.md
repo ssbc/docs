@@ -86,7 +86,7 @@ The recipients must be between 1 and 7 items long.
 The encrypted length will be `56 + (recipients.length * 33) + plaintext.length` bytes long,
 between 89 and 287 bytes longer than the plaintext.
 
-#### **decrypt (cyphertext Buffer, secretKey curve25519_sk)**
+#### **decrypt (ciphertext Buffer, secretKey curve25519_sk)**
 
 Attempt to decrypt a private-box message, using your secret key.
 If you where an intended recipient then the plaintext will be returned.
@@ -137,8 +137,8 @@ so `undefined` is returned. Else, the message is found and the body
 is decrypted.
 
 ``` js
-function decrypt (cyphertext, secretKey) {
-  var next = reader(cyphertext) // next() will read the passed N bytes
+function decrypt (ciphertext, secretKey) {
+  var next = reader(ciphertext) // next() will read the passed N bytes
   var nonce = next(24)
   var publicKey = next(32)
   var sharedKey = salarmult(publicKey, secretKey)
@@ -151,7 +151,7 @@ function decrypt (cyphertext, secretKey) {
       var length = key_with_length[32]
       return secretbox_open(
         key,
-        cyphertext.slice(56 + 33*(length+1), cyphertext.length),
+        ciphertext.slice(56 + 33*(length+1), ciphertext.length),
       )
     }
   }
