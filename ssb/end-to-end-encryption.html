@@ -190,7 +190,7 @@ and openable by them with <code>PrivateBox.decrypt</code>.
 The recipients must be between 1 and 7 items long.</p>
 <p>The encrypted length will be <code>56 + (recipients.length * 33) + plaintext.length</code> bytes long,
 between 89 and 287 bytes longer than the plaintext.</p>
-<h4 id="-decrypt-cyphertext-buffer-secretkey-curve25519_sk-"><strong>decrypt (cyphertext Buffer, secretKey curve25519_sk)</strong></h4>
+<h4 id="-decrypt-ciphertext-buffer-secretkey-curve25519_sk-"><strong>decrypt (ciphertext Buffer, secretKey curve25519_sk)</strong></h4>
 <p>Attempt to decrypt a private-box message, using your secret key.
 If you where an intended recipient then the plaintext will be returned.
 If it was not for you, then <code>undefined</code> will be returned.</p>
@@ -230,8 +230,8 @@ recipient slot until it either decrypts a key or runs out of slots.
 If it runs out of slots, the message was not addressed to you,
 so <code>undefined</code> is returned. Else, the message is found and the body
 is decrypted.</p>
-<pre><code class="lang-js">function decrypt (cyphertext, secretKey) {
-  var next = reader(cyphertext) // next() will read the passed N bytes
+<pre><code class="lang-js">function decrypt (ciphertext, secretKey) {
+  var next = reader(ciphertext) // next() will read the passed N bytes
   var nonce = next(24)
   var publicKey = next(32)
   var sharedKey = salarmult(publicKey, secretKey)
@@ -244,7 +244,7 @@ is decrypted.</p>
       var length = key_with_length[32]
       return secretbox_open(
         key,
-        cyphertext.slice(56 + 33*(length+1), cyphertext.length),
+        ciphertext.slice(56 + 33*(length+1), ciphertext.length),
       )
     }
   }

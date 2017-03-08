@@ -100,6 +100,7 @@
 The easiest way to get a public server is by renting a virtual server from businesses such as <a href="https://aws.amazon.com/">Amazon</a>, <a href="https://www.linode.com/">Linode</a>, or <a href="https://www.digitalocean.com/">Digital Ocean</a>.</p>
 <p>After renting the server, follow the guides provided by your host to configure the software.
 We recommend using a common Linux distribution, such as Ubuntu.</p>
+<p>Scuttlebot by default uses port <code>8008</code>, so make sure to expose that port (or whatever port you configure scuttlebot to use) to the internet.</p>
 <h2 id="2-install-node">2. Install Node</h2>
 <p>On the server, install <a href="https://github.com/creationix/nvm">NVM</a>:</p>
 <pre><code class="lang-bash">curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.30.1/install.sh | bash
