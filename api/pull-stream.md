@@ -2,13 +2,14 @@
 
 Minimal Pipeable Pull-stream
 
-In [classic-streams](1),
+In [classic-streams](https://github.com/nodejs/node-v0.x-archive/blob/v0.8/doc/api/stream.markdown),
 streams _push_ data to the next stream in the pipeline.
-In [new-streams](https://github.com/joyent/node/blob/v0.10/doc/api/stream.markdown),
+In [new-streams](https://github.com/nodejs/node-v0.x-archive/blob/v0.10/doc/api/stream.markdown),
 data is pulled out of the source stream, into the destination.
-In [new-classic-streams](
 `pull-stream` is a minimal take on streams,
 pull streams work great for "object" streams as well as streams of raw text or binary data.
+
+[![build status](https://secure.travis-ci.org/pull-stream/pull-stream.png)](https://travis-ci.org/pull-stream/pull-stream)
 
 
 ## Quick Example
@@ -26,16 +27,22 @@ pull(
 ```
 note that `pull(a, b, c)` is basically the same as `a.pipe(b).pipe(c)`.
 
-The best thing about pull-stream is that it can be completely lazy.
-This is perfect for async traversals where you might want to stop early.
+to grok how pull-streams work, read through [pull-streams by example](https://github.com/dominictarr/pull-stream-examples)
+
+## How do I do X with pull-streams?
+
+There is a module for that!
+
+Check the [pull-stream FAQ](https://github.com/pull-stream/pull-stream-faq)
+and post an issue if you have a question that is not on that.
 
 ## Compatibily with node streams
 
 pull-streams are not _directly_ compatible with node streams,
 but pull-streams can be converted into node streams with
-[pull-stream-to-stream](https://github.com/dominictarr/pull-stream-to-stream)
-and node streams can be converted into pull-stream using [stream-to-pull-stream](https://github.com/dominictarr/stream-to-pull-stream)
-
+[pull-stream-to-stream](https://github.com/pull-stream/pull-stream-to-stream)
+and node streams can be converted into pull-stream using [stream-to-pull-stream](https://github.com/pull-stream/stream-to-pull-stream)
+correct back pressure is preserved.
 
 ### Readable & Reader vs. Readable & Writable
 
@@ -44,9 +51,9 @@ Instead of a readable stream, and a writable stream, there is a `readable` strea
 is a Sink that returns a Source.
 
 See also:
-* [Sources](https://github.com/dominictarr/pull-stream/blob/master/docs/sources.md)
-* [Throughs](https://github.com/dominictarr/pull-stream/blob/master/docs/throughs.md)
-* [Sinks](https://github.com/dominictarr/pull-stream/blob/master/docs/sinks.md)
+* [Sources](./docs/sources/index.md)
+* [Throughs](./docs/throughs/index.md)
+* [Sinks](./docs/sinks/index.md)
 
 ### Source (aka, Readable)
 
@@ -61,13 +68,12 @@ The `read` function *must not* be called until the previous call has called back
 Unless, it is a call to abort the stream (`read(truthy, cb)`).
 
 ```js
-//a stream of 100 random numbers.
-var i = 100
-var random = function () {
+//a stream of random numbers.
+function random (n) {
   return function (end, cb) {
     if(end) return cb(end)
-    //only read 100 times
-    if(i-- < 0) return cb(true)
+    //only read n times, then stop.
+    if(0>--n) return cb(true)
     cb(null, Math.random())
   }
 }
@@ -79,27 +85,29 @@ var random = function () {
 A sink is just a `reader` function that calls a Source (read function),
 until it decideds to stop, or the readable ends. `cb(err || true)`
 
-All [Throughs](https://github.com/dominictarr/pull-stream/blob/master/docs/throughs.md)
-and [Sinks](https://github.com/dominictarr/pull-stream/blob/master/docs/sinks.md)
+All [Throughs](./docs/throughs/index.md)
+and [Sinks](./docs/sinks/index.md)
 are reader streams.
 
 ```js
 //read source and log it.
-var logger = function (read) {
-  read(null, function next(end, data) {
-    if(end === true) return
-    if(end) throw end
+function logger () {
+  return function (read) {
+    read(null, function next(end, data) {
+      if(end === true) return
+      if(end) throw end
 
-    console.log(data)
-    read(null, next)
-  })
+      console.log(data)
+      read(null, next)
+    })
+  }
 }
 ```
 
 Since these are just functions, you can pass them to each other!
 
 ```js
-var rand = random())
+var rand = random(100)
 var log = logger()
 
 log(rand) //"pipe" the streams.
@@ -122,7 +130,7 @@ That is, it's just a function that takes a `read` function,
 and returns another `read` function.
 
 ```js
-var map = function (read, map) {
+function map (read, map) {
   //return a readable function!
   return function (end, cb) {
     read(end, function (end, data) {
@@ -285,6 +293,45 @@ In none of the above cases data is flowing!
 There either is data flowing (4) OR you have the error/abort cases (1-3), never both.
 
 
+## 1:1 read-callback ratio
+
+A pull stream source (and thus transform) returns *exactly one value* per read.
+
+This differs from node streams, which can use `this.push(value)` and in internal
+buffer to create transforms that write many values from a single read value.
+
+Pull streams don't come with their own buffering mechanism, but [there are ways
+to get around this](https://github.com/dominictarr/pull-stream-examples/blob/master/buffering.js).
+
+
+## Minimal bundle
+
+If you need only the `pull` function from this package you can reduce the size
+of the imported code (for instance to reduce a Browserify bundle) by requiring
+it directly:
+
+
+```js
+var pull = require('pull-stream/pull')
+
+pull(random(), logger())
+```
+
+
+## Further Examples
+
+- [dominictarr/pull-stream-examples](https://github.com/dominictarr/pull-stream-examples)
+- [./docs/examples](./docs/examples.md)
+
+Explore this repo further for more information about
+[sources](./docs/sources/index.md),
+[throughs](./docs/throughs/index.md),
+[sinks](./docs/sinks/index.md), and
+[glossary](./docs/glossary.md).
+
+
 ## License
 
 MIT
+
+
