@@ -131,13 +131,13 @@
         <div id="content">
           <h1 id="pull-stream">pull-stream</h1>
 <p>Minimal Pipeable Pull-stream</p>
-<p>In <a href="1">classic-streams</a>,
+<p>In <a href="https://github.com/nodejs/node-v0.x-archive/blob/v0.8/doc/api/stream.markdown">classic-streams</a>,
 streams <em>push</em> data to the next stream in the pipeline.
-In <a href="https://github.com/joyent/node/blob/v0.10/doc/api/stream.markdown">new-streams</a>,
+In <a href="https://github.com/nodejs/node-v0.x-archive/blob/v0.10/doc/api/stream.markdown">new-streams</a>,
 data is pulled out of the source stream, into the destination.
-In [new-classic-streams](
 <code>pull-stream</code> is a minimal take on streams,
 pull streams work great for &quot;object&quot; streams as well as streams of raw text or binary data.</p>
+<p><a href="https://travis-ci.org/pull-stream/pull-stream"><img src="https://secure.travis-ci.org/pull-stream/pull-stream.png" alt="build status"></a></p>
 <h2 id="quick-example">Quick Example</h2>
 <p>Stat some files:</p>
 <pre><code class="lang-js">pull(
@@ -149,22 +149,26 @@ pull streams work great for &quot;object&quot; streams as well as streams of raw
 )
 </code></pre>
 <p>note that <code>pull(a, b, c)</code> is basically the same as <code>a.pipe(b).pipe(c)</code>.</p>
-<p>The best thing about pull-stream is that it can be completely lazy.
-This is perfect for async traversals where you might want to stop early.</p>
+<p>to grok how pull-streams work, read through <a href="https://github.com/dominictarr/pull-stream-examples">pull-streams by example</a></p>
+<h2 id="how-do-i-do-x-with-pull-streams-">How do I do X with pull-streams?</h2>
+<p>There is a module for that!</p>
+<p>Check the <a href="https://github.com/pull-stream/pull-stream-faq">pull-stream FAQ</a>
+and post an issue if you have a question that is not on that.</p>
 <h2 id="compatibily-with-node-streams">Compatibily with node streams</h2>
 <p>pull-streams are not <em>directly</em> compatible with node streams,
 but pull-streams can be converted into node streams with
-<a href="https://github.com/dominictarr/pull-stream-to-stream">pull-stream-to-stream</a>
-and node streams can be converted into pull-stream using <a href="https://github.com/dominictarr/stream-to-pull-stream">stream-to-pull-stream</a></p>
+<a href="https://github.com/pull-stream/pull-stream-to-stream">pull-stream-to-stream</a>
+and node streams can be converted into pull-stream using <a href="https://github.com/pull-stream/stream-to-pull-stream">stream-to-pull-stream</a>
+correct back pressure is preserved.</p>
 <h3 id="readable-reader-vs-readable-writable">Readable &amp; Reader vs. Readable &amp; Writable</h3>
 <p>Instead of a readable stream, and a writable stream, there is a <code>readable</code> stream,
  (aka &quot;Source&quot;) and a <code>reader</code> stream (aka &quot;Sink&quot;). Through streams
 is a Sink that returns a Source.</p>
 <p>See also:</p>
 <ul>
-<li><a href="https://github.com/dominictarr/pull-stream/blob/master/docs/sources.md">Sources</a></li>
-<li><a href="https://github.com/dominictarr/pull-stream/blob/master/docs/throughs.md">Throughs</a></li>
-<li><a href="https://github.com/dominictarr/pull-stream/blob/master/docs/sinks.md">Sinks</a></li>
+<li><a href="./docs/sources/index.md">Sources</a></li>
+<li><a href="./docs/throughs/index.md">Throughs</a></li>
+<li><a href="./docs/sinks/index.md">Sinks</a></li>
 </ul>
 <h3 id="source-aka-readable-">Source (aka, Readable)</h3>
 <p>The readable stream is just a <code>function read(end, cb)</code>,
@@ -174,13 +178,12 @@ and will (asynchronously) <code>cb(null, data)</code> once for each call.</p>
 When indicating a terminal state, <code>data</code> <em>must</em> be ignored.</p>
 <p>The <code>read</code> function <em>must not</em> be called until the previous call has called back.
 Unless, it is a call to abort the stream (<code>read(truthy, cb)</code>).</p>
-<pre><code class="lang-js">//a stream of 100 random numbers.
-var i = 100
-var random = function () {
+<pre><code class="lang-js">//a stream of random numbers.
+function random (n) {
   return function (end, cb) {
     if(end) return cb(end)
-    //only read 100 times
-    if(i-- &lt; 0) return cb(true)
+    //only read n times, then stop.
+    if(0&gt;--n) return cb(true)
     cb(null, Math.random())
   }
 }
@@ -188,22 +191,24 @@ var random = function () {
 <h3 id="sink-aka-reader-writable-">Sink; (aka, Reader, &quot;writable&quot;)</h3>
 <p>A sink is just a <code>reader</code> function that calls a Source (read function),
 until it decideds to stop, or the readable ends. <code>cb(err || true)</code></p>
-<p>All <a href="https://github.com/dominictarr/pull-stream/blob/master/docs/throughs.md">Throughs</a>
-and <a href="https://github.com/dominictarr/pull-stream/blob/master/docs/sinks.md">Sinks</a>
+<p>All <a href="./docs/throughs/index.md">Throughs</a>
+and <a href="./docs/sinks/index.md">Sinks</a>
 are reader streams.</p>
 <pre><code class="lang-js">//read source and log it.
-var logger = function (read) {
-  read(null, function next(end, data) {
-    if(end === true) return
-    if(end) throw end
+function logger () {
+  return function (read) {
+    read(null, function next(end, data) {
+      if(end === true) return
+      if(end) throw end
 
-    console.log(data)
-    read(null, next)
-  })
+      console.log(data)
+      read(null, next)
+    })
+  }
 }
 </code></pre>
 <p>Since these are just functions, you can pass them to each other!</p>
-<pre><code class="lang-js">var rand = random())
+<pre><code class="lang-js">var rand = random(100)
 var log = logger()
 
 log(rand) //&quot;pipe&quot; the streams.
@@ -218,7 +223,7 @@ pull(random(), logger())
 It&#39;s Sink that returns a Source.
 That is, it&#39;s just a function that takes a <code>read</code> function,
 and returns another <code>read</code> function.</p>
-<pre><code class="lang-js">var map = function (read, map) {
+<pre><code class="lang-js">function map (read, map) {
   //return a readable function!
   return function (end, cb) {
     read(end, function (end, data) {
@@ -332,6 +337,30 @@ we must respond to any future read calls with `cb(err||true)`.
 <pre><code>forward data downstream (towards the Sink)
 do none of the above!
 </code></pre><p>There either is data flowing (4) OR you have the error/abort cases (1-3), never both.</p>
+<h2 id="1-1-read-callback-ratio">1:1 read-callback ratio</h2>
+<p>A pull stream source (and thus transform) returns <em>exactly one value</em> per read.</p>
+<p>This differs from node streams, which can use <code>this.push(value)</code> and in internal
+buffer to create transforms that write many values from a single read value.</p>
+<p>Pull streams don&#39;t come with their own buffering mechanism, but <a href="https://github.com/dominictarr/pull-stream-examples/blob/master/buffering.js">there are ways
+to get around this</a>.</p>
+<h2 id="minimal-bundle">Minimal bundle</h2>
+<p>If you need only the <code>pull</code> function from this package you can reduce the size
+of the imported code (for instance to reduce a Browserify bundle) by requiring
+it directly:</p>
+<pre><code class="lang-js">var pull = require(&#39;pull-stream/pull&#39;)
+
+pull(random(), logger())
+</code></pre>
+<h2 id="further-examples">Further Examples</h2>
+<ul>
+<li><a href="https://github.com/dominictarr/pull-stream-examples">dominictarr/pull-stream-examples</a></li>
+<li><a href="./docs/examples.md">./docs/examples</a></li>
+</ul>
+<p>Explore this repo further for more information about
+<a href="./docs/sources/index.md">sources</a>,
+<a href="./docs/throughs/index.md">throughs</a>,
+<a href="./docs/sinks/index.md">sinks</a>, and
+<a href="./docs/glossary.md">glossary</a>.</p>
 <h2 id="license">License</h2>
 <p>MIT</p>
 
