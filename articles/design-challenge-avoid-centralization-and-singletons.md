@@ -15,7 +15,6 @@ Home routers perform Network Address Translation to make a single IP address beh
 Most networked applications, including SSB, solve this by connecting to publicly addressable servers.
 Sometimes P2P systems use clever techniques ([TURN](http://en.wikipedia.org/wiki/Traversal_Using_Relays_around_NAT), [STUN](http://en.wikipedia.org/wiki/STUN), [ICE](http://en.wikipedia.org/wiki/Interactive_Connectivity_Establishment)) to reduce the role of the servers, but it's still necessary to have them.
 
-
 SSB uses the so-called "Pub" servers to rehost the feeds and blobs of the users, which has the added benefit of improving network availability (two peers don't need to be online at the same time to exchange messages).
 However, amongst the community, they're considered a centralization risk.
 
@@ -23,7 +22,10 @@ We mitigate the risk by avoiding putting any special authority or trust in the P
 Users may be hosted by many pubs at once, and can change pubs without losing the data or identity.
 A pub server may go down, and others will still provide service.
 
-Contrast this with email servers, which are ostensibly decentralized (you may run your own email server) but you must have *exactly one* email server, and if it is down you will not receive email, which makes running your own email server a considerable hassle (not to mention handling spam).
+Email has traditionally been decentralized, but has in recent years centralized around web-based email providers like Gmail.
+Moreover, it has been developed with a different threat model so it does not provide many security and privacy principles we expect from a modern protocol.
+Anyone in the world can by default write to anyone else's emailbox.
+Senders can pretend that their email is from anyone else.
 
 ## Avoiding Singletons
 
