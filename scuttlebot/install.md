@@ -8,6 +8,15 @@ It will be the least likely to have bugs.
 **Dependencies:**
 
  - node v4 and greater (you might like to use [nvm](https://github.com/creationix/nvm))
+ - node-gyp (```npm install -g node-gyp```)
+ 
+***Linux Dependencies***
+Installation may fail when building the libsodium dependencies due to missing aclocal. On Ubuntu you will need to run:
+ 
+```bash
+sudo apt-get install autotools-dev
+sudo apt-get install automake
+```
 
 **Install:**
 
@@ -42,6 +51,15 @@ It will contain updates not yet published on NPM.
 **Dependencies:**
 
  - node v4 and greater (you might like to use [nvm](https://github.com/creationix/nvm))
+ - node-gyp (```npm install -g node-gyp```)
+ 
+***Linux Dependencies***
+Installation may fail when building the libsodium dependencies due to missing aclocal. On Ubuntu you will need to run:
+ 
+```bash
+sudo apt-get install autotools-dev
+sudo apt-get install automake
+```
 
 **Install:**
 
