@@ -14,8 +14,7 @@ It will be the least likely to have bugs.
 Installation may fail when building the libsodium dependencies due to missing aclocal. On Ubuntu you will need to run:
  
 ```bash
-sudo apt-get install autotools-dev
-sudo apt-get install automake
+sudo apt-get install autotools-dev automake
 ```
 
 **Install:**
@@ -57,8 +56,7 @@ It will contain updates not yet published on NPM.
 Installation may fail when building the libsodium dependencies due to missing aclocal. On Ubuntu you will need to run:
  
 ```bash
-sudo apt-get install autotools-dev
-sudo apt-get install automake
+sudo apt-get install autotools-dev automake
 ```
 
 **Install:**
