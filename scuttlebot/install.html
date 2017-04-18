@@ -100,7 +100,12 @@ It will be the least likely to have bugs.</p>
 <p><strong>Dependencies:</strong></p>
 <ul>
 <li>node v4 and greater (you might like to use <a href="https://github.com/creationix/nvm">nvm</a>)</li>
+<li>node-gyp (<code>npm install -g node-gyp</code>)</li>
 </ul>
+<p><strong><em>Linux Dependencies</em></strong>
+Installation may fail when building the libsodium dependencies due to missing aclocal. On Ubuntu you will need to run:</p>
+<pre><code class="lang-bash">sudo apt-get install autotools-dev automake
+</code></pre>
 <p><strong>Install:</strong></p>
 <pre><code class="lang-bash">npm install scuttlebot -g
 </code></pre>
@@ -120,7 +125,12 @@ It will contain updates not yet published on NPM.</p>
 <p><strong>Dependencies:</strong></p>
 <ul>
 <li>node v4 and greater (you might like to use <a href="https://github.com/creationix/nvm">nvm</a>)</li>
+<li>node-gyp (<code>npm install -g node-gyp</code>)</li>
 </ul>
+<p><strong><em>Linux Dependencies</em></strong>
+Installation may fail when building the libsodium dependencies due to missing aclocal. On Ubuntu you will need to run:</p>
+<pre><code class="lang-bash">sudo apt-get install autotools-dev automake
+</code></pre>
 <p><strong>Install:</strong></p>
 <pre><code class="lang-bash">git clone https://github.com/ssbc/scuttlebot.git
 cd scuttlebot
