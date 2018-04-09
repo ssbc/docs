@@ -7,7 +7,7 @@ Scuttlebot is pretty unusual compared to datastores like MySQL or Redis, so let'
 ## What is Scuttlebot?
 
 Scuttlebot is a peer-to-peer log store.
-Its data model is similar to that of [Apache Kafka](https://kafka.apache.org/), and it's part of a pattern that's now referred to as the [Kappa Architecture](kappa-architecture.com/).
+Its data model is similar to that of [Apache Kafka](https://kafka.apache.org/), and it's part of a pattern that's now referred to as the [Kappa Architecture](http://kappa-architecture.com/).
 
 What is Kappa Architecture?
 
