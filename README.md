@@ -2,11 +2,11 @@
 
 Get started with Scuttlebot and the Secure Scuttlebutt protocol.
 
-**Links:**
+## Links
 
-- [Scuttlebot](http://ssbc.github.io/scuttlebot/): a p2p log store
-- [Secure Scuttlebutt](http://ssbc.github.io/secure-scuttlebutt/): a global database protocol
-- [Patchwork](http://ssbc.github.io/patchwork/): a social messaging app built on Scuttlebot and SSB
+- Scuttlebot implemented by [`ssb-server`](http://ssbc.github.io/ssb-server/): a p2p log store
+- Secure Scuttlebutt implemented by [`ssb-db`](http://ssbc.github.io/ssb-db/): a global database protocol
+- [Patchwork](http://ssbc.github.io/patchwork/): a social messaging app built on `ssb-server` and `ssb-db`
 
 ## Glossary
 
