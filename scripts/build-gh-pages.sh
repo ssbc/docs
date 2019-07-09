@@ -2,5 +2,5 @@
 set -ex
 git checkout gh-pages
 git merge master --no-commit
-ssbc-sitegen docs
+../ssbc-sitegen/index.js docs
 git commit -am build

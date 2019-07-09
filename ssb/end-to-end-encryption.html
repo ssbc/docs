@@ -115,18 +115,6 @@
       <a href="/docs/api/pull-stream.html" title="pull-stream">pull-stream</a>
     </div>
       </div>
-      <div class="leftnav-item">Articles</div>
-      <div class="leftnav-subitems">
-        <div class="leftnav-item ">
-      <a href="/docs/articles/design-challenge-avoid-centralization-and-singletons.html" title="Design Challenge: Avoiding Centralization and Singletons">Design Challenge: Avoiding Centralization and Singletons</a>
-    </div>
-        <div class="leftnav-item ">
-      <a href="/docs/articles/design-challenge-sybil-attack.html" title="Design Challenge: Sybil Attacks">Design Challenge: Sybil Attacks</a>
-    </div>
-        <div class="leftnav-item ">
-      <a href="/docs/articles/using-trust-in-open-networks.html" title="Using Trust in Open Networks">Using Trust in Open Networks</a>
-    </div>
-      </div>
     </div>
         <div id="content">
           <h1 id="private-box">Private-box</h1>
@@ -137,7 +125,7 @@ You can <strong><a href="https://github.com/auditdrivencrypto/private-box">find 
 <p>This protocol was designed for use with secure-scuttlebutt.
 In this place, messages are placed in public, and the sender is known via a signature,
 but we can hide the recipient and the content.</p>
-<h5 id="-recipients-are-hidden-"><strong>Recipients are hidden.</strong></h5>
+<h5 id="recipients-are-hidden-"><strong>Recipients are hidden.</strong></h5>
 <p>An eaves-dropper cannot know the recipients or their number.
 Since the message is encrypted to each recipient, and then placed in public,
 to receive a message you will have to decrypt every message posted.
@@ -147,17 +135,17 @@ then it&#39;s reasonable. For example, if you frequented a forum which contained
 then it would only be a reasonable number of messages, and posting a message would only
 reveal that you where talking to some other member of that forum.</p>
 <p>Hiding access to such a forum is another problem that&#39;s out of the current scope.</p>
-<h5 id="-the-number-of-recipients-are-hidden-"><strong>The number of recipients are hidden.</strong></h5>
+<h5 id="the-number-of-recipients-are-hidden-"><strong>The number of recipients are hidden.</strong></h5>
 <p>If the number of recipients was not hidden, then sometimes it would be possible
 to deanonymise the recipients, if there was a large group discussion with
 an unusual number of recipients. Encrypting the number of recipients means that,
 when a message is not encrypted to you, you will attempt to decrypt same number of times
 as the maximum recipients.</p>
-<h5 id="-a-valid-recipient-does-not-know-the-other-recipients-"><strong>A valid recipient does not know the other recipients.</strong></h5>
+<h5 id="a-valid-recipient-does-not-know-the-other-recipients-"><strong>A valid recipient does not know the other recipients.</strong></h5>
 <p>A valid recipient knows the number of recipients but now who they are.
 This is more a sideeffect of the design than an intentional design element.
 The plaintext contents may reveal the recipients, if needed.</p>
-<h5 id="-by-providing-the-key-for-a-message-an-outside-party-could-decrypt-the-message-"><strong>By providing the key for a message, an outside party could decrypt the message.</strong></h5>
+<h5 id="by-providing-the-key-for-a-message-an-outside-party-could-decrypt-the-message-"><strong>By providing the key for a message, an outside party could decrypt the message.</strong></h5>
 <p>When you tell someone a secret you must trust them not to reveal it.
 Anyone who knows the key could reveal that to some other party who could then read the message content,
 but not the recipients (unless the sender revealed the ephemeral secret key).</p>
@@ -167,22 +155,22 @@ and everyone can read the messages. (This makes it possible to hide the recipien
 but probably not the sender.)</p>
 <p>Resisting traffic analysis of the timing or size of messages is out of scope of this spec.</p>
 <h2 id="prior-art">Prior Art</h2>
-<h4 id="-pgp-"><strong>PGP</strong></h4>
+<h4 id="pgp"><strong>PGP</strong></h4>
 <p>In PGP the recipient, the sender, and the subject are sent as plaintext.
 If the recipient is known, then the metadata graph of who is communicating with who can be read,
 which, since it is easier to analyze than the content, is important to protect.</p>
-<h4 id="-sodium-seal-"><strong>Sodium seal</strong></h4>
+<h4 id="sodium-seal"><strong>Sodium seal</strong></h4>
 <p>The Sodium library provides a <em>seal</em> function that generates an ephemeral keypair,
 derives a shared key to encrypt a message, and then sends the ephemeral public key and the message.
 The recipient is hidden, and it is forward secure if the sender throws out the ephemeral key.
 However, it&#39;s only possible to have one recipient.</p>
-<h4 id="-minilock-"><strong>Minilock</strong></h4>
+<h4 id="minilock"><strong>Minilock</strong></h4>
 <p>Minilock uses a similar approach to <code>private-box</code> but does not hide the
 number of recipients. In the case of a group discussion where multiple rounds
 of messages are sent to everyone, this may enable an eavesdropper to deanonymize
 the participiants of a discussion if the sender of each message is known.</p>
 <h2 id="api">API</h2>
-<h4 id="-encrypt-plaintext-buffer-recipients-array-curve25519_pk-"><strong>encrypt (plaintext Buffer, recipients Array<curve25519_pk>)</strong></h4>
+<h4 id="encrypt-plaintext-buffer-recipients-arraycurve25519_pk-"><strong>encrypt (plaintext Buffer, recipients Array&lt;curve25519_pk&gt;)</strong></h4>
 <p>Takes a plaintext buffer of the message you want to encrypt,
 and an array of recipient public keys.
 Returns a message that is encrypted to all recipients
@@ -190,12 +178,12 @@ and openable by them with <code>PrivateBox.decrypt</code>.
 The recipients must be between 1 and 7 items long.</p>
 <p>The encrypted length will be <code>56 + (recipients.length * 33) + plaintext.length</code> bytes long,
 between 89 and 287 bytes longer than the plaintext.</p>
-<h4 id="-decrypt-ciphertext-buffer-secretkey-curve25519_sk-"><strong>decrypt (ciphertext Buffer, secretKey curve25519_sk)</strong></h4>
+<h4 id="decrypt-ciphertext-buffer-secretkey-curve25519_sk-"><strong>decrypt (ciphertext Buffer, secretKey curve25519_sk)</strong></h4>
 <p>Attempt to decrypt a private-box message, using your secret key.
 If you where an intended recipient then the plaintext will be returned.
 If it was not for you, then <code>undefined</code> will be returned.</p>
 <h2 id="protocol">Protocol</h2>
-<h4 id="-encryption-"><strong>Encryption</strong></h4>
+<h4 id="encryption"><strong>Encryption</strong></h4>
 <p>Private-box generates:</p>
 <ul>
 <li><code>ephemeral</code>: an ephemeral curve25519 keypair that will only be used with this message.</li>
@@ -223,7 +211,7 @@ encrypts that to each shared key, and concatenates the encrypted body.</p>
     secretbox(plaintext, nonce, body_key)
   ])
 }
-</code></pre><h4 id="-decryption-"><strong>Decryption</strong></h4>
+</code></pre><h4 id="decryption"><strong>Decryption</strong></h4>
 <p><code>private-box</code> takes the nonce and ephemeral public key,
 multiplies that with your secret key, then tests each possible
 recipient slot until it either decrypts a key or runs out of slots.
