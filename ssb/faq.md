@@ -1,5 +1,7 @@
 # FAQ
 
+**This document is deprecated in favor of the FAQ in the SSB Handbook**: https://handbook.scuttlebutt.nz/faq/
+
 ## How does user identity work?
 
 Users are identified by public keys.
