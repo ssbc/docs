@@ -1,5 +1,8 @@
 # Documentation
 
+NOTE! This site is not updated anymore. Please use
+https://dev.scuttlebutt.nz/ instead.
+
 Get started with Scuttlebot and the Secure Scuttlebutt protocol.
 
 ## Links
