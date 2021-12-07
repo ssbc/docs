@@ -1,7 +1,7 @@
 # Documentation
 
 NOTE! This site is not updated anymore. Please use
-https://dev.scuttlebutt.nz/ instead.
+[dev.scuttlebutt.nz](https://dev.scuttlebutt.nz/) instead.
 
 Get started with Scuttlebot and the Secure Scuttlebutt protocol.
 
